@@ -6,4 +6,5 @@ export interface User {
     code:string;
     showPassword:boolean;
     phoneNumber:string;
+    role:string;
 }

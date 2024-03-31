@@ -19,7 +19,7 @@
                         Show Password
                     </div>
                     <p>Already a member? <a href="/sign-in">Sign in</a></p>
-                    <button (click)="signUpWithCognito()">REGISTER</button>
+                    <button mat-raised-button (click)="signUpWithCognito()">REGISTER</button>
                 </div>
             </div>
             <div *ngIf="isConfirm">
@@ -30,7 +30,7 @@
 
                 <div class="form">
                     <input type="text" name="verificationCode" placeholder="Enter verification code" [(ngModel)]="user.code">
-                    <button (click)="confirmSignUp()">CONFIRM</button>
+                    <button mat-raised-button (click)="confirmSignUp()">CONFIRM</button>
                 </div>
             </div>
         </div>

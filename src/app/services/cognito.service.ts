@@ -22,7 +22,8 @@ export class CognitoService {
         email: user.email,
         given_name: user.givenName,
         family_name: user.familyName,
-        phone_number: user.phoneNumber
+        phone_number: user.phoneNumber,
+        'custom:role': 'user'
       }
     })
   }
@@ -51,6 +52,17 @@ export class CognitoService {
   //we submit the new password with email and code sent to that email
   public forgotPasswordSubmit(user:User, new_password:string): Promise<any> {
     return Auth.forgotPasswordSubmit(user.email, user.code, new_password);
+  }
+
+  async getRole(): Promise<string | null> {
+    try {
+      const userInfo = await Auth.currentUserInfo();
+      const role = userInfo?.attributes['custom:role'];
+      return role || null;
+    } catch (error) {
+      console.error('Error retrieving role:', error);
+      return null;
+    }
   }
 
 

@@ -1,0 +1,15 @@
+<mat-toolbar>
+    <span class="site-name">PlateSaver</span>
+    <div class="spacer"></div>
+    <button mat-raised-button routerLink="/home">Home</button>
+    <button mat-raised-button routerLink="/deals" [hidden]="this.currentUserRole == null">Deals</button>
+    <button mat-raised-button routerLink="/reservations" [hidden]="this.currentUserRole == null || this.currentUserRole == 'admin' || this.currentUserRole == 'superadmin'" >My Reservations</button>
+    <button mat-raised-button routerLink="/users" [hidden]="this.currentUserRole == 'user' || this.currentUserRole == null">Users</button>
+    <button mat-raised-button routerLink="/orders" [hidden]="this.currentUserRole == 'user' || this.currentUserRole == null">Orders</button>
+    <span class="spacer"></span>
+    <button mat-raised-button routerLink="/sign-in" [hidden]="this.currentUserRole != null">Login</button>
+    <button mat-raised-button color="accent" routerLink="/sign-up" [hidden]="this.currentUserRole != null">Register</button>
+    <button mat-raised-button routerLink="/profile" [hidden]="this.currentUserRole == null">Profile</button>
+    <button mat-raised-button color="accent" (click)="signOutWithCognito()" [hidden]="this.currentUserRole == null" >Log Out</button>
+  </mat-toolbar>
+  <router-outlet></router-outlet>

@@ -1,7 +1,7 @@
 <div class="container" *ngIf="user">
     <div class="row w-100 vh-100 justify-content-center align-items-center">
         <div class="auth-box">
-            <div *ngIf="!isForgotPassword">
+            <div *ngIf="!isForgotPassword && !forgotPassword">
                 <div class="header">
                     <h2>Welcome back</h2>
                     <h4>Log in to your account using email and password</h4>
@@ -15,9 +15,20 @@
                         <input type="checkbox" [checked]="user.showPassword" (change)="user.showPassword = !user.showPassword">
                         Show Password
                     </div>
-                    <p class="forgot-password" (click)="forgotPasswordClicked()">Forgot Password?</p>
+                    <p class="forgot-password" (click)="openForgotPassword()"><u>Forgot Password?</u></p>
                     <p>Not a member? <a href="/sign-up">Sign up</a></p>
-                    <button (click)="signInWithCognito()">LOGIN</button>
+                    <button  mat-raised-button (click)="signInWithCognito()">LOGIN</button>
+                </div>
+            </div>
+
+            <div *ngIf="forgotPassword">
+                <div class="header">
+                    <h2>Enter email for recovery </h2>
+                </div>
+                <div class="form">
+                    <input type="email" name="email" placeholder="Email Address" [(ngModel)]="user.email" autocomplete="off">
+                    <button mat-raised-button (click)="forgotPasswordClicked()">SUBMIT</button>
+                    <button mat-raised-button (click)="cancelForgotPassword()">CANCEL</button>
                 </div>
             </div>
 
@@ -36,7 +47,7 @@
                         Show Password
                     </div>
 
-                    <button (click)="newPasswordSubmit()">SUBMIT NEW PASSWORD</button>
+                    <button mat-raised-button (click)="newPasswordSubmit()">SUBMIT NEW PASSWORD</button>
                 </div>
             </div>
 

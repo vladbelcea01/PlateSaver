@@ -3,6 +3,7 @@ import { CognitoService } from '../../services/cognito.service';
 import { User } from '../../models/user';
 import { Router } from '@angular/router';
 import { error } from 'console';
+import { AppLayoutComponent } from '../app-layout/app-layout.component';
 
 @Component({
   selector: 'app-sign-in',
@@ -17,9 +18,12 @@ export class SignInComponent implements OnInit {
 
   isForgotPassword:boolean = false;
   newPassword:string = '';
+  currentUserRole: string | null = null;
+  forgotPassword:boolean = false;
 
   constructor(private router:Router,
-    private cognitoService: CognitoService) { }
+    private cognitoService: CognitoService,
+    private toolbar: AppLayoutComponent ) { }
 
   ngOnInit(): void {
     this.user = {} as User;
@@ -28,8 +32,10 @@ export class SignInComponent implements OnInit {
   signInWithCognito() {
     if (this.user && this.user.email && this.user.password){
       this.cognitoService.signIn(this.user)
-      .then(() => {
-        this.router.navigate(['/']);
+      .then(async () => {
+        this.currentUserRole = await this.cognitoService.getRole();
+        this.toolbar.signInRoleReceiver(this.currentUserRole);
+        this.router.navigate(['/home']);
       })
       .catch((error:any) => {
         this.displayAlert(error.message);
@@ -44,6 +50,7 @@ export class SignInComponent implements OnInit {
     if(this.user && this.user.email){
       this.cognitoService.forgotPassword(this.user)
       .then(() =>{
+        this.forgotPassword = false;
         this.isForgotPassword = true;
       })
       .catch((error:any) =>{
@@ -52,6 +59,14 @@ export class SignInComponent implements OnInit {
     }else{
       this.displayAlert("Please enter a valid email adress")
     }
+  }
+
+  openForgotPassword(){
+    this.forgotPassword = true;
+  }
+
+  cancelForgotPassword(){
+    this.forgotPassword = false;
   }
 
   newPasswordSubmit(){
@@ -73,6 +88,7 @@ export class SignInComponent implements OnInit {
     this.alertMessage = message;
     this.showAlert = true;
   }
+
 
 
 }

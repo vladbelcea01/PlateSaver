@@ -98,3 +98,12 @@ html, body {
     border: 2px solid black;
     box-shadow: rgba(17, 12, 46, 0.5);
 }
+
+.mat-toolbar {
+    min-height: 50px !important; 
+    height: 60px !important;
+    flex: auto;
+  }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
