@@ -1,5 +1,6 @@
 <mat-toolbar>
-    <span class="site-name">PlateSaver</span>
+    <img src="assets\image\plateSaver.jpeg" style="height: 50px; margin-right: 1rem;"> 
+    <span class="plate-saver">PlateSaver</span>
     <div class="spacer"></div>
     <button mat-raised-button routerLink="/home">Home</button>
     <button mat-raised-button routerLink="/deals" [hidden]="this.currentUserRole == null">Deals</button>
@@ -13,3 +14,4 @@
     <button mat-raised-button color="accent" (click)="signOutWithCognito()" [hidden]="this.currentUserRole == null" >Log Out</button>
   </mat-toolbar>
   <router-outlet></router-outlet>
+  

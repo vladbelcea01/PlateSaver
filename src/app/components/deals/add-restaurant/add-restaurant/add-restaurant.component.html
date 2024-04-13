@@ -1,0 +1,101 @@
+<h1 mat-dialog-title>Create Restaurant</h1>
+<div mat-dialog-content>
+    <form [formGroup]="restaurantForm">
+        <mat-form-field>
+            <input matInput placeholder="Restaurant Name" formControlName="name">
+        </mat-form-field>
+
+        <mat-form-field>
+            <textarea matInput placeholder="Restaurant Description" formControlName="description"></textarea>
+        </mat-form-field>
+
+        <div formGroupName="address">
+            <h2>Restaurant Address</h2>
+            <mat-form-field>
+                <input matInput placeholder="Street" formControlName="street">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="City" formControlName="city">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="State" formControlName="state">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Postal Code" formControlName="postalCode">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Country" formControlName="country">
+            </mat-form-field>
+        </div>
+
+        <div formGroupName="contact">
+            <h2>Contact Information</h2>
+            <mat-form-field>
+                <input matInput placeholder="Phone Number" formControlName="phone">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Email" formControlName="email">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Website" formControlName="website">
+            </mat-form-field>
+        </div>
+
+        <div formGroupName="operatingHours">
+            <h2>Operating Hours</h2>
+            <mat-form-field>
+                <input matInput placeholder="Monday" formControlName="monday">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Tuesday" formControlName="tuesday">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Wednesday" formControlName="wednesday">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Thursday" formControlName="thursday">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Friday" formControlName="friday">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Saturday" formControlName="saturday">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Sunday" formControlName="sunday">
+            </mat-form-field>
+        </div>
+
+        <div formGroupName="socialMedia">
+            <h2>Social Media Links</h2>
+            <mat-form-field>
+                <input matInput placeholder="Facebook" formControlName="facebook">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Twitter" formControlName="twitter">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Instagram" formControlName="instagram">
+            </mat-form-field>
+        </div>
+
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="close()">Cancel</button>
+    <button mat-button color="primary" (click)="save()">Save</button>
+</div>

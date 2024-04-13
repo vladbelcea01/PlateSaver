@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
@@ -37,6 +37,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { DealsComponent } from './components/deals/deals.component';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
+import { AddRestaurantComponent } from './components/deals/add-restaurant/add-restaurant/add-restaurant.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { AppLayoutComponent } from './components/app-layout/app-layout.component
     MessageModalComponent,
     HomeComponent,
     DealsComponent,
-    AppLayoutComponent
+    AppLayoutComponent,
+    AddRestaurantComponent
   ],
   imports: [
     BrowserModule,
@@ -77,7 +79,8 @@ import { AppLayoutComponent } from './components/app-layout/app-layout.component
     MatExpansionModule,
     MatTooltipModule,
     MatSortModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    ReactiveFormsModule
   ],
   providers: [
     provideClientHydration(),
