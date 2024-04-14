@@ -38,6 +38,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { DealsComponent } from './components/deals/deals.component';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
 import { AddRestaurantComponent } from './components/deals/add-restaurant/add-restaurant/add-restaurant.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { AddRestaurantComponent } from './components/deals/add-restaurant/add-re
     MatTooltipModule,
     MatSortModule,
     MatAutocompleteModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule,
   ],
   providers: [
     provideClientHydration(),

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MyBackendService } from '../../../../../../backend/src/my-backend.service';
 
 export interface Restaurant {
   name: string;
@@ -44,6 +45,7 @@ export class AddRestaurantComponent implements OnInit{
   restaurantForm!: FormGroup;
 
   constructor(private dialogRef: MatDialogRef<AddRestaurantComponent>,
+    public myBackendService: MyBackendService
   ){}
 
   ngOnInit(): void {
@@ -81,9 +83,22 @@ export class AddRestaurantComponent implements OnInit{
   
   
     save(): void {
-      // Logic to save the restaurant data
+      if (this.restaurantForm.valid) { // Check if the form is valid before saving
+        const restaurantData = this.restaurantForm.value;
+        this.myBackendService.saveRestaurant(restaurantData).subscribe(
+          response => {
+            console.log('Restaurant saved successfully:', response);
+            // Optionally, you can handle the response here (e.g., show a success message)
+            this.dialogRef.close(restaurantData); // Close the dialog after saving
+          },
+          error => {
+            console.error('Error saving restaurant:', error);
+            // Optionally, you can handle the error here (e.g., show an error message)
+          }
+        );
       this.dialogRef.close(this.restaurantForm.value);
     }
+  }
   
     close(): void {
       this.dialogRef.close();
