@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MyBackendService } from '../../../../../../backend/src/my-backend.service';
+import { HttpClient } from '@angular/common/http';
 
 export interface Restaurant {
   name: string;
@@ -32,6 +33,7 @@ export interface Restaurant {
     twitter?: string;
     instagram?: string;
   };
+  photo?: File;
 }
 
 
@@ -45,7 +47,8 @@ export class AddRestaurantComponent implements OnInit{
   restaurantForm!: FormGroup;
 
   constructor(private dialogRef: MatDialogRef<AddRestaurantComponent>,
-    public myBackendService: MyBackendService
+    public myBackendService: MyBackendService,
+    private http: HttpClient
   ){}
 
   ngOnInit(): void {
@@ -77,23 +80,54 @@ export class AddRestaurantComponent implements OnInit{
         facebook: new FormControl(''),
         twitter: new FormControl(''),
         instagram: new FormControl('')
-      })
+      }),
+      photo: new FormControl(null)
     });
   }
-  
+
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.restaurantForm.patchValue({ photo: file });
+    }
+  }
   
     save(): void {
-      if (this.restaurantForm.valid) { // Check if the form is valid before saving
+      if (this.restaurantForm.valid) {
         const restaurantData = this.restaurantForm.value;
-        this.myBackendService.saveRestaurant(restaurantData).subscribe(
+        const formData: FormData = new FormData();
+        formData.append('name', restaurantData.name);
+        formData.append('description', restaurantData.description);
+        formData.append('photo', restaurantData.photo);
+    
+        formData.append('address.street', restaurantData.address.street);
+        formData.append('address.city', restaurantData.address.city);
+        formData.append('address.state', restaurantData.address.state);
+        formData.append('address.postalCode', restaurantData.address.postalCode);
+        formData.append('address.country', restaurantData.address.country);
+    
+        formData.append('contact.phone', restaurantData.contact.phone);
+        formData.append('contact.email', restaurantData.contact.email);
+        formData.append('contact.website', restaurantData.contact.website);
+    
+        formData.append('operatingHours.monday', restaurantData.operatingHours.monday);
+        formData.append('operatingHours.tuesday', restaurantData.operatingHours.tuesday);
+        formData.append('operatingHours.wednesday', restaurantData.operatingHours.wednesday);
+        formData.append('operatingHours.thursday', restaurantData.operatingHours.thursday);
+        formData.append('operatingHours.friday', restaurantData.operatingHours.friday);
+        formData.append('operatingHours.saturday', restaurantData.operatingHours.saturday);
+        formData.append('operatingHours.sunday', restaurantData.operatingHours.sunday);
+
+        formData.append('socialMedia.facebook', restaurantData.socialMedia.facebook);
+        formData.append('socialMedia.twitter', restaurantData.socialMedia.twitter);
+        formData.append('socialMedia.instagram', restaurantData.socialMedia.instagram);
+        this.myBackendService.saveRestaurant(formData).subscribe(
           response => {
             console.log('Restaurant saved successfully:', response);
-            // Optionally, you can handle the response here (e.g., show a success message)
-            this.dialogRef.close(restaurantData); // Close the dialog after saving
+            this.dialogRef.close(restaurantData);
           },
           error => {
             console.error('Error saving restaurant:', error);
-            // Optionally, you can handle the error here (e.g., show an error message)
           }
         );
       this.dialogRef.close(this.restaurantForm.value);

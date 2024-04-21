@@ -92,7 +92,8 @@
                 <input matInput placeholder="Instagram" formControlName="instagram">
             </mat-form-field>
         </div>
-
+        <h2>Upload Restaurant Image</h2>
+            <input type="file" (change)="onFileSelected($event)" accept="image/*">
     </form>
 </div>
 <div mat-dialog-actions>
