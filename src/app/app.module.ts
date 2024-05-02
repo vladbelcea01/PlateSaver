@@ -39,6 +39,8 @@ import { DealsComponent } from './components/deals/deals.component';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
 import { AddRestaurantComponent } from './components/deals/add-restaurant/add-restaurant/add-restaurant.component';
 import { HttpClientModule } from '@angular/common/http';
+import { RestaurantPageComponent } from './components/deals/restaurant-page/restaurant-page/restaurant-page.component';
+import { AddProductComponent } from './components/deals/restaurant-page/restaurant-page/add-product/add-product.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,9 @@ import { HttpClientModule } from '@angular/common/http';
     HomeComponent,
     DealsComponent,
     AppLayoutComponent,
-    AddRestaurantComponent
+    AddRestaurantComponent,
+    RestaurantPageComponent,
+    AddProductComponent
   ],
   imports: [
     BrowserModule,

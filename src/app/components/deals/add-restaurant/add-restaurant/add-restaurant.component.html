@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>Create Restaurant</h1>
 <div mat-dialog-content>
-    <form [formGroup]="restaurantForm">
+    <form [formGroup]="restaurantForm" (ngSubmit)="save()">
         <mat-form-field>
             <input matInput placeholder="Restaurant Name" formControlName="name">
         </mat-form-field>
@@ -92,11 +92,17 @@
                 <input matInput placeholder="Instagram" formControlName="instagram">
             </mat-form-field>
         </div>
+        <h2>Restaurant Owner</h2>
+        <mat-form-field>
+            <input matInput placeholder="Owner" formControlName="owner">
+        </mat-form-field>
+
         <h2>Upload Restaurant Image</h2>
-            <input type="file" (change)="onFileSelected($event)" accept="image/*">
+        <input type="file" (change)="onFileSelected($event)" accept="image/*">
+
+        <div mat-dialog-actions>
+            <button mat-button (click)="close()">Cancel</button>
+            <button mat-button color="primary" type="submit" [disabled]="restaurantForm.invalid">Submit</button>
+        </div>
     </form>
-</div>
-<div mat-dialog-actions>
-    <button mat-button (click)="close()">Cancel</button>
-    <button mat-button color="primary" (click)="save()">Save</button>
 </div>

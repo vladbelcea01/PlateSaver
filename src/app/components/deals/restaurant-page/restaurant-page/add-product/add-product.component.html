@@ -1,0 +1,46 @@
+<h1 mat-dialog-title>Create Dish</h1>
+<form [formGroup]="dishForm" (ngSubmit)="submitForm()">
+  <div mat-dialog-content>
+    <mat-form-field>
+      <input matInput placeholder="Dish Name" formControlName="dishName">
+    </mat-form-field>
+
+    <mat-form-field>
+      <textarea matInput placeholder="Description" formControlName="description"></textarea>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="category">
+        <mat-option value="Pizza">Pizza</mat-option>
+        <mat-option value="Shaorma">Shaorma</mat-option>
+        <mat-option value="Crispy">Crispy</mat-option>
+        <mat-option value="Mistery Box">Mistery Box</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput type="number" placeholder="Price" formControlName="price">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput type="number" placeholder="New Price" formControlName="newPrice">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput type="number" placeholder="Quantity" formControlName="quantity">
+    </mat-form-field>
+
+    <mat-form-field>
+      <textarea matInput placeholder="Ingredients" formControlName="ingredients"></textarea>
+    </mat-form-field>
+
+    <h2>Upload Dish Image</h2>
+      <input type="file" (change)="onFileSelected($event)" accept="image/*">
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-button (click)="close()">Cancel</button>
+    <button mat-button color="primary" type="submit" [disabled]="dishForm.invalid">Submit</button>
+  </div>
+</form>

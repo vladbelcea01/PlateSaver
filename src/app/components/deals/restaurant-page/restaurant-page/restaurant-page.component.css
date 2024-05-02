@@ -1,0 +1,13 @@
+.secondRow {
+    position: fixed;
+    z-index: 999;
+    width: 100%;
+    background-color: white;
+    height: 52px;
+    padding-left: 15px;
+  }
+
+.add-product-button {
+  text-align: center;
+  margin: 10px;
+}

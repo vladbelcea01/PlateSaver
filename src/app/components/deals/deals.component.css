@@ -11,3 +11,53 @@
   text-align: center;
   margin: 10px;
 }
+
+.restaurant-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px;
+  margin-top: 62px;
+}
+
+.restaurant-card {
+  margin-bottom: 20px;
+}
+
+mat-card {
+  width: 300px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+mat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+}
+
+img {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.mat-card-content {
+  padding: 16px;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.address, .contact {
+  flex: 1;
+}
+
+.address strong, .contact strong {
+  font-weight: bold;
+}

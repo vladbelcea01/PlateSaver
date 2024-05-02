@@ -15,4 +15,19 @@ export class MyBackendService {
     const url = `${this.baseUrl}/restaurants`;
     return this.http.post<any>(url, restaurantData);
   }
+
+  getRestaurants(): Observable<any> {
+    const url = `${this.baseUrl}/restaurantsList`;
+    return this.http.get<any>(url);
+  }
+
+  getRestaurantbyRestaurantName(name: any): Observable<any> {
+    const url = `${this.baseUrl}/getRestaurantbyName?name=${name}`;
+    return this.http.get<any>(url);
+  }
+
+  saveDish(dishData: any): Observable<any> {
+    const url = `${this.baseUrl}/dishes`;
+    return this.http.post<any>(url, dishData);
+  }
 }

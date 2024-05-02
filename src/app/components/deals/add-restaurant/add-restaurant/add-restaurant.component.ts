@@ -34,6 +34,7 @@ export interface Restaurant {
     instagram?: string;
   };
   photo?: File;
+  owner: string;
 }
 
 
@@ -81,6 +82,7 @@ export class AddRestaurantComponent implements OnInit{
         twitter: new FormControl(''),
         instagram: new FormControl('')
       }),
+      owner: new FormControl('', Validators.required),
       photo: new FormControl(null)
     });
   }
@@ -99,6 +101,7 @@ export class AddRestaurantComponent implements OnInit{
         formData.append('name', restaurantData.name);
         formData.append('description', restaurantData.description);
         formData.append('photo', restaurantData.photo);
+        formData.append('owner', restaurantData.owner);
     
         formData.append('address.street', restaurantData.address.street);
         formData.append('address.city', restaurantData.address.city);
