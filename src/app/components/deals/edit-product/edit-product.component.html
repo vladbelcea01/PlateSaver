@@ -1,5 +1,5 @@
-<h1 mat-dialog-title>Create Dish</h1>
-<form [formGroup]="dishForm" (ngSubmit)="submitForm()">
+<h1 mat-dialog-title>Edit Dish</h1>
+<form [formGroup]="dishForm">
   <div mat-dialog-content>
     <mat-form-field>
       <input matInput placeholder="Dish Name" formControlName="dishName">
@@ -57,11 +57,11 @@
     </mat-form-field>
 
     <h2>Upload Dish Image</h2>
-      <input type="file" (change)="onFileSelected($event)" accept="image/*">
+    <input type="file" (change)="onFileSelected($event)" accept="image/*">
   </div>
 
   <div mat-dialog-actions>
     <button mat-button (click)="close()">Cancel</button>
-    <button mat-button color="primary" type="submit" [disabled]="dishForm.invalid">Submit</button>
+    <button mat-button color="primary" type="submit" (click)="submitForm()" [disabled]="dishForm.invalid">Submit</button>
   </div>
 </form>

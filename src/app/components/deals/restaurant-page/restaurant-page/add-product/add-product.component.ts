@@ -2,6 +2,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MyBackendService } from '../../../../../../../backend/src/my-backend.service';
 import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { UtilsService } from '../../../../common/utils.service';
 
 export interface Dish {
   dishName: string;
@@ -27,6 +29,7 @@ export class AddProductComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<AddProductComponent>,
     public myBackendService: MyBackendService,
+    public snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: string
   ) {
     this.restaurant = data;
@@ -41,7 +44,11 @@ export class AddProductComponent implements OnInit {
       newPrice: new FormControl('', Validators.required),
       quantity: new FormControl('', Validators.required),
       ingredients: new FormControl('', Validators.required),
-      photo: new FormControl(null)
+      photo: new FormControl(null),
+      dietaryInfo: new FormControl('', Validators.required),
+      allergens: new FormControl('', Validators.required),
+      pickupStartTime: new FormControl('', Validators.required),
+      pickupEndTime: new FormControl('', Validators.required)
     });
   }
 
@@ -65,12 +72,18 @@ export class AddProductComponent implements OnInit {
       formData.append('quantity', dishData.quantity);
       formData.append('photo', dishData.photo);
       formData.append('restaurant', this.restaurant);
+      formData.append('dietaryInfo', dishData.dietaryInfo);
+      formData.append('allergens', dishData.allergens);
+      formData.append('pickupStartTime', dishData.pickupStartTime);
+      formData.append('pickupEndTime', dishData.pickupEndTime);
       this.myBackendService.saveDish(formData).subscribe(
         (response) => {
+          UtilsService.openSnackBar("Dish saved successfully", this.snackBar, UtilsService.SnackbarStates.Success)
           console.log('Dish saved successfully:', response);
           this.dialogRef.close(dishData);
         },
         (error) => {
+          UtilsService.openSnackBar("Error saving dish", this.snackBar, UtilsService.SnackbarStates.Error)
           console.error('Error saving dish:', error);
         }
       );

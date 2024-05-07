@@ -1,13 +1,91 @@
 .secondRow {
-    position: fixed;
     z-index: 999;
     width: 100%;
     background-color: white;
     height: 52px;
     padding-left: 15px;
+    position: relative;
   }
 
 .add-product-button {
   text-align: center;
   margin: 10px;
+}
+
+.go-back-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 35px;
+}
+
+.restaurant-info-box {
+  background-color: #f0f0f0;
+  padding: 20px;
+  text-align: center;
+}
+
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.product-card {
+  margin: 20px;
+  width: 300px;
+}
+
+img {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  height: 200px;
+  object-fit: cover;
+}
+
+mat-card {
+  width: 300px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  background-color: white;
+  cursor: pointer;
+}
+
+mat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+}
+
+.sale-price {
+  color: red;
+  font-weight: bold;
+}
+
+.price-section {
+  display: flex;
+  align-items: center;
+}
+
+.old-price {
+  position: relative;
+}
+
+.strike-through {
+  text-decoration: line-through;
+  color: #888888;
+}
+
+.new-price {
+  position: absolute;
+  top: 0;
+  left: calc(100% + 5px);
+  background-color: #ff6666;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+
+.pickup-hours, .quantity {
+  margin-top: 10px;
 }

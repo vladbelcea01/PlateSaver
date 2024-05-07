@@ -105,5 +105,30 @@ html, body {
     flex: auto;
   }
 
+  .mat-spinner {
+    position: fixed !important;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+
+  .app-notification-error {
+    --mdc-snackbar-container-color: #E23B3B;
+    --mat-snack-bar-button-color: black;
+    --mdc-snackbar-supporting-text-color: rgb(0, 0, 0);
+    text-align: center;
+}
+  
+  .app-notification-success {
+    --mdc-snackbar-container-color: #37CC73;
+    --mat-snack-bar-button-color: black;
+    --mdc-snackbar-supporting-text-color: rgb(0, 0, 0);
+    text-align: center;
+  }
+  
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

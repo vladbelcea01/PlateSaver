@@ -65,5 +65,16 @@ export class CognitoService {
     }
   }
 
+  async getEmail(): Promise<string | null> {
+    try {
+      const userInfo = await Auth.currentUserInfo();
+      const role = userInfo?.attributes['email'];
+      return role || null;
+    } catch (error) {
+      console.error('Error retrieving role:', error);
+      return null;
+    }
+  }
+
 
 }

@@ -1,0 +1,59 @@
+<h1 mat-dialog-title style="text-align: center;">Restaurant Information</h1>
+<div mat-dialog-content class="content">
+    <br>
+    <h2>{{ restaurant.name }}</h2>
+
+    <div class="divider"></div>
+    <h2>Place Details</h2>
+    <p>{{ restaurant.description }}</p>
+
+    <div class="divider"></div>
+    <h2>Operating Hours</h2>
+    <ul style="margin-left: 20px;">
+        <li>Monday: {{ restaurant.operatingHours.monday }}</li>
+        <li>Tuesday: {{ restaurant.operatingHours.tuesday }}</li>
+        <li>Wednesday: {{ restaurant.operatingHours.wednesday }}</li>
+        <li>Thursday: {{ restaurant.operatingHours.thursday }}</li>
+        <li>Friday: {{ restaurant.operatingHours.friday }}</li>
+        <li>Saturday: {{ restaurant.operatingHours.saturday }}</li>
+        <li>Sunday: {{ restaurant.operatingHours.sunday }}</li>
+    </ul>
+    <br>
+
+    <div class="divider"></div>
+    <h2>Contact Information</h2>
+    <ul style="margin-left: 20px;">
+        <li>Phone: {{ restaurant.contact.phone }}</li>
+        <li>Email: {{ restaurant.contact.email }}</li>
+        <li *ngIf="restaurant.contact.website">Website: {{ restaurant.contact.website }}</li>
+    </ul>
+    <br>
+
+    <div class="divider"></div>
+    <h2>Payment Options</h2>
+    <p>{{ restaurant.paymentMethod }}</p>
+
+    <div class="divider"></div>
+    <h2>Location</h2>
+    <p>
+        {{ restaurant.address.street }}, {{ restaurant.address.city }},
+        {{ restaurant.address.state }}, {{ restaurant.address.postalCode }},
+        {{ restaurant.address.country }}
+    </p>
+
+    <div class="map-container">
+        <iframe
+            width="100%"
+            height="100%"
+            frameborder="0" style="border:0"
+            [src]="getMapUrl(restaurant.address)"
+            allowfullscreen>
+        </iframe>
+    </div>
+
+    <br>
+    <div style="text-align: center;">
+        <button mat-raised-button (click)="close()" color="primary">GOT IT</button>
+    </div>
+    
+</div>

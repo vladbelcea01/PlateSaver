@@ -30,4 +30,35 @@ export class MyBackendService {
     const url = `${this.baseUrl}/dishes`;
     return this.http.post<any>(url, dishData);
   }
+
+  getDish(restaurantName: any): Observable<any> {
+    const url = `${this.baseUrl}/getDishes?name=${restaurantName}`;
+    return this.http.get<any>(url);
+  }
+
+  deleteRestaurant(restaurantId: string, restaurantName: string, deleteProducts: boolean): Observable<any> {
+    const url = `${this.baseUrl}/deleterestaurant/${restaurantId}?name=${restaurantName}`;
+    const params = { deleteProducts: deleteProducts.toString() };
+    return this.http.delete<any>(url, { params });
+  }
+
+  deleteProduct(productId: string): Observable<any> {
+    const url = `${this.baseUrl}/deleteproduct/${productId}`;
+    return this.http.delete<any>(url);
+  }
+
+  updateRestaurant(restaurantId: string, restaurantData: any): Observable<any> {
+    const url = `${this.baseUrl}/updaterestaurant/${restaurantId}`;
+    return this.http.put<any>(url, restaurantData);
+  }
+
+  updateProduct(productId: string, productData: any): Observable<any> {
+    const url = `${this.baseUrl}/updateproduct/${productId}`;
+    return this.http.put<any>(url, productData);
+  }
+
+  getAllDishes(): Observable<any> {
+    const url = `${this.baseUrl}/DishesList`;
+    return this.http.get<any>(url);
+  }
 }

@@ -3,6 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialogRef } from '@angular/material/dialog';
 import { MyBackendService } from '../../../../../../backend/src/my-backend.service';
 import { HttpClient } from '@angular/common/http';
+import { UtilsService } from '../../../common/utils.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export interface Restaurant {
   name: string;
@@ -35,8 +37,8 @@ export interface Restaurant {
   };
   photo?: File;
   owner: string;
+  paymentMethod: string;
 }
-
 
 @Component({
   selector: 'app-add-restaurant',
@@ -49,13 +51,14 @@ export class AddRestaurantComponent implements OnInit{
 
   constructor(private dialogRef: MatDialogRef<AddRestaurantComponent>,
     public myBackendService: MyBackendService,
-    private http: HttpClient
+    private http: HttpClient,
+    public snackBar: MatSnackBar,
   ){}
 
   ngOnInit(): void {
     this.restaurantForm = new FormGroup({
       name: new FormControl('', Validators.required),
-      description: new FormControl(''),
+      description: new FormControl('', Validators.required),
       address: new FormGroup({
         street: new FormControl('', Validators.required),
         city: new FormControl('', Validators.required),
@@ -64,18 +67,18 @@ export class AddRestaurantComponent implements OnInit{
         country: new FormControl('', Validators.required)
       }),
       contact: new FormGroup({
-        phone: new FormControl(''),
+        phone: new FormControl('', Validators.required),
         email: new FormControl('', Validators.email),
         website: new FormControl('')
       }),
       operatingHours: new FormGroup({
         monday: new FormControl('', Validators.required),
-        tuesday: new FormControl(''),
-        wednesday: new FormControl(''),
-        thursday: new FormControl(''),
-        friday: new FormControl(''),
-        saturday: new FormControl(''),
-        sunday: new FormControl('')
+        tuesday: new FormControl('', Validators.required),
+        wednesday: new FormControl('', Validators.required),
+        thursday: new FormControl('', Validators.required),
+        friday: new FormControl('', Validators.required),
+        saturday: new FormControl('', Validators.required),
+        sunday: new FormControl('', Validators.required)
       }),
       socialMedia: new FormGroup({
         facebook: new FormControl(''),
@@ -83,7 +86,8 @@ export class AddRestaurantComponent implements OnInit{
         instagram: new FormControl('')
       }),
       owner: new FormControl('', Validators.required),
-      photo: new FormControl(null)
+      photo: new FormControl(null),
+      paymentMethod: new FormControl('', Validators.required)
     });
   }
 
@@ -102,6 +106,7 @@ export class AddRestaurantComponent implements OnInit{
         formData.append('description', restaurantData.description);
         formData.append('photo', restaurantData.photo);
         formData.append('owner', restaurantData.owner);
+        formData.append('paymentMethod', restaurantData.paymentMethod);
     
         formData.append('address.street', restaurantData.address.street);
         formData.append('address.city', restaurantData.address.city);
@@ -127,9 +132,11 @@ export class AddRestaurantComponent implements OnInit{
         this.myBackendService.saveRestaurant(formData).subscribe(
           response => {
             console.log('Restaurant saved successfully:', response);
+            UtilsService.openSnackBar("Restaurant saved successfully", this.snackBar, UtilsService.SnackbarStates.Success);
             this.dialogRef.close(restaurantData);
           },
           error => {
+            UtilsService.openSnackBar("Error saving restaurant", this.snackBar, UtilsService.SnackbarStates.Error);
             console.error('Error saving restaurant:', error);
           }
         );

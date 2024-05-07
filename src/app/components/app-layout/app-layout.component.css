@@ -3,10 +3,6 @@
     font-weight: bold;
   }
   
-  .spacer {
-    flex: 1 1 auto;
-  }
-  
   .mat-toolbar-row {
     padding-left: 16px;
     padding-right: 16px;
@@ -14,5 +10,17 @@
 
   button {
     margin: 10px;
+  }
+
+  .footer {
+    bottom: 0;
+    width: 100%;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    max-height: 10%;
+    position: fixed;
+    z-index: 999;
   }
 

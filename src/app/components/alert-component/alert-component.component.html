@@ -1,0 +1,6 @@
+<h1 mat-dialog-title>{{data.title}}</h1>
+<div mat-dialog-content [innerHTML]="message"></div>
+<mat-dialog-actions [style.justify-content]="hasConfirm && hasCancel ? 'flex-end' : 'center'">
+    <button id="cancelBtn" *ngIf="hasCancel" mat-button mat-dialog-close (click)="onCancel()">{{ data.cancelMessage || 'Cancel' }}</button>
+    <button id="confirmBtn" *ngIf="hasConfirm" mat-button color="primary" [mat-dialog-close]="true" (click)="onConfirm()" cdkFocusInitial>{{ data.confirmMessage || 'Confirm'}}</button>
+</mat-dialog-actions>

@@ -41,6 +41,11 @@ import { AddRestaurantComponent } from './components/deals/add-restaurant/add-re
 import { HttpClientModule } from '@angular/common/http';
 import { RestaurantPageComponent } from './components/deals/restaurant-page/restaurant-page/restaurant-page.component';
 import { AddProductComponent } from './components/deals/restaurant-page/restaurant-page/add-product/add-product.component';
+import { AlertDialogComponent } from './components/alert-component/alert-component.component';
+import { EditRestaurantComponent } from './components/deals/edit-restaurant/edit-restaurant.component';
+import { EditProductComponent } from './components/deals/edit-product/edit-product.component';
+import { RestaurantInfoComponent } from './components/deals/restaurant-page/restaurant-page/restaurant-info/restaurant-info.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -53,7 +58,11 @@ import { AddProductComponent } from './components/deals/restaurant-page/restaura
     AppLayoutComponent,
     AddRestaurantComponent,
     RestaurantPageComponent,
-    AddProductComponent
+    AddProductComponent,
+    AlertDialogComponent,
+    EditRestaurantComponent,
+    EditProductComponent,
+    RestaurantInfoComponent,
   ],
   imports: [
     BrowserModule,
@@ -87,6 +96,7 @@ import { AddProductComponent } from './components/deals/restaurant-page/restaura
     MatAutocompleteModule,
     ReactiveFormsModule,
     HttpClientModule,
+    MatSnackBarModule
   ],
   providers: [
     provideClientHydration(),

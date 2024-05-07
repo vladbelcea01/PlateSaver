@@ -1,27 +1,28 @@
-<div class="secondRow" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+<div class="secondRow">
     <button mat-raised-button class="add-restaurant-button" *ngIf="currentUserRole=='superadmin'" (click)="addRestaurant()">Add Restaurant</button>
 </div>
 
+<div class="page-header">
+    <h1>Restaurant Deals</h1>
+</div>
+
 <div class="restaurant-list">
+    <mat-spinner *ngIf="!isDataLoaded"></mat-spinner>
     <div *ngIf="restaurants.length === 0" class="no-restaurants">No restaurants found</div>
     <div class="restaurant-card" *ngFor="let restaurant of restaurants">
-        <mat-card (click)="openRestaurantPage(restaurant.name)">
+        <mat-card (click)="openRestaurantPage(restaurant.name)" [ngClass]="{'disabled-card': getDishesCount(restaurant) === 0 && currentUserRole === 'user'}">
             <img mat-card-image [src]="restaurant.photo" alt="Restaurant Image">
-            <mat-card-content>
+            <mat-card-content class="content">
                 <h2 mat-card-title>{{ restaurant.name }}</h2>
-                <p mat-card-subtitle>{{ restaurant.description }}</p>
-                <div class="info">
-                    <div class="address">
-                        <strong>Address:</strong>
-                        <p>{{ restaurant.address.street }}, {{ restaurant.address.city }}, {{ restaurant.address.state
-                            }}</p>
-                    </div>
-                    <div class="contact">
-                        <strong>Contact:</strong>
-                        <p>{{ restaurant.contact.phone }}, {{ restaurant.contact.email }}</p>
-                    </div>
-                </div>
+                <p>{{ getDishesCount(restaurant) }} Products Available</p>
             </mat-card-content>
+            <mat-card-actions>
+                <button mat-button color="primary" *ngIf="currentUserRole=='superadmin' || currentUserEmail==restaurant.contact.email" (click)="$event.stopPropagation()" [matMenuTriggerFor]="menu">Actions</button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="editRestaurant(restaurant)">Edit Restaurant</button>
+                    <button mat-menu-item (click)="getDishesbyRestaurantNameForDelete(restaurant)">Delete Restaurant</button>
+                </mat-menu>
+            </mat-card-actions>
         </mat-card>
     </div>
 </div>

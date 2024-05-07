@@ -1,6 +1,6 @@
-<h1 mat-dialog-title>Create Restaurant</h1>
+<h1 mat-dialog-title>Edit Restaurant</h1>
 <div mat-dialog-content>
-    <form [formGroup]="restaurantForm" (ngSubmit)="save()">
+    <form [formGroup]="restaurantForm">
         <mat-form-field>
             <input matInput placeholder="Restaurant Name" formControlName="name">
         </mat-form-field>
@@ -103,7 +103,7 @@
 
         <h2>Restaurant Owner</h2>
         <mat-form-field>
-            <input matInput placeholder="Owner" formControlName="owner">
+            <input [disabled]="currentUserRole!='superadmin'" matInput placeholder="Owner" formControlName="owner">
         </mat-form-field>
 
         <h2>Upload Restaurant Image</h2>
@@ -111,7 +111,7 @@
 
         <div mat-dialog-actions>
             <button mat-button (click)="close()">Cancel</button>
-            <button mat-button color="primary" type="submit" [disabled]="restaurantForm.invalid">Submit</button>
+            <button mat-button color="primary" (click)="save()" type="submit" [disabled]="restaurantForm.invalid">Save Changes</button>
         </div>
     </form>
 </div>

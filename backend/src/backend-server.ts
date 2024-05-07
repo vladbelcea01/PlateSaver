@@ -7,6 +7,7 @@ import mongoose from 'mongoose';
 import { dbConnect } from '../src/database.config'
 import multer from 'multer'; 
 import path from 'path';
+import { time } from 'console';
 dbConnect();
 
 const app = express();
@@ -56,7 +57,8 @@ const restaurantSchema = new mongoose.Schema({
     instagram: String
   },
   photo: String,
-  owner: String
+  owner: String,
+  paymentMethod: String
 });
 
 const Restaurant = mongoose.model('Restaurant', restaurantSchema);
@@ -70,7 +72,11 @@ const dishSchema = new mongoose.Schema({
   quantity: Number,
   ingredients: String,
   photo: String,
-  restaurant: String
+  restaurant: String,
+  dietaryInfo: String,
+  allergens: String,
+  pickupStartTime: String,
+  pickupEndTime: String
 });
 
 const Dish = mongoose.model('Dish', dishSchema);
@@ -121,6 +127,117 @@ app.post('/api/dishes', upload.single('photo'), async (req, res) => {
     const dish = new Dish(req.body);
     await dish.save();
     res.status(201).json({ message: 'Dish created successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.get('/api/getDishes', async (req, res) => {
+  try {
+    const restaurantName = req.query.name;
+    const dishes = await Dish.find({ restaurant: restaurantName });
+
+    res.status(200).json(dishes);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.delete('/api/deleterestaurant/:id', async (req, res) => {
+  try {
+    const restaurantId = req.params.id;
+    const deleteProducts = req.query.deleteProducts === 'true';
+    const restaurantName = req.query.name;
+
+    if (deleteProducts && restaurantName) {
+      await Dish.deleteMany({ restaurant: restaurantName });
+    }
+
+    const deletedRestaurant = await Restaurant.findByIdAndDelete(restaurantId);
+
+    if (!deletedRestaurant) {
+      return res.status(404).json({ message: 'Restaurant not found' });
+    }
+
+    res.status(200).json({ message: 'Restaurant deleted successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.delete('/api/deleteproduct/:id', async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const deletedProduct = await Dish.findByIdAndDelete(productId);
+
+    if (!deletedProduct) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    res.status(200).json({ message: 'Product deleted successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.put('/api/updaterestaurant/:id', upload.single('photo'), async (req, res) => {
+  try {
+    const restaurantId = req.params.id;
+    const restaurantData = req.body;
+    const oldRestaurant = await Restaurant.findById(restaurantId);
+    if (!oldRestaurant) {
+      return res.status(404).json({ message: 'Restaurant not found' });
+    }
+    if (oldRestaurant.name !== restaurantData.name) {
+      await Dish.updateMany({ restaurant: oldRestaurant.name }, { $set: { restaurant: restaurantData.name } });
+    }
+    if (!req.file && !restaurantData.photo) {
+      delete restaurantData.photo;
+    } else if (req.file) {
+      restaurantData.photo = `/assets/uploads/${req.file.originalname}`;
+    }
+
+    const updatedRestaurant = await Restaurant.findByIdAndUpdate(restaurantId, restaurantData, { new: true });
+    if (!updatedRestaurant) {
+      return res.status(404).json({ message: 'Restaurant not found' });
+    }
+    res.status(200).json({ message: 'Restaurant updated successfully', restaurant: updatedRestaurant });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.put('/api/updateproduct/:id', upload.single('photo'), async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const productData = req.body;
+
+    if (!req.file && !productData.photo) {
+      delete productData.photo;
+    } else if (req.file) {
+      productData.photo = `/assets/uploads/${req.file.originalname}`;
+    }
+
+    const updatedProduct = await Dish.findByIdAndUpdate(productId, productData, { new: true });
+    if (!updatedProduct) {
+      return res.status(404).json({ message: 'Dish not found' });
+    }
+    res.status(200).json({ message: 'Dish updated successfully', product: updatedProduct });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.get('/api/DishesList', async (req, res) => {
+  try {
+    const products = await Dish.find();
+    res.status(200).json(products);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Server error' });
