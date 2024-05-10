@@ -1,0 +1,94 @@
+<div class="secondRow">
+  <button mat-raised-button class="actions-button" *ngIf="isSuperAdminOrOwner" [matMenuTriggerFor]="menu">Product Actions</button>
+  <button mat-raised-button class="go-back-button" (click)="goBack()">Go Back</button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="editProduct()">Edit Product</button>
+    <button mat-menu-item (click)="deleteProduct()">Delete Product</button>
+  </mat-menu>
+</div>
+
+<div class="product-page">
+    <div class="content">
+        <h1><strong>{{ product.dishName }}</strong></h1>
+      <div class="photo-container">
+        <img src="{{ product.photo }}" alt="Product Photo">
+      </div>
+  
+      <div class="details">
+        <div class="price-section">
+          <p class="price" *ngIf="product.newPrice">
+            <span class="old-price">{{ product.price | currency }}</span>
+            <span class="new-price">{{ product.newPrice | currency }}</span>
+          </p>
+        </div>
+  
+        <div class="info-section">
+          <p><mat-icon>fastfood</mat-icon> Only {{ product.quantity }} left</p>
+          <p><mat-icon>watch_later</mat-icon> Pickup today between: {{ product.pickupStartTime }} - {{ product.pickupEndTime }}</p>
+        </div>
+  
+        <div class="divider"></div>
+  
+        <h2>{{ restaurant.name }}</h2>
+        <p>
+          <mat-icon>location_on</mat-icon>
+          {{ restaurant.address.street }}, {{ restaurant.address.city }},
+          {{ restaurant.address.state }}, {{ restaurant.address.postalCode }},
+          {{ restaurant.address.country }}
+        </p>
+  
+        <div class="divider"></div>
+  
+        <h2>Contact Information</h2>
+        <ul>
+          <li><mat-icon>phone</mat-icon> Phone: {{ restaurant.contact.phone }}</li>
+          <li><mat-icon>email</mat-icon> Email: {{ restaurant.contact.email }}</li>
+          <li *ngIf="restaurant.contact.website"><mat-icon>public</mat-icon> Website: {{ restaurant.contact.website }}</li>
+        </ul>
+  
+        <div class="divider"></div>
+  
+        <h2>Product Description</h2>
+        <p><mat-icon>description</mat-icon>{{ product.description }}</p>
+
+        <div class="divider"></div>
+  
+        <h2>Category</h2>
+        <p><mat-icon>category</mat-icon> {{ product.category }}</p>
+  
+        <div class="divider"></div>
+  
+        <h2>Dietary Info</h2>
+        <p><mat-icon>restaurant_menu</mat-icon>{{ product.dietaryInfo }}</p>
+  
+        <div class="divider"></div>
+  
+        <h2>Allergens</h2>
+        <p><mat-icon>warning</mat-icon> {{ product.allergens }}</p>
+  
+        <div class="divider"></div>
+  
+        <h2>Payment Options</h2>
+        <p><mat-icon>attach_money</mat-icon> {{ restaurant.paymentMethod }}</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <h2>Select Quantity</h2>
+        <div class="quantity-selector">
+            <button mat-icon-button (click)="decrementQuantity()" [disabled]="selectedQuantity === 1">
+                <mat-icon>remove</mat-icon>
+            </button>
+            <span>{{ selectedQuantity }}</span>
+            <button mat-icon-button (click)="incrementQuantity()" [disabled]="selectedQuantity === product.quantity || selectedQuantity > product.quantity">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+
+        <button mat-raised-button class="buy-button" (click)="addToCart()" *ngIf="product.newPrice && selectedQuantity <= product.quantity">
+            ADD TO CART FOR {{ product.newPrice * selectedQuantity | currency }}
+        </button>
+    </div>
+  <br><br><br>
+  

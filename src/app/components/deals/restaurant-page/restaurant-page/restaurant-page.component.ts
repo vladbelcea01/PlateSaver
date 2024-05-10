@@ -178,5 +178,10 @@ export class RestaurantPageComponent implements OnInit {
       width: '600px'
     });
   }
+
+  openProductPage(productName: string) {
+    this.router.navigateByUrl('/deals/' + this.restaurantName + '/' + productName);
+  }
+
 }
 

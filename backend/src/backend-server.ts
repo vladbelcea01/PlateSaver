@@ -244,6 +244,20 @@ app.get('/api/DishesList', async (req, res) => {
   }
 });
 
+app.get('/api/getDishbyName', async (req, res) => {
+  try {
+    const name = req.query.name;
+    const dish = await Dish.findOne({ dishName: name });
+    if (!dish) {
+      return res.status(404).json({ message: 'Dish not found' });
+    }
+    res.status(200).json(dish);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

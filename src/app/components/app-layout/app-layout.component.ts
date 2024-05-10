@@ -1,6 +1,7 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { CognitoService } from '../../services/cognito.service';
+import { CartService } from '../common/cart.service';
 
 @Component({
   selector: 'app-app-layout',
@@ -9,12 +10,18 @@ import { CognitoService } from '../../services/cognito.service';
 })
 export class AppLayoutComponent {
   currentUserRole: string | null = null;
+  cartQuantity=0;
 
   constructor(
     private router: Router,
     private cognitoService: CognitoService,
-    private cdr: ChangeDetectorRef
-  ) {}
+    private cdr: ChangeDetectorRef,
+    cartService:CartService
+  ) { 
+    cartService.getCartObservable().subscribe((newCart) => {
+      this.cartQuantity = newCart.totalCount;
+    })
+  }
 
   async ngOnInit(): Promise<void> {
     await this.updateCurrentUserRole();
@@ -35,5 +42,9 @@ export class AppLayoutComponent {
 
   signInRoleReceiver(role:string | null){
     this.currentUserRole = role;
+  }
+
+  goCart(): void {
+    this.router.navigateByUrl('/cart');
   }
 }

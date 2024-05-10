@@ -61,4 +61,9 @@ export class MyBackendService {
     const url = `${this.baseUrl}/DishesList`;
     return this.http.get<any>(url);
   }
+
+  getProductbyProductName(name: any): Observable<any> {
+    const url = `${this.baseUrl}/getDishbyName?name=${name}`;
+    return this.http.get<any>(url);
+  }
 }

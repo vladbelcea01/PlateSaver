@@ -9,7 +9,7 @@
 </div>
 
 <div class="restaurant-info-box">
-    <h1>{{ restaurantName }}</h1>
+    <h1>{{ restaurant.name }}</h1>
     <button mat-button color="primary" (click)=" openRestaurantInfo()" >Restaurant Information</button>
   </div>
   
@@ -17,7 +17,7 @@
   
   <div class="product-list">
     <div *ngFor="let dish of products" class="product-card">
-      <mat-card>
+      <mat-card (click)="openProductPage(dish.dishName)">
         <img mat-card-image [src]="dish.photo" alt="Dish Image">
         <mat-card-content>
           <h2>{{ dish.dishName }}</h2>
@@ -31,7 +31,7 @@
           <p class="quantity" *ngIf="dish.quantity">Available Quantity: {{ dish.quantity }}</p>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-button color="primary" *ngIf="isSuperAdminOrOwner" [matMenuTriggerFor]="menu">Actions</button>
+          <button mat-button color="primary" *ngIf="isSuperAdminOrOwner" (click)="$event.stopPropagation()" [matMenuTriggerFor]="menu">Actions</button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="editProduct(dish)">Edit Product</button>
             <button mat-menu-item (click)="deleteProduct(dish)">Delete Product</button>

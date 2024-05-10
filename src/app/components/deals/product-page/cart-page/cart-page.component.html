@@ -1,0 +1,47 @@
+<h1 class="title"><strong>Cart Page</strong></h1>
+
+<div class="container">
+  <ul>
+    <li *ngFor="let cartItem of cart.items">
+      <div>
+        <img [src]="cartItem.food.photo" [alt]="cartItem.food.dishName">
+      </div>
+      <div>
+        <a routerLink="/deals/{{cartItem.food.restaurant}}/{{cartItem.food.dishName}}">
+          {{cartItem.food.dishName}}
+        </a>
+      </div>
+      <div>
+        <select #quantitySelect [value]="cartItem.quantity" [(ngModel)]="cartItem.quantity"
+          (change)="changeQuantity(cartItem, quantitySelect.value)">
+          <option *ngFor="let number of generateNumbers(cartItem.food.quantity)" [value]="number">{{number}}</option>
+        </select>
+      </div>
+      <div>
+        {{cartItem.price | currency}}
+      </div>
+      <div>
+        Pickup between {{cartItem.food.pickupStartTime}} - {{cartItem.food.pickupEndTime}}
+      </div>
+
+      <div>
+        <button class="remove-button" (click)="removeFromCart(cartItem)">
+          Remove
+        </button>
+      </div>
+    </li>
+  </ul>
+  <div class="checkout">
+    <div>
+      <div class="foods-count">{{cart.totalCount}}</div>
+      <div class="total-price">{{cart.totalPrice|currency}}</div>
+    </div>
+    <div>
+      <button class="remove-button" (click)="removeAll()">
+        Remove All
+      </button>
+    </div>
+
+    <a routerLink="/checkout">Proceed to Checkout</a>
+  </div>
+</div>

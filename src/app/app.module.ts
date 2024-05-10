@@ -46,6 +46,9 @@ import { EditRestaurantComponent } from './components/deals/edit-restaurant/edit
 import { EditProductComponent } from './components/deals/edit-product/edit-product.component';
 import { RestaurantInfoComponent } from './components/deals/restaurant-page/restaurant-page/restaurant-info/restaurant-info.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ProductPageComponent } from './components/deals/product-page/product-page.component';
+import { PaymentPageComponent } from './components/deals/product-page/payment-page/payment-page.component';
+import { CartPageComponent } from './components/deals/product-page/cart-page/cart-page.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +66,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     EditRestaurantComponent,
     EditProductComponent,
     RestaurantInfoComponent,
+    ProductPageComponent,
+    PaymentPageComponent,
+    CartPageComponent,
   ],
   imports: [
     BrowserModule,
