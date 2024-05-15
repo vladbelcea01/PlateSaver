@@ -8,6 +8,7 @@ import { dbConnect } from '../src/database.config'
 import multer from 'multer'; 
 import path from 'path';
 import { time } from 'console';
+import { sendOrderEmail } from '../src/emailService';
 dbConnect();
 
 const app = express();
@@ -90,7 +91,8 @@ const orderSchema = new mongoose.Schema({
   payed: String,
   reserved: String,
   orderDate: String,
-  paymentId: String
+  paymentId: String,
+  address: String
 });
 
 const Order = mongoose.model('Order', orderSchema);
@@ -358,6 +360,18 @@ app.get('/api/getOrderbyId', async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
+
+app.post('/api/sendOrderEmail', async (req, res) => {
+  const order = req.body;
+
+  try {
+    await sendOrderEmail(order);
+    res.status(200).send('Email sent successfully');
+  } catch (error) {
+    res.status(500).send('Error sending email');
+  }
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

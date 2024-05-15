@@ -87,4 +87,9 @@ export class MyBackendService {
     const url = `${this.baseUrl}/getOrderbyId?id=${id}`;
     return this.http.get<any>(url);
   }
+
+  sendOrderEmail(orderData: any): Observable<any> {
+    const url = `${this.baseUrl}/sendOrderEmail`;
+    return this.http.post<any>(url, orderData);
+  }
 }

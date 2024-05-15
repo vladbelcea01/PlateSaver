@@ -65,7 +65,20 @@ export class TrackingPageComponent implements OnInit{
   }
 
   acknowledgeMessage(): void {
+    this.sendOrderEmail();
     this.router.navigateByUrl('/home');
+  }
+
+  sendOrderEmail(): void {
+    this.myBackendService
+      .sendOrderEmail(this.order).subscribe(
+      (response) => {
+        console.log('Email sent successfully');
+      },
+      (error) => {
+        console.error('Error sending email:', error);
+      }
+    );
   }
 
 }

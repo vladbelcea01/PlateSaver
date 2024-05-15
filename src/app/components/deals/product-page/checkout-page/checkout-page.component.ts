@@ -23,6 +23,7 @@ export class CheckoutPageComponent implements OnInit {
   restaurant: any;
   cart: any;
   mapUrl!: SafeResourceUrl;
+  addressQuery!: string;
 
   constructor(
     cartService: CartService,
@@ -88,8 +89,8 @@ export class CheckoutPageComponent implements OnInit {
   }
 
   updateMapUrl(): void {
-    const addressQuery = `${this.restaurant.address.street}, ${this.restaurant.address.city}, ${this.restaurant.address.state}, ${this.restaurant.address.postalCode}, ${this.restaurant.address.country}`;
-    const encodedAddress = encodeURIComponent(addressQuery);
+    this.addressQuery = `${this.restaurant.address.street}, ${this.restaurant.address.city}, ${this.restaurant.address.state}, ${this.restaurant.address.postalCode}, ${this.restaurant.address.country}`;
+    const encodedAddress = encodeURIComponent(this.addressQuery);
     const url = `https://www.google.com/maps/embed/v1/place?key=AIzaSyC_9EO69bYyXlx9s81-yWltHw1QxDEyczs&q=${encodedAddress}`;
     this.mapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
@@ -106,6 +107,7 @@ export class CheckoutPageComponent implements OnInit {
         email: this.currentUserEmail,
         products: this.cart.items,
         totalPayment: this.cart.totalPrice,
+        address: this.addressQuery,
         payed: 'Not Paid',
         reserved: 'Not Reserved',
         orderDate: formattedDate
