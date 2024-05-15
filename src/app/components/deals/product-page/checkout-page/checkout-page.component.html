@@ -1,0 +1,81 @@
+<div class="container">
+  <div class="content">
+    <h1 class="title"><strong>Order Form</strong></h1>
+    <form [formGroup]="checkoutForm">
+      <div mat-dialog-content>
+        <mat-form-field>
+          <label>Name</label>
+          <input matInput formControlName="name">
+        </mat-form-field>
+        <mat-form-field>
+          <label>Phone Number</label>
+          <input matInput formControlName="phoneNumber">
+        </mat-form-field>
+      </div>
+    </form>
+    <table>
+      <tr>
+        <td colspan="5">
+          <h3>Order Items:</h3>
+        </td>
+      </tr>
+      <tr *ngFor="let item of cart.items">
+        <td>
+          <a routerLink="/deals/{{item.food.restaurant}}/{{item.food.dishName}}">
+            <img [src]="item.food.photo" />
+          </a>
+        </td>
+        <td>
+          {{item.food.dishName}}
+        </td>
+        <td>
+          {{item.food.newPrice | currency}}
+        </td>
+        <td>
+          {{item.quantity}}
+        </td>
+        <td>
+          Pickup between {{item.food.pickupStartTime}} - {{item.food.pickupEndTime}}
+        </td>
+        <td>
+          {{item.price | currency}}
+        </td>
+      </tr>
+      <tr>
+        <td colspan="4"></td>
+        <td>
+          <strong>
+            Total :
+          </strong>
+        </td>
+        <td>
+          <strong>
+            {{cart.totalPrice | currency}}
+          </strong>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="map">
+    <h1 class="title"><strong>Restaurant Address</strong></h1>
+    <div class="map-container">
+      <iframe
+        width="200%"
+        height="300"
+        frameborder="0"
+        style="border:0"
+        [src]="mapUrl"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+  
+  <div class="buttons-container">
+    <div class="buttons">
+      <button (click)="createOrder()">
+        Go To Payment
+      </button>
+    </div>
+  </div>
+</div>

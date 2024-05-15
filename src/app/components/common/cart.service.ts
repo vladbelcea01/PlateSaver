@@ -29,7 +29,8 @@ export class CartService {
         data: {
           title: 'Cart Conflict',
           message:
-            'You want to add to cart products from another restaurant which is prohibited. Do you want to add the new products and delete the old ones from the bascket?',
+            `You want to add to cart products from another restaurant which is prohibited.<br> 
+            Do you want to add the new products and delete the old ones from the bascket?`,
         },
       });
       dialogRef.afterClosed().subscribe((result) => {
@@ -43,7 +44,7 @@ export class CartService {
         }
       });
     }
-    
+
     else{
     this.cart.items.push(new CartItem(food, selectedQuantity));
     this.setCartToLocalStorage();
@@ -89,5 +90,9 @@ export class CartService {
   private getCartFromLocalStorage(): Cart {
     const cartJson = localStorage.getItem('Cart');
     return cartJson ? JSON.parse(cartJson) : new Cart();
+  }
+
+  getCart(): Cart{
+    return this.cartSubject.value;
   }
 }

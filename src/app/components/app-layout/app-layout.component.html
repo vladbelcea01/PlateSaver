@@ -10,7 +10,7 @@
     <span class="spacer"></span>
     <button mat-raised-button routerLink="/sign-in" [hidden]="this.currentUserRole != null">Login</button>
     <button mat-raised-button color="accent" routerLink="/sign-up" [hidden]="this.currentUserRole != null">Register</button>
-    <button class="cart-button" [hidden]="this.currentUserRole == null" (click)="goCart()">
+    <button class="cart-button" *ngIf="currentUserRole !== null" (click)="goCart()">
         <span class="cart-icon"><mat-icon>shopping_cart</mat-icon></span>
         <span *ngIf="cartQuantity" class="cart-count">{{cartQuantity}}</span>
     </button>    

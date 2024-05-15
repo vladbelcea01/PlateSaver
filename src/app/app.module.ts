@@ -49,6 +49,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ProductPageComponent } from './components/deals/product-page/product-page.component';
 import { PaymentPageComponent } from './components/deals/product-page/payment-page/payment-page.component';
 import { CartPageComponent } from './components/deals/product-page/cart-page/cart-page.component';
+import { CheckoutPageComponent } from './components/deals/product-page/checkout-page/checkout-page.component';
+import { PaypalButtonComponent } from './components/deals/product-page/payment-page/paypal-button/paypal-button.component';
+import { TrackingPageComponent } from './components/deals/product-page/tracking-page/tracking-page.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +72,9 @@ import { CartPageComponent } from './components/deals/product-page/cart-page/car
     ProductPageComponent,
     PaymentPageComponent,
     CartPageComponent,
+    CheckoutPageComponent,
+    PaypalButtonComponent,
+    TrackingPageComponent,
   ],
   imports: [
     BrowserModule,

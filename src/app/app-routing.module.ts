@@ -9,6 +9,11 @@ import { AuthGuard } from './auth-guard.service';
 import { RestaurantPageComponent } from './components/deals/restaurant-page/restaurant-page/restaurant-page.component';
 import { ProductPageComponent } from './components/deals/product-page/product-page.component';
 import { CartPageComponent } from './components/deals/product-page/cart-page/cart-page.component';
+import { CheckoutPageComponent } from './components/deals/product-page/checkout-page/checkout-page.component';
+import { PaymentPageComponent } from './components/deals/product-page/payment-page/payment-page.component';
+import { CheckoutGuard } from './checkout-guard.service';
+import { PaymentGuard } from './payment-guard.service';
+import { TrackingPageComponent } from './components/deals/product-page/tracking-page/tracking-page.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -18,6 +23,9 @@ const routes: Routes = [
   { path: 'deals/:name', component: RestaurantPageComponent, canActivate: [AuthGuard]},
   { path: 'deals/:name/:product', component: ProductPageComponent, canActivate: [AuthGuard]},
   {path: 'cart', component: CartPageComponent, canActivate: [AuthGuard]},
+  {path: 'checkout', component: CheckoutPageComponent, canActivate: [CheckoutGuard]},
+  {path: 'payment/:orderId', component: PaymentPageComponent, canActivate: [PaymentGuard]},
+  {path:'track/:orderId', component: TrackingPageComponent, canActivate:[AuthGuard]},
   {
     path: '',
     component: AppLayoutComponent,
@@ -29,6 +37,9 @@ const routes: Routes = [
       {path: 'deals/:name', component: RestaurantPageComponent},
       {path: 'deals/:name/:product', component: ProductPageComponent},
       {path: 'cart', component: CartPageComponent},
+      {path: 'checkout', component: CheckoutPageComponent},
+      {path: 'payment/:orderId', component: PaymentPageComponent},
+      {path:'track/:orderId', component: TrackingPageComponent}
     ],
   },
   { path: '**', component: SignInComponent },

@@ -1,0 +1,77 @@
+<div class="container">
+    <div class="content" *ngIf="order">
+      <h1>Order #{{order._id}}</h1>
+      <div class="details">
+        <div><strong>Date:</strong> {{order.orderDate | date:'medium'}}</div>
+        <div><strong>Name:</strong> {{order.name}}</div>
+        <div><strong>Email:</strong> {{order.email}}</div>
+        <div><strong>Phone Number:</strong> {{order.phone_number}}</div>
+        <div><strong>Address:</strong> {{addressQuery}}</div>
+        <div><strong>Reserve Status:</strong> {{order.reserved}}</div>
+        <div><strong>Payment Status:</strong> {{order.payed}}</div>
+        <div *ngIf="order.paymentId">
+          <strong>Payment ID:</strong> {{order.paymentId}}
+        </div>
+      </div>
+  
+      <table>
+        <tr>
+          <td colspan="5">
+            <h3>Order Items:</h3>
+          </td>
+        </tr>
+        <tr *ngFor="let item of order.products">
+          <td>
+              <img [src]="item.food.photo" />
+          </td>
+          <td>
+            {{item.food.dishName}}
+          </td>
+          <td>
+            {{item.food.newPrice | currency}}
+          </td>
+          <td>
+            {{item.quantity}}
+          </td>
+          <td>
+            Pickup between {{item.food.pickupStartTime}} - {{item.food.pickupEndTime}}
+          </td>
+          <td>
+            {{item.price | currency}}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4"></td>
+          <td>
+            <strong>
+              Total :
+            </strong>
+          </td>
+          <td>
+            <strong>
+              {{order.totalPayment | currency}}
+            </strong>
+          </td>
+        </tr>
+      </table>
+    </div>
+  
+    <div class="map">
+        <h1 class="title"><strong>Restaurant Address</strong></h1>
+        <div class="map-container">
+          <iframe
+            width="200%"
+            height="300"
+            frameborder="0"
+            style="border:0"
+            [src]="mapUrl"
+            allowfullscreen>
+          </iframe>
+        </div>
+  </div>
+</div>
+
+<div class="buttons-container">
+    <p>A copy of your order has been sent to your email address.</p>
+    <button (click)="acknowledgeMessage()">GOT IT</button>
+</div>

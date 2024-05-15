@@ -1,8 +1,4 @@
-.title {
-    margin-top: 10px;
-  }
-
-  table{
+table{
     width: 100%;
     border: 1px solid lightgrey;
     margin-top: 1rem;
@@ -28,9 +24,8 @@
   }
 
   .container{
-    margin-top: 1rem;
     display: flex;
-    margin: 0 2rem 2rem 2rem;
+    margin: 2rem 2rem 2rem 2rem;
     flex-wrap: wrap;
     justify-content: center;
   }
@@ -60,60 +55,32 @@
     border: none;
   }
 
-  .info {
-    display: flex;
-    flex-direction: column;
-    gap: 10px; 
-  }
-  
-  .info label {
-    font-weight: bold;
-  }
-  
-  .info span {
-    margin-left: 5px;
-  }
-
-  .payment-method {
-    margin-left: 5rem;
-  }
-  
-  .payment-method h3 {
-    margin-top: 0.5rem;
-    margin-left: 0.3rem;
-    color: grey;
-  }
-  
-  .payment-method label {
-    display: block;
-    margin-top: 0.5rem;
-  }
-  
-  .payment-method input[type="radio"] {
-    margin-right: 0.5rem;
-  }
-  
-  .payment-method input[type="radio"]:checked + label {
-    font-weight: bold;
-  }
-  
   .buttons-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 1.5rem;
+    margin-top: 50px;
+    text-align: center;
+  }
+  
+  .buttons-container p {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #333;
   }
   
   .buttons-container button {
+    background-color: #4caf50;
     color: white;
-    background-color: #e72929;
-    padding: 0.8rem 1.5rem;
     border: none;
-    border-radius: 0.5rem;
-    font-size: 1.2rem;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
   }
   
   .buttons-container button:hover {
-    background-color: #d71e1e;
+    background-color: #45a049;
   }

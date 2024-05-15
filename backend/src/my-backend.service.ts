@@ -66,4 +66,25 @@ export class MyBackendService {
     const url = `${this.baseUrl}/getDishbyName?name=${name}`;
     return this.http.get<any>(url);
   }
+
+  saveOrder(orderData: any): Observable<any> {
+    const url = `${this.baseUrl}/orders`;
+    return this.http.post<any>(url, orderData);
+  }
+
+  getOrderbyProducts(products: any[]): Observable<any> {
+    const url = `${this.baseUrl}/getOrderbyProducts`;
+    return this.http.get<any>(url, { params: { products: JSON.stringify(products) } });
+  }
+
+  pay(order_id:string, order:any, reservation:boolean):Observable<string>{
+    const url = `${this.baseUrl}/pay/${order_id}`;
+    const requestBody = { ...order, reservation };
+    return this.http.put<string>(url, requestBody);
+  }
+
+  getOrderbyId(id: string): Observable<any> {
+    const url = `${this.baseUrl}/getOrderbyId?id=${id}`;
+    return this.http.get<any>(url);
+  }
 }

@@ -81,6 +81,20 @@ const dishSchema = new mongoose.Schema({
 
 const Dish = mongoose.model('Dish', dishSchema);
 
+const orderSchema = new mongoose.Schema({
+  name: String,
+  phone_number: String,
+  email: String,
+  products: Array,
+  totalPayment: Number,
+  payed: String,
+  reserved: String,
+  orderDate: String,
+  paymentId: String
+});
+
+const Order = mongoose.model('Order', orderSchema);
+
 app.post('/api/restaurants', upload.single('photo'), async (req, res) => {
   try {
     const restaurantData = req.body;
@@ -252,6 +266,93 @@ app.get('/api/getDishbyName', async (req, res) => {
       return res.status(404).json({ message: 'Dish not found' });
     }
     res.status(200).json(dish);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.post('/api/orders', async (req, res) => {
+  try {
+    console.log(req.body)
+    const order = new Order(req.body);
+    await order.save();
+    res.status(200).json(order);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.get('/api/getOrderbyProducts', async (req, res) => {
+  try {
+    const productsQueryParam = req.query.products;
+    if (!productsQueryParam || typeof productsQueryParam !== 'string') {
+      return res.status(400).json({ error: 'Invalid products parameter' });
+    }
+
+    const products = JSON.parse(productsQueryParam);
+    const order = await Order.findOne({ products: { $all: products } });
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+    res.status(200).json(order);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.put('/api/pay/:id', async (req, res) => {
+  try {
+    const orderId = req.params.id;
+    const { paymentId, reservation } = req.body;
+
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    if (!reservation) {
+      order.paymentId = paymentId;
+      order.payed = 'Paid';
+      order.reserved = 'Reserved';
+    } else {
+      order.reserved = 'Reserved';
+    }
+
+    const products = order.products;
+    for (const product of products) {
+      const dish = await Dish.findById(product.food._id);
+      if (!dish) {
+        console.error(`Dish with ID ${product.food._id} not found`);
+        continue;
+      }
+      if (dish.quantity !== undefined && typeof dish.quantity === 'number') {
+        dish.quantity = Math.max(0, dish.quantity - product.quantity);
+        await dish.save();
+      } else {
+        console.error(`Quantity property not found or not a number for dish with ID ${product.food._id}`);
+      }
+    }
+
+    await order.save();
+
+    res.status(200).json({ message: 'Order payment updated successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.get('/api/getOrderbyId', async (req, res) => {
+  try {
+    const id = req.query.id;
+    const order = await Order.findOne({ _id: id });
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+    res.status(200).json(order);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Server error' });

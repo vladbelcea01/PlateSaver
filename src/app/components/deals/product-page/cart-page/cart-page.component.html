@@ -1,6 +1,7 @@
 <h1 class="title"><strong>Cart Page</strong></h1>
 
 <div class="container">
+  <ng-container *ngIf="cart.items.length > 0; else emptyCart">
   <ul>
     <li *ngFor="let cartItem of cart.items">
       <div>
@@ -44,4 +45,11 @@
 
     <a routerLink="/checkout">Proceed to Checkout</a>
   </div>
+  </ng-container>
+  
+  <ng-template #emptyCart>
+    <div class="empty-cart-message">
+      Your cart is empty.
+    </div>
+  </ng-template>
 </div>

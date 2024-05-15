@@ -14,6 +14,7 @@ export class AuthGuard implements CanActivate {
       await Auth.currentAuthenticatedUser();
       return true;
     } catch (error) {
+      window.alert("User not authenticated!")
       console.error('User not authenticated', error);
       this.router.navigate(['/home']);
       return false;

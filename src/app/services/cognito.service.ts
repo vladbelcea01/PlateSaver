@@ -44,12 +44,10 @@ export class CognitoService {
     return Auth.signOut();
   }
 
-  //this method will send a new code to user email
   public forgotPassword(user:User): Promise<any> {
     return Auth.forgotPassword(user.email);
   }
 
-  //we submit the new password with email and code sent to that email
   public forgotPasswordSubmit(user:User, new_password:string): Promise<any> {
     return Auth.forgotPasswordSubmit(user.email, user.code, new_password);
   }
@@ -71,7 +69,40 @@ export class CognitoService {
       const role = userInfo?.attributes['email'];
       return role || null;
     } catch (error) {
-      console.error('Error retrieving role:', error);
+      console.error('Error retrieving email:', error);
+      return null;
+    }
+  }
+
+  async getGivenName(): Promise<string | null> {
+    try {
+      const userInfo = await Auth.currentUserInfo();
+      const role = userInfo?.attributes['given_name'];
+      return role || null;
+    } catch (error) {
+      console.error('Error retrieving given name:', error);
+      return null;
+    }
+  }
+
+  async getFamilyName(): Promise<string | null> {
+    try {
+      const userInfo = await Auth.currentUserInfo();
+      const role = userInfo?.attributes['family_name'];
+      return role || null;
+    } catch (error) {
+      console.error('Error retrieving family name:', error);
+      return null;
+    }
+  }
+
+  async getPhoneNumber(): Promise<string | null> {
+    try {
+      const userInfo = await Auth.currentUserInfo();
+      const role = userInfo?.attributes['phone_number'];
+      return role || null;
+    } catch (error) {
+      console.error('Error retrieving phone number:', error);
       return null;
     }
   }
