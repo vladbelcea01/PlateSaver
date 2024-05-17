@@ -52,6 +52,7 @@ import { CartPageComponent } from './components/deals/product-page/cart-page/car
 import { CheckoutPageComponent } from './components/deals/product-page/checkout-page/checkout-page.component';
 import { PaypalButtonComponent } from './components/deals/product-page/payment-page/paypal-button/paypal-button.component';
 import { TrackingPageComponent } from './components/deals/product-page/tracking-page/tracking-page.component';
+import { OrdersPageComponent } from './components/orders-page/orders-page.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { TrackingPageComponent } from './components/deals/product-page/tracking-
     CheckoutPageComponent,
     PaypalButtonComponent,
     TrackingPageComponent,
+    OrdersPageComponent,
   ],
   imports: [
     BrowserModule,

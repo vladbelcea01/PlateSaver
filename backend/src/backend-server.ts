@@ -315,6 +315,25 @@ app.put('/api/pay/:id', async (req, res) => {
       return res.status(404).json({ message: 'Order not found' });
     }
 
+    const products = order.products;
+    if (order.reserved != 'Reserved') {
+      for (const product of products) {
+        const dish = await Dish.findById(product.food._id);
+        if (!dish) {
+          console.error(`Dish with ID ${product.food._id} not found`);
+          continue;
+        }
+        if (dish.quantity !== undefined && typeof dish.quantity === 'number') {
+          dish.quantity = Math.max(0, dish.quantity - product.quantity);
+          await dish.save();
+        } else {
+          console.error(
+            `Quantity property not found or not a number for dish with ID ${product.food._id}`
+          );
+        }
+      }
+    }
+
     if (!reservation) {
       order.paymentId = paymentId;
       order.payed = 'Paid';
@@ -323,20 +342,6 @@ app.put('/api/pay/:id', async (req, res) => {
       order.reserved = 'Reserved';
     }
 
-    const products = order.products;
-    for (const product of products) {
-      const dish = await Dish.findById(product.food._id);
-      if (!dish) {
-        console.error(`Dish with ID ${product.food._id} not found`);
-        continue;
-      }
-      if (dish.quantity !== undefined && typeof dish.quantity === 'number') {
-        dish.quantity = Math.max(0, dish.quantity - product.quantity);
-        await dish.save();
-      } else {
-        console.error(`Quantity property not found or not a number for dish with ID ${product.food._id}`);
-      }
-    }
 
     await order.save();
 
@@ -369,6 +374,111 @@ app.post('/api/sendOrderEmail', async (req, res) => {
     res.status(200).send('Email sent successfully');
   } catch (error) {
     res.status(500).send('Error sending email');
+  }
+});
+
+app.get('/api/getOrdersbyEmail', async (req, res) => {
+  try {
+    const email = req.query.email;
+    const orders = await Order.find({ email: email });
+
+    res.status(200).json(orders);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.get('/api/getDishbyId', async (req, res) => {
+  try {
+    const id = req.query.id;
+    const dish = await Dish.findOne({ _id: id });
+    if (!dish) {
+      return res.status(404).json({ message: 'Dish not found' });
+    }
+    res.status(200).json(dish);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.delete('/api/deleteOrder', async (req, res) => {
+  try {
+    const deleteProducts = req.query.deleteProducts === 'true';
+    const orderId = req.query.id;
+    const validity = req.body;
+    console.log(validity)
+    const orderData = await Order.findById(orderId);
+    if (!orderData) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    const products = orderData.products;
+    if (orderData.reserved == 'Reserved' && !validity) {
+      for (const product of products) {
+        const dish = await Dish.findById(product.food._id);
+        if (!dish) {
+          console.error(`Dish with ID ${product.food._id} not found`);
+          continue;
+        }
+        if (dish.quantity !== undefined && typeof dish.quantity === 'number') {
+          dish.quantity = Math.max(0, dish.quantity + product.quantity);
+          await dish.save();
+        } else {
+          console.error(
+            `Quantity property not found or not a number for dish with ID ${product.food._id}`
+          );
+        }
+      }
+    }
+
+    const deletedOrder = await Order.findByIdAndDelete(orderData._id);
+
+    if (!deletedOrder) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    res.status(200).json({ message: 'Order deleted successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.get('/api/ordersList', async (req, res) => {
+  try {
+    const orders = await Order.find();
+    res.status(200).json(orders);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.get('/api/getRestaurantbyOwner', async (req, res) => {
+  try {
+    const username = req.query.username;
+    const restaurant = await Restaurant.findOne({ owner: username });
+    if (!restaurant) {
+      return res.status(404).json({ message: 'Restaurant not found' });
+    }
+    res.status(200).json(restaurant);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.get('/api/getOrdersbyRestaurantName', async (req, res) => {
+  try {
+    const restaurant = req.query.restaurant;
+    const orders = await Order.find({ 'products.food.restaurant': restaurant });
+
+    res.status(200).json(orders);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
   }
 });
 

@@ -92,4 +92,35 @@ export class MyBackendService {
     const url = `${this.baseUrl}/sendOrderEmail`;
     return this.http.post<any>(url, orderData);
   }
+
+  getOrdersbyEmail(email: any): Observable<any> {
+    const url = `${this.baseUrl}/getOrdersbyEmail?email=${email}`;
+    return this.http.get<any>(url);
+  }
+
+  getDishbyId(id: any): Observable<any> {
+    const url = `${this.baseUrl}/getDishbyId?id=${id}`;
+    return this.http.get<any>(url);
+  }
+
+  deleteOrder(id: any): Observable<any> {
+    const url = `${this.baseUrl}/deleteOrder?id=${id}`;
+    return this.http.delete<any>(url);
+  }
+
+  getOrdersForSuperAdmin(): Observable<any> {
+    const url = `${this.baseUrl}/ordersList`;
+    return this.http.get<any>(url);
+  }
+
+  getRestaurantbyOwner(username: any): Observable<any> {
+    const url = `${this.baseUrl}/getRestaurantbyOwner?username=${username}`;
+    return this.http.get<any>(url);
+  }
+
+  getOrdersForAdmin(restaurant: any): Observable<any> {
+    const url = `${this.baseUrl}/getOrdersbyRestaurantName?restaurant=${restaurant}`;
+    return this.http.get<any>(url);
+  }
+
 }

@@ -1,0 +1,40 @@
+<h1 class="main-title">Order List</h1>
+<div class="order-list-container">
+  <ng-container *ngFor="let date of getGroupKeys(groupedOrders)">
+    <h2>{{ date }}</h2>
+    <ng-container *ngFor="let order of groupedOrders[date]">
+      <mat-card class="order-card">
+        <mat-card-header>
+          <mat-card-title class="order-title">Order #{{ order._id }}</mat-card-title>
+          <mat-card-subtitle class="order-subtitle">{{ order.orderDate | date: 'short' }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p><strong>Name:</strong> {{ order.name }}</p>
+          <p><strong>Email:</strong> {{ order.email }}</p>
+          <p><strong>Phone Number:</strong> {{ order.phone_number }}</p>
+          <p><strong>Address:</strong> {{ order.address }}</p>
+          <p><strong>Reserve Status:</strong> {{ order.reserved }}</p>
+          <p><strong>Payment Status:</strong> {{ order.payed }}</p>
+          <p><strong>Payment ID:</strong> {{ order.paymentId || 'N/A' }}</p>
+          <h3>Order Items:</h3>
+          <ul>
+            <li *ngFor="let item of order.products">{{ item.food.dishName }} - {{ item.quantity }} x ${{ item.food.newPrice }}</li>
+          </ul>
+          <h3>Total Payment: ${{ order.totalPayment }}</h3>
+        </mat-card-content>
+        <mat-card-actions *ngIf="currentUserRole != 'admin'" style="flex-direction: column;">
+          <button mat-raised-button
+            (click)="orderValidity[order._id] ? gotoPayment(order._id) : $event.preventDefault()"
+            [ngClass]="{'disabled-button': !orderValidity[order._id]}" color="primary" class="pay-button">Pay
+          </button>
+          <button mat-raised-button *ngIf="order.payed == 'Not Paid'" (click)="cancelReservation(order._id)"
+            style="margin-top: 10px;">Cancel/Delete Reservation
+          </button>
+          <div *ngIf="!orderValidity[order._id]" class="invalid-reason">
+            {{ orderInvalidReasons[order._id] }}
+          </div>
+        </mat-card-actions>
+      </mat-card>
+    </ng-container>
+  </ng-container>
+</div>

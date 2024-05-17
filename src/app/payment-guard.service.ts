@@ -26,7 +26,7 @@ export class PaymentGuard implements CanActivate {
 
     if (!this.orderId) {
       console.error('Order ID is not available');
-      this.router.navigate(['/home']);
+      this.router.navigate(['/orders']);
       return false;
     }
 
@@ -34,30 +34,41 @@ export class PaymentGuard implements CanActivate {
       await this.getOrderbyId();
     } catch (error) {
       console.error('Error fetching order:', error);
-      this.router.navigate(['/home']);
+      this.router.navigate(['/orders']);
       return false;
     }
 
     if (this.order.payed === 'Paid') {
       window.alert('Order already paid!');
       console.error('Order already paid');
-      this.router.navigate(['/home']);
+      this.router.navigate(['/orders']);
+      return false;
+    }
+
+    const productChecks = this.order.products.map(async (product: any) => {
+      const dish = await this.myBackendService
+        .getDishbyId(product.food._id)
+        .toPromise();
+      if (dish.quantity < product.quantity) {
+        return false;
+      }
+      return true;
+    });
+
+    const results = await Promise.all(productChecks);
+    if (!results.every((isValid) => isValid)) {
+      window.alert('One or more items in the order are out of stock!');
+      console.error('One or more items in the order are out of stock.');
+      this.router.navigate(['/orders']);
       return false;
     }
 
     if (this.order.reserved === 'Reserved' && this.restaurant.paymentMethod === 'Cash Only') {
       window.alert('Order already reserved at restaurant with cash only payment method!');
       console.error('Order already reserved at restaurant with cash only payment method');
-      this.router.navigate(['/home']);
+      this.router.navigate(['/orders']);
       return false;
     }  
-
-    if (this.cart.items.length === 0) {
-      window.alert("Basket is empty!");
-      console.error('Basket is empty');
-      this.router.navigate(['/home']);
-      return false;
-    }
 
     try {
       await Auth.currentAuthenticatedUser();
@@ -65,7 +76,7 @@ export class PaymentGuard implements CanActivate {
     } catch (error) {
       window.alert("User not authenticated!");
       console.error('User not authenticated', error);
-      this.router.navigate(['/home']);
+      this.router.navigate(['/orders']);
       return false;
     }
   }

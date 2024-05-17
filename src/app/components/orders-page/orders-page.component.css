@@ -1,0 +1,63 @@
+.main-title {
+  text-align: center;
+  font-size: 2.5em;
+  font-weight: bold;
+  color: black;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.order-list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 20px 100px 20px;
+
+}
+
+.order-card {
+  width: 80%;
+  max-width: 600px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: white !important;
+  border-radius: 5px !important;
+}
+
+.order-title {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #333;
+}
+
+.order-subtitle {
+  font-size: 1em;
+  color: #666;
+}
+
+.order-card h3 {
+  margin-top: 20px;
+}
+
+.order-card ul {
+  padding-left: 20px;
+}
+
+.pay-button {
+  display: block;
+  width: 42%;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.disabled-button {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.invalid-reason {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}

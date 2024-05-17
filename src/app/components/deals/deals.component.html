@@ -17,7 +17,7 @@
                 <p>{{ getDishesCount(restaurant) }} Products Available</p>
             </mat-card-content>
             <mat-card-actions>
-                <button mat-button color="primary" *ngIf="currentUserRole=='superadmin' || currentUserEmail==restaurant.contact.email" (click)="$event.stopPropagation()" [matMenuTriggerFor]="menu">Actions</button>
+                <button mat-button color="primary" *ngIf="currentUserRole=='superadmin' || currentUserEmail==restaurant.owner" (click)="$event.stopPropagation()" [matMenuTriggerFor]="menu">Actions</button>
                 <mat-menu #menu="matMenu">
                     <button mat-menu-item (click)="editRestaurant(restaurant)">Edit Restaurant</button>
                     <button mat-menu-item (click)="getDishesbyRestaurantNameForDelete(restaurant)">Delete Restaurant</button>
