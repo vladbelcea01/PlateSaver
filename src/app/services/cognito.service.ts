@@ -107,5 +107,25 @@ export class CognitoService {
     }
   }
 
+  public async updateUserAttributes(user: User): Promise<any> {
+    try {
+      const userAttributes = {
+        email: user.email,
+        given_name: user.givenName,
+        family_name: user.familyName,
+        phone_number: user.phoneNumber,
+        'custom:role': user.role
+      };
+      return await Auth.updateUserAttributes(await Auth.currentAuthenticatedUser(), userAttributes);
+    } catch (error) {
+      console.error('Error updating user attributes:', error);
+      throw error;
+    }
+  }
 
+  public async changePassword(currentPassword: string, newPassword: string): Promise<string> {
+    const user = await Auth.currentAuthenticatedUser();
+    return Auth.changePassword(user, currentPassword, newPassword);
+  }
+  
 }

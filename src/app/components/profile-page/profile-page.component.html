@@ -1,0 +1,90 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8 col-sm-10">
+      <div class="card shadow-sm"> 
+        <div class="card-header text-white text-center">
+          <h3>Profile Page</h3>
+        </div>
+        <div class="card-body">
+          <form (ngSubmit)="onSubmit()">
+            <div class="form-group mb-3">
+              <label for="givenName" class="form-label">Given Name</label>
+              <input type="text" id="givenName" [(ngModel)]="editableUser.givenName" name="givenName"
+                class="form-control" [readonly]="!isEditMode" placeholder="Enter your given name" required />
+            </div>
+            <div class="form-group mb-3">
+              <label for="familyName" class="form-label">Family Name</label>
+              <input type="text" id="familyName" [(ngModel)]="editableUser.familyName" name="familyName"
+                class="form-control" [readonly]="!isEditMode" placeholder="Enter your family name" required />
+            </div>
+            <div class="form-group mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" id="email" [(ngModel)]="editableUser.email" name="email" class="form-control"
+                placeholder="Enter your email" readonly />
+            </div>
+            <div class="form-group mb-3">
+              <label for="phoneNumber" class="form-label">Phone Number</label>
+              <input type="text" id="phoneNumber" [(ngModel)]="editableUser.phoneNumber" name="phoneNumber"
+                class="form-control" [readonly]="!isEditMode" placeholder="Enter your phone number" required />
+            </div>
+            <div class="form-group mb-4">
+              <label for="role" class="form-label">Role</label>
+              <select id="role" [(ngModel)]="editableUser.role" name="role" class="form-control"
+                [disabled]="!isEditMode || user.role!='superadmin'" required>
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+                <option value="superadmin">Superadmin</option>
+              </select>
+            </div>
+            <div class="form-group text-center mt-4">
+              <button *ngIf="!isEditMode" type="button" class="btn btn-primary w-100" (click)="toggleEditMode()">
+                Edit Profile
+              </button>
+              <div *ngIf="isEditMode">
+                <button type="submit" class="btn btn-success w-48">Save</button>
+                <button type="button" class="btn btn-secondary w-48 ml-2" (click)="cancelEdit()">Cancel</button>
+              </div>
+              <button type="button" class="btn btn-warning w-100 mt-3" (click)="openChangePasswordModal()"
+                [disabled]="isEditMode">
+                Change Password
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Password Change Modal -->
+  <div class="modal" tabindex="-1" role="dialog" [ngClass]="{'d-block': isChangePasswordModalOpen}"
+    (click)="closeChangePasswordModal()">
+    <div class="modal-dialog" role="document" (click)="$event.stopPropagation()">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Change Password</h5>
+          <button type="button" class="close" (click)="closeChangePasswordModal()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="onChangePassword()">
+            <div class="form-group">
+              <label for="currentPassword">Current Password</label>
+              <input type="password" id="currentPassword" [(ngModel)]="currentPassword" name="currentPassword"
+                class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="newPassword">New Password</label>
+              <input type="password" id="newPassword" [(ngModel)]="newPassword" name="newPassword" class="form-control"
+                required>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Save</button>
+              <button type="button" class="btn btn-secondary" (click)="closeChangePasswordModal()">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

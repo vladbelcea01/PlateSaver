@@ -15,6 +15,7 @@ import { CheckoutGuard } from './checkout-guard.service';
 import { PaymentGuard } from './payment-guard.service';
 import { TrackingPageComponent } from './components/deals/product-page/tracking-page/tracking-page.component';
 import { OrdersPageComponent } from './components/orders-page/orders-page.component';
+import { ProfilePageComponent } from './components/profile-page/profile-page.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -28,6 +29,7 @@ const routes: Routes = [
   {path: 'payment/:orderId', component: PaymentPageComponent, canActivate: [PaymentGuard]},
   {path:'track/:orderId', component: TrackingPageComponent, canActivate:[AuthGuard]},
   {path:'orders', component: OrdersPageComponent, canActivate:[AuthGuard]},
+  {path:'profile', component: ProfilePageComponent, canActivate:[AuthGuard]},
   {
     path: '',
     component: AppLayoutComponent,
@@ -43,6 +45,7 @@ const routes: Routes = [
       {path: 'payment/:orderId', component: PaymentPageComponent},
       {path:'track/:orderId', component: TrackingPageComponent},
       {path: 'orders', component: OrdersPageComponent},
+      {path: 'profile', component: ProfilePageComponent}
     ],
   },
   { path: '**', component: SignInComponent },
