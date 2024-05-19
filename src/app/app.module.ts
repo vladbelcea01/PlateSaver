@@ -54,6 +54,10 @@ import { PaypalButtonComponent } from './components/deals/product-page/payment-p
 import { TrackingPageComponent } from './components/deals/product-page/tracking-page/tracking-page.component';
 import { OrdersPageComponent } from './components/orders-page/orders-page.component';
 import { ProfilePageComponent } from './components/profile-page/profile-page.component';
+import { UsersPageComponent } from './components/users-page/users-page.component';
+import { EditUserDialogComponent } from './components/users-page/edit-user-dialog/edit-user-dialog.component';
+import { AddUserDialogComponent } from './components/users-page/add-user-dialog/add-user-dialog.component';
+import { ViewUserOrdersComponent } from './components/users-page/view-user-orders/view-user-orders.component';
 
 @NgModule({
   declarations: [
@@ -79,6 +83,10 @@ import { ProfilePageComponent } from './components/profile-page/profile-page.com
     TrackingPageComponent,
     OrdersPageComponent,
     ProfilePageComponent,
+    UsersPageComponent,
+    EditUserDialogComponent,
+    AddUserDialogComponent,
+    ViewUserOrdersComponent,
   ],
   imports: [
     BrowserModule,

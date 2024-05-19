@@ -5,7 +5,7 @@
     <button mat-raised-button routerLink="/home">Home</button>
     <button mat-raised-button routerLink="/deals" [hidden]="this.currentUserRole == null">Deals</button>
     <button mat-raised-button routerLink="/reservations" [hidden]="this.currentUserRole == null || this.currentUserRole == 'admin' || this.currentUserRole == 'superadmin'" >My Reservations</button>
-    <button mat-raised-button routerLink="/users" [hidden]="this.currentUserRole == 'user' || this.currentUserRole == null">Users</button>
+    <button mat-raised-button routerLink="/users" [hidden]="this.currentUserRole != 'superadmin' || this.currentUserRole == null">Users</button>
     <button mat-raised-button routerLink="/orders" [hidden]="this.currentUserRole == 'user' || this.currentUserRole == null">Orders</button>
     <span class="spacer"></span>
     <button mat-raised-button routerLink="/sign-in" [hidden]="this.currentUserRole != null">Login</button>

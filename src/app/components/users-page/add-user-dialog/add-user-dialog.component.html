@@ -1,0 +1,72 @@
+<h1 mat-dialog-title style="text-align: center;">Add User</h1>
+<div mat-dialog-content style="text-align: center;">
+  <form [formGroup]="addUserForm">
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" type="email">
+      <mat-error *ngIf="addUserForm.get('email')?.hasError('required')">
+        Email is required
+      </mat-error>
+      <mat-error *ngIf="addUserForm.get('email')?.hasError('email')">
+        Enter a valid email
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input matInput formControlName="password" type="password">
+      <mat-error *ngIf="addUserForm.get('password')?.hasError('required')">
+        Password is required
+      </mat-error>
+      <mat-error *ngIf="addUserForm.get('password')?.hasError('minlength')">
+        Password must be at least 6 characters long
+      </mat-error>
+      <mat-error *ngIf="addUserForm.get('password')?.hasError('passwordComplexity')">
+        Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Given Name</mat-label>
+      <input matInput formControlName="given_name">
+      <mat-error *ngIf="addUserForm.get('given_name')?.hasError('required')">
+        Given name is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Family Name</mat-label>
+      <input matInput formControlName="family_name">
+      <mat-error *ngIf="addUserForm.get('family_name')?.hasError('required')">
+        Family name is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Phone Number</mat-label>
+      <input matInput formControlName="phone_number">
+      <mat-error *ngIf="addUserForm.get('phone_number')?.hasError('required')">
+        Phone number is required
+      </mat-error>
+      <mat-error *ngIf="addUserForm.get('phone_number')?.hasError('invalidPhoneNumber')">
+        Number must start with a '+'
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Role</mat-label>
+      <mat-select formControlName="custom_role">
+        <mat-option value="user">User</mat-option>
+        <mat-option value="admin">Admin</mat-option>
+        <mat-option value="superadmin">Superadmin</mat-option>
+      </mat-select>
+      <mat-error *ngIf="addUserForm.get('custom_role')?.hasError('required')">
+        Role is required
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions style="margin-bottom: 10px;">
+  <button mat-raised-button (click)="onNoClick()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSaveClick()" [disabled]="!addUserForm.valid">Save</button>
+</div>

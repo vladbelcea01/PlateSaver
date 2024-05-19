@@ -1,0 +1,43 @@
+<div class="page-header">
+    <h1>Order List</h1>
+</div>
+<div class="dialog-content">
+    <div class="order-list-container">
+        <ng-container *ngIf="getGroupKeys(groupedOrders).length > 0; else noOrdersTemplate">
+            <ng-container *ngFor="let date of getGroupKeys(groupedOrders)">
+                <h2>{{ date }}</h2>
+                <ng-container *ngFor="let order of groupedOrders[date]">
+                    <mat-card class="order-card">
+                        <mat-card-header>
+                            <mat-card-title class="order-title">Order #{{ order._id }}</mat-card-title>
+                            <mat-card-subtitle class="order-subtitle">{{ order.orderDate | date: 'short' }}</mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <p><strong>Name:</strong> {{ order.name }}</p>
+                            <p><strong>Email:</strong> {{ order.email }}</p>
+                            <p><strong>Phone Number:</strong> {{ order.phone_number }}</p>
+                            <p><strong>Address:</strong> {{ order.address }}</p>
+                            <p><strong>Reserve Status:</strong> {{ order.reserved }}</p>
+                            <p><strong>Payment Status:</strong> {{ order.payed }}</p>
+                            <p><strong>Payment ID:</strong> {{ order.paymentId || 'N/A' }}</p>
+                            <h3>Order Items:</h3>
+                            <ul>
+                                <li *ngFor="let item of order.products">{{ item.food.dishName }} - {{ item.quantity }} x ${{
+                                    item.food.newPrice }}</li>
+                            </ul>
+                            <h3>Total Payment: ${{ order.totalPayment }}</h3>
+                        </mat-card-content>
+                    </mat-card>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+        <ng-template #noOrdersTemplate>
+            <div class="no-orders-message">
+                <p>No orders available.</p>
+            </div>
+        </ng-template>
+    </div>
+    <div class="close-button-container">
+        <button mat-raised-button color="primary" (click)="onNoClick()">CLOSE</button>
+    </div>
+</div>

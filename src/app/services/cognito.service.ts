@@ -1,20 +1,33 @@
 import { Injectable } from '@angular/core';
-import {Amplify,  Auth } from 'aws-amplify';
+import { Amplify, Auth } from 'aws-amplify';
 import { environment } from '../../environments/environment.development';
 import { User } from '../models/user';
+import * as AWS from 'aws-sdk';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CognitoService {
 
+  private cognitoIdentityServiceProvider: AWS.CognitoIdentityServiceProvider;
+
   constructor() {
     Amplify.configure({
       Auth: environment.cognito
-    })
+    });
+
+    AWS.config.update({
+      region: environment.cognito.region,
+      credentials: new AWS.Credentials({
+        accessKeyId: environment.awsAccessKeyId,
+        secretAccessKey: environment.awsSecretAccessKey,
+      })
+    });
+
+    this.cognitoIdentityServiceProvider = new AWS.CognitoIdentityServiceProvider();
   }
 
-  public signUp(user:User): Promise<any> {
+  public signUp(user: User): Promise<any> {
     return Auth.signUp({
       username: user.email,
       password: user.password,
@@ -25,11 +38,11 @@ export class CognitoService {
         phone_number: user.phoneNumber,
         'custom:role': 'user'
       }
-    })
+    });
   }
 
-  public confirmSignUp(user:User): Promise<any> {
-    return Auth.confirmSignUp(user.email, user.code)
+  public confirmSignUp(user: User): Promise<any> {
+    return Auth.confirmSignUp(user.email, user.code);
   }
 
   public getUser(): Promise<any> {
@@ -37,18 +50,18 @@ export class CognitoService {
   }
 
   public signIn(user: User): Promise<any> {
-    return Auth.signIn(user.email, user.password)
+    return Auth.signIn(user.email, user.password);
   }
 
   public signOut(): Promise<any> {
     return Auth.signOut();
   }
 
-  public forgotPassword(user:User): Promise<any> {
+  public forgotPassword(user: User): Promise<any> {
     return Auth.forgotPassword(user.email);
   }
 
-  public forgotPasswordSubmit(user:User, new_password:string): Promise<any> {
+  public forgotPasswordSubmit(user: User, new_password: string): Promise<any> {
     return Auth.forgotPasswordSubmit(user.email, user.code, new_password);
   }
 
@@ -66,8 +79,8 @@ export class CognitoService {
   async getEmail(): Promise<string | null> {
     try {
       const userInfo = await Auth.currentUserInfo();
-      const role = userInfo?.attributes['email'];
-      return role || null;
+      const email = userInfo?.attributes['email'];
+      return email || null;
     } catch (error) {
       console.error('Error retrieving email:', error);
       return null;
@@ -77,8 +90,8 @@ export class CognitoService {
   async getGivenName(): Promise<string | null> {
     try {
       const userInfo = await Auth.currentUserInfo();
-      const role = userInfo?.attributes['given_name'];
-      return role || null;
+      const givenName = userInfo?.attributes['given_name'];
+      return givenName || null;
     } catch (error) {
       console.error('Error retrieving given name:', error);
       return null;
@@ -88,8 +101,8 @@ export class CognitoService {
   async getFamilyName(): Promise<string | null> {
     try {
       const userInfo = await Auth.currentUserInfo();
-      const role = userInfo?.attributes['family_name'];
-      return role || null;
+      const familyName = userInfo?.attributes['family_name'];
+      return familyName || null;
     } catch (error) {
       console.error('Error retrieving family name:', error);
       return null;
@@ -99,8 +112,8 @@ export class CognitoService {
   async getPhoneNumber(): Promise<string | null> {
     try {
       const userInfo = await Auth.currentUserInfo();
-      const role = userInfo?.attributes['phone_number'];
-      return role || null;
+      const phoneNumber = userInfo?.attributes['phone_number'];
+      return phoneNumber || null;
     } catch (error) {
       console.error('Error retrieving phone number:', error);
       return null;
@@ -127,5 +140,64 @@ export class CognitoService {
     const user = await Auth.currentAuthenticatedUser();
     return Auth.changePassword(user, currentPassword, newPassword);
   }
-  
+
+  public async listAllUsers(): Promise<any> {
+    const params = {
+      UserPoolId: environment.cognito.userPoolId,
+      Limit: 60
+    };
+
+    try {
+      const response = await this.cognitoIdentityServiceProvider.listUsers(params).promise();
+      return response.Users;
+    } catch (error) {
+      console.error('Error listing users:', error);
+      throw error;
+    }
+  }
+
+  public async deleteUser(username: string): Promise<any> {
+    const params = {
+      UserPoolId: environment.cognito.userPoolId,
+      Username: username
+    };
+
+    try {
+      await this.cognitoIdentityServiceProvider.adminDeleteUser(params).promise();
+      console.log(`User ${username} deleted successfully`);
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      throw error;
+    }
+  }
+
+  public async deleteMultipleUsers(usernames: string[]): Promise<any> {
+    const deletePromises = usernames.map(username => this.deleteUser(username));
+    try {
+      await Promise.all(deletePromises);
+      console.log('All selected users deleted successfully');
+    } catch (error) {
+      console.error('Error deleting multiple users:', error);
+      throw error;
+    }
+  }
+
+  public async editUser(username: string, attributes: { [key: string]: string }): Promise<any> {
+    const params = {
+      UserPoolId: environment.cognito.userPoolId,
+      Username: username,
+      UserAttributes: Object.keys(attributes).map(key => ({
+        Name: key,
+        Value: attributes[key]
+      }))
+    };
+
+    try {
+      await this.cognitoIdentityServiceProvider.adminUpdateUserAttributes(params).promise();
+      console.log(`User ${username} updated successfully`);
+    } catch (error) {
+      console.error('Error updating user:', error);
+      throw error;
+    }
+  }
 }
