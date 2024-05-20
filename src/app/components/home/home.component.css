@@ -12,3 +12,72 @@
     margin: 10px;
   }
 
+  .welcome {
+    background-image: url("../../../assets/image/G6_green.svg") !important;
+    background-size: cover !important;
+    min-height: 50px !important;
+    height: 14rem !important;
+    width: 100%;
+    background-position-y: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 4rem;
+  }
+  
+  .welcome-text {
+    font-size: xxx-large;
+    color: #001135;
+    font-family: sans-serif;
+    min-height: 50px !important;
+    height: 50px !important
+  }
+  
+  .steps {
+    width: 100%;
+    padding: 3rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+  
+  .step-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .step-img {
+    width: 5rem;
+  }
+  
+  .step-title {
+    font-family: sans-serif;
+  }
+  
+  .step-description {
+    margin-top: 0.5rem;
+    width: 20rem;
+    text-align: justify;
+    font-family: sans-serif;
+  }
+  
+  
+  @media only screen and (max-width: 1300px) {
+    .steps {
+      padding: 5rem 5rem !important;
+    }
+  }
+
+  .diagram-container {
+    display: flex;
+    width: 100vw;
+    justify-content: center;
+    
+  }
+  
+  .diagram-container > img {
+    width: 50%;
+  }
+

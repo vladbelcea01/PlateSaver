@@ -1,9 +1,11 @@
 <div class="secondRow">
-  <button mat-raised-button class="actions-button" *ngIf="isSuperAdminOrOwner" [matMenuTriggerFor]="menu">Product Actions</button>
-  <button mat-raised-button class="go-back-button" (click)="goBack()">Go Back</button>
+  <button mat-raised-button color="primary" class="actions-button" *ngIf="isSuperAdminOrOwner" [matMenuTriggerFor]="menu">Product Actions</button>
+  <button mat-raised-button color="accent" class="go-back-button" (click)="goBack()">Go Back</button>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="editProduct()">Edit Product</button>
-    <button mat-menu-item (click)="deleteProduct()">Delete Product</button>
+    <button mat-menu-item (click)="editProduct()">
+      <mat-icon>edit</mat-icon><span>Edit Product</span></button>
+  <button mat-menu-item (click)="deleteProduct()">
+      <mat-icon>delete</mat-icon><span>Delete Product</span></button>
   </mat-menu>
 </div>
 

@@ -2,32 +2,39 @@
 <div mat-dialog-content>
     <form [formGroup]="restaurantForm">
         <mat-form-field>
+            <mat-label>Name</mat-label>
             <input matInput placeholder="Restaurant Name" formControlName="name">
         </mat-form-field>
 
         <mat-form-field>
+            <mat-label>Description</mat-label>
             <textarea matInput placeholder="Restaurant Description" formControlName="description"></textarea>
         </mat-form-field>
 
         <div formGroupName="address">
             <h2>Restaurant Address</h2>
             <mat-form-field>
+                <mat-label>Street</mat-label>
                 <input matInput placeholder="Street" formControlName="street">
             </mat-form-field>
 
             <mat-form-field>
+                <mat-label>City</mat-label>
                 <input matInput placeholder="City" formControlName="city">
             </mat-form-field>
 
             <mat-form-field>
+                <mat-label>State</mat-label>
                 <input matInput placeholder="State" formControlName="state">
             </mat-form-field>
 
             <mat-form-field>
+                <mat-label>Postal Code</mat-label>
                 <input matInput placeholder="Postal Code" formControlName="postalCode">
             </mat-form-field>
 
             <mat-form-field>
+                <mat-label>Country</mat-label>
                 <input matInput placeholder="Country" formControlName="country">
             </mat-form-field>
         </div>
@@ -35,14 +42,17 @@
         <div formGroupName="contact">
             <h2>Contact Information</h2>
             <mat-form-field>
+                <mat-label>Phone Number</mat-label>
                 <input matInput placeholder="Phone Number" formControlName="phone">
             </mat-form-field>
 
             <mat-form-field>
+                <mat-label>Email</mat-label>
                 <input matInput placeholder="Email" formControlName="email">
             </mat-form-field>
 
             <mat-form-field>
+                <mat-label>Website</mat-label>
                 <input matInput placeholder="Website" formControlName="website">
             </mat-form-field>
         </div>
@@ -50,30 +60,37 @@
         <div formGroupName="operatingHours">
             <h2>Operating Hours</h2>
             <mat-form-field>
+                <mat-label>Monday</mat-label>
                 <input matInput placeholder="Monday" formControlName="monday">
             </mat-form-field>
 
             <mat-form-field>
+                <mat-label>Tuesday</mat-label>
                 <input matInput placeholder="Tuesday" formControlName="tuesday">
             </mat-form-field>
 
             <mat-form-field>
+                <mat-label>Wednesday</mat-label>
                 <input matInput placeholder="Wednesday" formControlName="wednesday">
             </mat-form-field>
 
             <mat-form-field>
+                <mat-label>Thursday</mat-label>
                 <input matInput placeholder="Thursday" formControlName="thursday">
             </mat-form-field>
 
             <mat-form-field>
+                <mat-label>Friday</mat-label>
                 <input matInput placeholder="Friday" formControlName="friday">
             </mat-form-field>
 
             <mat-form-field>
+                <mat-label>Saturday</mat-label>
                 <input matInput placeholder="Saturday" formControlName="saturday">
             </mat-form-field>
 
             <mat-form-field>
+                <mat-label>Sunday</mat-label>
                 <input matInput placeholder="Sunday" formControlName="sunday">
             </mat-form-field>
         </div>
@@ -81,20 +98,24 @@
         <div formGroupName="socialMedia">
             <h2>Social Media Links</h2>
             <mat-form-field>
+                <mat-label>Facebook</mat-label>
                 <input matInput placeholder="Facebook" formControlName="facebook">
             </mat-form-field>
 
             <mat-form-field>
+                <mat-label>Twitter</mat-label>
                 <input matInput placeholder="Twitter" formControlName="twitter">
             </mat-form-field>
 
             <mat-form-field>
+                <mat-label>Instagram</mat-label>
                 <input matInput placeholder="Instagram" formControlName="instagram">
             </mat-form-field>
         </div>
 
         <h2>Payment method</h2>
         <mat-form-field>
+            <mat-label>Payment Method</mat-label>
             <mat-select formControlName="paymentMethod">
                 <mat-option value="Card Only">Card Only</mat-option>
                 <mat-option value="Cash and Card">Cash and Card</mat-option>
@@ -103,6 +124,7 @@
 
         <h2>Restaurant Owner</h2>
         <mat-form-field>
+            <mat-label>Owner Email</mat-label>
             <input [disabled]="currentUserRole!='superadmin'" matInput placeholder="Owner" formControlName="owner">
         </mat-form-field>
 

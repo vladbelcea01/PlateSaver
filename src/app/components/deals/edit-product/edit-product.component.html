@@ -1,11 +1,15 @@
 <h1 mat-dialog-title>Edit Dish</h1>
 <form [formGroup]="dishForm">
   <div mat-dialog-content>
+    
+    <h2>Basic Information</h2>
     <mat-form-field>
+      <mat-label>Dish Name</mat-label>
       <input matInput placeholder="Dish Name" formControlName="dishName">
     </mat-form-field>
 
     <mat-form-field>
+      <mat-label>Description</mat-label>
       <textarea matInput placeholder="Description" formControlName="description"></textarea>
     </mat-form-field>
 
@@ -18,7 +22,8 @@
         <mat-option value="Mistery Box">Mistery Box</mat-option>
       </mat-select>
     </mat-form-field>
-
+    
+    <h2>Dietary Information</h2>
     <mat-form-field>
       <mat-label>Dietary Information</mat-label>
       <mat-select formControlName="dietaryInfo">
@@ -30,34 +35,45 @@
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput placeholder="Allergens" formControlName="allergens">
-    </mat-form-field>
-
-    <mat-form-field>
+      <mat-label>Ingredients</mat-label>
       <textarea matInput placeholder="Ingredients" formControlName="ingredients"></textarea>
     </mat-form-field>
 
     <mat-form-field>
+      <mat-label>Allergens</mat-label>
+      <input matInput placeholder="Allergens" formControlName="allergens">
+    </mat-form-field>
+
+    <h2>Pricing and Quantity</h2>
+    <mat-form-field>
+      <mat-label>Price</mat-label>
       <input matInput type="number" placeholder="Price" formControlName="price">
     </mat-form-field>
 
     <mat-form-field>
+      <mat-label>New Price</mat-label>
       <input matInput type="number" placeholder="New Price" formControlName="newPrice">
     </mat-form-field>
 
     <mat-form-field>
+      <mat-label>Quantity</mat-label>
       <input matInput type="number" placeholder="Quantity" formControlName="quantity">
     </mat-form-field>
 
+    <h2>Pickup Times</h2>
     <mat-form-field>
+      <mat-label>Pickup Start Time</mat-label>
       <input matInput type="time" placeholder="Pickup Start Time" formControlName="pickupStartTime">
     </mat-form-field>
+
     <mat-form-field>
+      <mat-label>Pickup End Time</mat-label>
       <input matInput type="time" placeholder="Pickup End Time" formControlName="pickupEndTime">
     </mat-form-field>
 
     <h2>Upload Dish Image</h2>
     <input type="file" (change)="onFileSelected($event)" accept="image/*">
+
   </div>
 
   <div mat-dialog-actions>

@@ -1,20 +1,20 @@
-<mat-toolbar>
+<mat-toolbar style="background-color: #333;">
     <img src="assets\image\plateSaver.jpeg" style="height: 50px; margin-right: 1rem;"> 
-    <span class="plate-saver">PlateSaver</span>
+    <span style="color: white;">PlateSaver</span>
     <div class="spacer"></div>
-    <button mat-raised-button routerLink="/home">Home</button>
-    <button mat-raised-button routerLink="/deals" [hidden]="this.currentUserRole == null">Deals</button>
-    <button mat-raised-button routerLink="/reservations" [hidden]="this.currentUserRole == null || this.currentUserRole == 'admin' || this.currentUserRole == 'superadmin'" >My Reservations</button>
-    <button mat-raised-button routerLink="/users" [hidden]="this.currentUserRole != 'superadmin' || this.currentUserRole == null">Users</button>
-    <button mat-raised-button routerLink="/orders" [hidden]="this.currentUserRole == 'user' || this.currentUserRole == null">Orders</button>
+    <button mat-raised-button color="primary" routerLink="/home">Home</button>
+    <button mat-raised-button color="primary" routerLink="/deals" [hidden]="this.currentUserRole == null">Deals</button>
+    <button mat-raised-button color="primary" routerLink="/reservations" [hidden]="this.currentUserRole == null || this.currentUserRole == 'admin' || this.currentUserRole == 'superadmin'" >My Reservations</button>
+    <button mat-raised-button color="primary" routerLink="/users" [hidden]="this.currentUserRole != 'superadmin' || this.currentUserRole == null">Users</button>
+    <button mat-raised-button color="primary" routerLink="/orders" [hidden]="this.currentUserRole == 'user' || this.currentUserRole == null">Orders</button>
     <span class="spacer"></span>
-    <button mat-raised-button routerLink="/sign-in" [hidden]="this.currentUserRole != null">Login</button>
+    <button mat-raised-button color="primary" routerLink="/sign-in" [hidden]="this.currentUserRole != null">Login</button>
     <button mat-raised-button color="accent" routerLink="/sign-up" [hidden]="this.currentUserRole != null">Register</button>
     <button class="cart-button" *ngIf="currentUserRole !== null" (click)="goCart()">
         <span class="cart-icon"><mat-icon>shopping_cart</mat-icon></span>
         <span *ngIf="cartQuantity" class="cart-count">{{cartQuantity}}</span>
     </button>    
-    <button mat-raised-button routerLink="/profile" [hidden]="this.currentUserRole == null">Profile</button>
+    <button mat-raised-button color="primary" routerLink="/profile" [hidden]="this.currentUserRole == null">Profile</button>
     <button mat-raised-button color="accent" (click)="signOutWithCognito()" [hidden]="this.currentUserRole == null" >Log Out</button>
   </mat-toolbar>
   <div class="h-100 w-100" id="mainContainer">

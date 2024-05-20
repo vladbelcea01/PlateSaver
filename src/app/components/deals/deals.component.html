@@ -1,5 +1,5 @@
 <div class="secondRow">
-    <button mat-raised-button class="add-restaurant-button" *ngIf="currentUserRole=='superadmin'" (click)="addRestaurant()">Add Restaurant</button>
+    <button mat-raised-button color="primary" class="add-restaurant-button" *ngIf="currentUserRole=='superadmin'" (click)="addRestaurant()">Add Restaurant</button>
 </div>
 
 <div class="page-header">
@@ -19,8 +19,10 @@
             <mat-card-actions>
                 <button mat-button color="primary" *ngIf="currentUserRole=='superadmin' || currentUserEmail==restaurant.owner" (click)="$event.stopPropagation()" [matMenuTriggerFor]="menu">Actions</button>
                 <mat-menu #menu="matMenu">
-                    <button mat-menu-item (click)="editRestaurant(restaurant)">Edit Restaurant</button>
-                    <button mat-menu-item (click)="getDishesbyRestaurantNameForDelete(restaurant)">Delete Restaurant</button>
+                    <button mat-menu-item (click)="editRestaurant(restaurant)">
+                        <mat-icon>edit</mat-icon><span>Edit Restaurant</span></button>
+                    <button mat-menu-item (click)="getDishesbyRestaurantNameForDelete(restaurant)">
+                        <mat-icon>delete</mat-icon><span>Delete Restaurant</span></button>
                 </mat-menu>
             </mat-card-actions>
         </mat-card>

@@ -1,59 +1,69 @@
-<div class="container" *ngIf="user">
-    <div class="row w-100 vh-100 justify-content-center align-items-center">
-        <div class="auth-box">
-            <div *ngIf="!isForgotPassword && !forgotPassword">
-                <div class="header">
-                    <h2>Welcome back</h2>
-                    <h4>Log in to your account using email and password</h4>
-                </div>
-
-                <div class="form">
-                    <input type="email" name="email" placeholder="Email Address" [(ngModel)]="user.email" autocomplete="off">
-                    <input [type]="user.showPassword ? 'text' : 'password'" name="password" placeholder="Password" [(ngModel)]="user.password">
-
-                    <div style="font-size: 12px; margin-top: 6px;">
-                        <input type="checkbox" [checked]="user.showPassword" (change)="user.showPassword = !user.showPassword">
-                        Show Password
-                    </div>
-                    <p class="forgot-password" (click)="openForgotPassword()"><u>Forgot Password?</u></p>
-                    <p>Not a member? <a href="/sign-up">Sign up</a></p>
-                    <button  mat-raised-button (click)="signInWithCognito()">LOGIN</button>
-                </div>
-            </div>
-
-            <div *ngIf="forgotPassword">
-                <div class="header">
-                    <h2>Enter email for recovery </h2>
-                </div>
-                <div class="form">
-                    <input type="email" name="email" placeholder="Email Address" [(ngModel)]="user.email" autocomplete="off">
-                    <button mat-raised-button (click)="forgotPasswordClicked()">SUBMIT</button>
-                    <button mat-raised-button (click)="cancelForgotPassword()">CANCEL</button>
-                </div>
-            </div>
-
-            <div *ngIf="isForgotPassword">
-                <div class="header">
-                    <h2>Account recovery</h2>
-                    <h4>Verification code sent to <strong>{{user.email}}</strong></h4>
-                </div>
-
-                <div class="form">
-                    <input type="text" placeholder="Enter Verification code" name="verificationCode" [(ngModel)]="user.code">
-                    <input [type]="user.showPassword ? 'text' : 'password'" name="password" placeholder="Enter NewPassword" [(ngModel)]="newPassword">
-
-                    <div style="font-size: 12px; margin: 8px 0;">
-                        <input type="checkbox" [checked]="user.showPassword" (change)="user.showPassword = !user.showPassword">
-                        Show Password
+<body>
+    <div class="container" *ngIf="user">
+        <div class="row w-100 vh-100 justify-content-center align-items-center">
+            <div class="auth-box">
+                <div *ngIf="!isForgotPassword && !forgotPassword">
+                    <div class="header">
+                        <h2>Welcome back</h2>
+                        <h4>Log in to your account using email and password</h4>
                     </div>
 
-                    <button mat-raised-button (click)="newPasswordSubmit()">SUBMIT NEW PASSWORD</button>
+                    <div class="form">
+                        <input type="email" name="email" placeholder="Email Address" [(ngModel)]="user.email"
+                            autocomplete="off">
+                        <input [type]="user.showPassword ? 'text' : 'password'" name="password" placeholder="Password"
+                            [(ngModel)]="user.password">
+
+                        <div style="font-size: 12px; margin-top: 6px;">
+                            <input type="checkbox" [checked]="user.showPassword"
+                                (change)="user.showPassword = !user.showPassword">
+                            Show Password
+                        </div>
+                        <p class="forgot-password" (click)="openForgotPassword()"><u>Forgot Password?</u></p>
+                        <p>Not a member? <a href="/sign-up">Sign up</a></p>
+                        <button mat-raised-button color="primary" (click)="signInWithCognito()">LOGIN</button>
+                    </div>
                 </div>
+
+                <div *ngIf="forgotPassword">
+                    <div class="header">
+                        <h2>Enter email for recovery </h2>
+                    </div>
+                    <div class="form">
+                        <input type="email" name="email" placeholder="Email Address" [(ngModel)]="user.email"
+                            autocomplete="off">
+                        <button mat-raised-button color="primary" (click)="forgotPasswordClicked()">SUBMIT</button>
+                        <button mat-raised-button color="accent" (click)="cancelForgotPassword()">CANCEL</button>
+                    </div>
+                </div>
+
+                <div *ngIf="isForgotPassword">
+                    <div class="header">
+                        <h2>Account recovery</h2>
+                        <h4>Verification code sent to <strong>{{user.email}}</strong></h4>
+                    </div>
+
+                    <div class="form">
+                        <input type="text" placeholder="Enter Verification code" name="verificationCode"
+                            [(ngModel)]="user.code">
+                        <input [type]="user.showPassword ? 'text' : 'password'" name="password"
+                            placeholder="Enter NewPassword" [(ngModel)]="newPassword">
+
+                        <div style="font-size: 12px; margin: 8px 0;">
+                            <input type="checkbox" [checked]="user.showPassword"
+                                (change)="user.showPassword = !user.showPassword">
+                            Show Password
+                        </div>
+
+                        <button mat-raised-button color="primary" (click)="newPasswordSubmit()">SUBMIT NEW
+                            PASSWORD</button>
+                    </div>
+                </div>
+
             </div>
 
         </div>
-
     </div>
-</div>
+</body>
 
 <app-message-modal *ngIf="showAlert" (modalClose)="showAlert=false" [message]="alertMessage"></app-message-modal>
