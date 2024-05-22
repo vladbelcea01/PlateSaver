@@ -13,7 +13,7 @@
   }
 
   .welcome {
-    background-image: url("../../../assets/image/G6_green.svg") !important;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url("../../../assets/image/wallpaper.svg") !important;
     background-size: cover !important;
     min-height: 50px !important;
     height: 14rem !important;
@@ -24,11 +24,13 @@
     align-items: center;
     justify-content: center;
     margin-top: 4rem;
+    color: black;
+    font-family: sans-serif;
   }
   
   .welcome-text {
     font-size: xxx-large;
-    color: #001135;
+    color: black;
     font-family: sans-serif;
     min-height: 50px !important;
     height: 50px !important

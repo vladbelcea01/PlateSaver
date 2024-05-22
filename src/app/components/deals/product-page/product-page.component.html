@@ -1,3 +1,4 @@
+<body>
 <div class="secondRow">
   <button mat-raised-button color="primary" class="actions-button" *ngIf="isSuperAdminOrOwner" [matMenuTriggerFor]="menu">Product Actions</button>
   <button mat-raised-button color="accent" class="go-back-button" (click)="goBack()">Go Back</button>
@@ -64,6 +65,11 @@
         <p><mat-icon>restaurant_menu</mat-icon>{{ product.dietaryInfo }}</p>
   
         <div class="divider"></div>
+
+        <h2>Ingredients</h2>
+        <p><mat-icon>restaurant</mat-icon>{{ product.ingredients }}</p>
+  
+        <div class="divider"></div>
   
         <h2>Allergens</h2>
         <p><mat-icon>warning</mat-icon> {{ product.allergens }}</p>
@@ -93,4 +99,5 @@
         </button>
     </div>
   <br><br><br>
+</body>
   

@@ -1,6 +1,7 @@
+<body>
 <div class="container">
     <div class="content" *ngIf="order">
-      <h1>Order #{{order._id}}</h1>
+      <h1><strong>Order #{{order._id}}</strong></h1>
       <div class="details">
         <div><strong>Date:</strong> {{order.orderDate | date:'medium'}}</div>
         <div><strong>Name:</strong> {{order.name}}</div>
@@ -72,6 +73,8 @@
 </div>
 
 <div class="buttons-container">
-    <p>A copy of your order has been sent to your email address.</p>
+    <p><strong>A copy of your order has been sent to your email address.</strong></p>
     <button (click)="acknowledgeMessage()">GOT IT</button>
 </div>
+
+</body>

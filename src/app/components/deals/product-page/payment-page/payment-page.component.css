@@ -8,6 +8,9 @@
     margin-top: 1rem;
     border-radius: 5px;
     padding: 0.5rem 1rem;
+    background-color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
   h3{
@@ -39,6 +42,7 @@
     width: 40rem;
     margin-right: 3rem;
     margin-left: -10rem;
+    margin-top: 2rem;
   }
   
   .content,form{
@@ -60,6 +64,10 @@
     border: none;
   }
 
+  .map {
+    margin-top: 2rem;
+  }
+
   .info {
     display: flex;
     flex-direction: column;
@@ -79,7 +87,7 @@
   }
   
   .payment-method h3 {
-    margin-top: 0.5rem;
+    
     margin-left: 0.3rem;
     color: grey;
   }
@@ -100,7 +108,7 @@
   .buttons-container {
     display: flex;
     justify-content: center;
-    margin-top: 1.5rem;
+    margin-top: -20px 
   }
   
   .buttons-container button {
@@ -117,3 +125,35 @@
   .buttons-container button:hover {
     background-color: #d71e1e;
   }
+
+  body {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url("../../../../../assets/image/wallpaper.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  html, body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+
+  .info, .payment-method {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .payment-method {
+    margin-left: 5rem;
+    max-width: 25%;
+  }
+
+  .info label, .payment-method label {
+    color: #333;
+  }  

@@ -69,3 +69,15 @@
   font-size: 14px;
   margin-top: 5px;
 }
+
+body {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url("../../../assets/image/wallpaper.svg");
+  display: flex;
+  flex-direction: column;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}

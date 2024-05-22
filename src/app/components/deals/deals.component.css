@@ -1,25 +1,50 @@
-.secondRow {
-    z-index: 999;
-    width: 100%;
-    background-color: white;
-    height: 52px;
-    padding-left: 15px;
-  }
+html, body {
+  height: 90vh;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url("../../../assets/image/wallpaper.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-header {
+  background-color: #f2f2f2;
+  padding: 20px;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+}
+
+.page-header h1 {
+  margin: 0;
+  color: #333;
+  font-size: 24px;
+  font-weight: bold;
+}
 
 .add-restaurant-button {
   text-align: center;
   margin: 10px;
+  
 }
 
 .restaurant-list {
+  margin-top: 40px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   padding: 20px;
+  height: 100%;
+  flex-grow: 1;
 }
 
 .restaurant-card {
-  margin: 20px; 
+  margin: 20px;
   width: 300px;
 }
 
@@ -49,21 +74,31 @@ img {
   margin-bottom: -10px;
 }
 
-.page-header {
-  background-color: #f2f2f2;
-  padding: 20px;
-  text-align: center;
-  border-bottom: 1px solid #ccc;
-}
-
-.page-header h1 {
-  margin: 0;
-  color: #333;
-  font-size: 24px;
-  font-weight: bold;
-}
-
 .disabled-card {
   opacity: 0.5;
   pointer-events: none;
 }
+
+.flex-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.button-container {
+  position: absolute;
+  left: 16px;
+}
+
+.page-header {
+  padding: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.page-title {
+  margin: 0 auto;
+  text-align: center;
+}
+

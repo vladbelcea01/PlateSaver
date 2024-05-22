@@ -1,9 +1,9 @@
-<div class="secondRow">
-    <button mat-raised-button color="primary" class="add-restaurant-button" *ngIf="currentUserRole=='superadmin'" (click)="addRestaurant()">Add Restaurant</button>
-</div>
-
-<div class="page-header">
-    <h1>Restaurant Deals</h1>
+<body>
+<div class="page-header flex-container">
+    <div class="button-container" *ngIf="currentUserRole=='superadmin'">
+        <button mat-raised-button color="primary" class="add-restaurant-button" (click)="addRestaurant()">Add Restaurant</button>
+    </div>
+    <h1 class="page-title">Restaurant Deals</h1>
 </div>
 
 <div class="restaurant-list">
@@ -28,3 +28,4 @@
         </mat-card>
     </div>
 </div>
+</body>

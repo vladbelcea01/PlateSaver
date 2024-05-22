@@ -16,7 +16,7 @@ export class AppLayoutComponent {
     private router: Router,
     private cognitoService: CognitoService,
     private cdr: ChangeDetectorRef,
-    cartService:CartService
+    private cartService:CartService,
   ) { 
     cartService.getCartObservable().subscribe((newCart) => {
       this.cartQuantity = newCart.totalCount;
@@ -34,6 +34,7 @@ export class AppLayoutComponent {
   }
 
   async signOutWithCognito(): Promise<void> {
+    this.cartService.clearCart();
     await this.cognitoService.signOut();
     this.router.navigate(['/sign-in']);
     this.currentUserRole = null;

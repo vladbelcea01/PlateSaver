@@ -1,11 +1,12 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Restaurant } from '../add-restaurant/add-restaurant/add-restaurant.component';
 import { MyBackendService } from '../../../../../backend/src/my-backend.service';
 import { CognitoService } from '../../../services/cognito.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UtilsService } from '../../common/utils.service';
+import { AlertDialogComponent } from '../../alert-component/alert-component.component';
 
 interface FormInput<T = string> {
   value: T;
@@ -30,7 +31,8 @@ export class EditRestaurantComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private myBackendService: MyBackendService,
     private cognitoService: CognitoService,
-    public snackBar: MatSnackBar
+    public snackBar: MatSnackBar,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -89,22 +91,22 @@ export class EditRestaurantComponent {
       const formData: FormData = new FormData();
       formData.append('name', restaurantData.name);
       formData.append('description', restaurantData.description);
-      if(restaurantData.photo != null){
+      if (restaurantData.photo != null) {
         formData.append('photo', restaurantData.photo);
       }
       formData.append('owner', restaurantData.owner);
       formData.append('paymentMethod', restaurantData.paymentMethod);
-
+  
       formData.append('address.street', restaurantData.address.street);
       formData.append('address.city', restaurantData.address.city);
       formData.append('address.state', restaurantData.address.state);
       formData.append('address.postalCode', restaurantData.address.postalCode);
       formData.append('address.country', restaurantData.address.country);
-
+  
       formData.append('contact.phone', restaurantData.contact.phone);
       formData.append('contact.email', restaurantData.contact.email);
       formData.append('contact.website', restaurantData.contact.website);
-
+  
       formData.append('operatingHours.monday', restaurantData.operatingHours.monday);
       formData.append('operatingHours.tuesday', restaurantData.operatingHours.tuesday);
       formData.append('operatingHours.wednesday', restaurantData.operatingHours.wednesday);
@@ -112,21 +114,42 @@ export class EditRestaurantComponent {
       formData.append('operatingHours.friday', restaurantData.operatingHours.friday);
       formData.append('operatingHours.saturday', restaurantData.operatingHours.saturday);
       formData.append('operatingHours.sunday', restaurantData.operatingHours.sunday);
-
+  
       formData.append('socialMedia.facebook', restaurantData.socialMedia.facebook);
       formData.append('socialMedia.twitter', restaurantData.socialMedia.twitter);
       formData.append('socialMedia.instagram', restaurantData.socialMedia.instagram);
-
       const restaurantId = this.restaurantId;
-      this.myBackendService.updateRestaurant(restaurantId, formData).subscribe(
-        response => {
-          UtilsService.openSnackBar("Restaurant updated successfully", this.snackBar, UtilsService.SnackbarStates.Success);
-          console.log('Restaurant updated successfully:', response);
-          this.dialogRef.close(restaurantData);
+
+      this.myBackendService.getRestaurants().subscribe(
+        (response: any[]) => {
+          const existingRestaurant = response.find(restaurant => restaurant.name.toLowerCase() === restaurantData.name.toLowerCase());
+  
+          if (existingRestaurant && this.data.name != restaurantData.name) {
+            const dialogRef = this.dialog.open(AlertDialogComponent, {
+              data: {
+                title: 'Restaurant Name Conflict',
+                hasCancel: false,
+                message:
+                  `Restaurant Name already exists. Please choose another name.`,
+              },
+            });
+          } else {
+            this.myBackendService.updateRestaurant(restaurantId,formData).subscribe(
+              response => {
+                console.log('Restaurant updated successfully:', response);
+                UtilsService.openSnackBar("Restaurant updated successfully", this.snackBar, UtilsService.SnackbarStates.Success);
+                this.dialogRef.close(restaurantData);
+              },
+              error => {
+                UtilsService.openSnackBar("Error saving restaurant", this.snackBar, UtilsService.SnackbarStates.Error);
+                console.error('Error saving restaurant:', error);
+              }
+            );
+          }
         },
         error => {
-          UtilsService.openSnackBar("Error updating restaurant", this.snackBar, UtilsService.SnackbarStates.Error);
           console.error('Error updating restaurant:', error);
+          UtilsService.openSnackBar("Error updating restaurant", this.snackBar, UtilsService.SnackbarStates.Error);
         }
       );
     }

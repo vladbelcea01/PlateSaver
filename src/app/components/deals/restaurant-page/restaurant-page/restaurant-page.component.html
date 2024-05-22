@@ -1,20 +1,30 @@
-<div class="secondRow">
-    <button mat-raised-button color="primary" class="add-product-button" *ngIf="isSuperAdminOrOwner" (click)="addProduct()">Add Product</button>
-    <button mat-raised-button color="primary" class="restaurant-actions" *ngIf="isSuperAdminOrOwner" [matMenuTriggerFor]="menu">Restaurant Actions</button>
-    <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="editRestaurant(restaurant)">Edit Restaurant</button>
-        <button mat-menu-item (click)="deleteRestaurantDishesAlert(restaurant)">Delete Restaurant</button>
-    </mat-menu>
-    <button mat-raised-button class="go-back-button" color="accent" (click)="goBack()">Go Back</button>
-</div>
-
-<div class="restaurant-info-box">
-    <h1>{{ restaurant.name }}</h1>
-    <button mat-button color="primary" (click)=" openRestaurantInfo()" >Restaurant Information</button>
+<body>
+  <div class="restaurant-info-box">
+    <div class="top-row flex-container">
+      <div class="left-buttons" *ngIf="isSuperAdminOrOwner">
+        <button mat-raised-button color="primary" class="add-product-button" (click)="addProduct()">Add Product</button>
+        <button mat-raised-button color="primary" class="restaurant-actions" [matMenuTriggerFor]="menu">Restaurant
+          Actions</button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="editRestaurant(restaurant)">
+            <mat-icon>edit</mat-icon><span>Edit Restaurant</span></button>
+          <button mat-menu-item (click)="deleteRestaurantDishesAlert(restaurant)">
+            <mat-icon>delete</mat-icon><span>Delete Restaurant</span></button>
+        </mat-menu>
+      </div>
+      <h1 class="restaurant-name">{{ restaurant.name }}</h1>
+      <div class="right-buttons">
+        <button mat-raised-button class="go-back-button" color="accent" (click)="goBack()">Go Back</button>
+      </div>
+    </div>
+    <button mat-button color="primary" class="info-button" (click)="openRestaurantInfo()">Restaurant
+      Information</button>
   </div>
-  
+
+
+
   <hr>
-  
+
   <div class="product-list">
     <div *ngFor="let dish of products" class="product-card">
       <mat-card (click)="openProductPage(dish.dishName)">
@@ -31,17 +41,16 @@
           <p class="quantity" *ngIf="dish.quantity">Available Quantity: {{ dish.quantity }}</p>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-button color="primary" *ngIf="isSuperAdminOrOwner" (click)="$event.stopPropagation()" [matMenuTriggerFor]="menu">Actions</button>
+          <button mat-button color="primary" *ngIf="isSuperAdminOrOwner" (click)="$event.stopPropagation()"
+            [matMenuTriggerFor]="menu">Actions</button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="editProduct(dish)">
               <mat-icon>edit</mat-icon><span>Edit Product</span></button>
-          <button mat-menu-item (click)="deleteProduct(dish)">
+            <button mat-menu-item (click)="deleteProduct(dish)">
               <mat-icon>delete</mat-icon><span>Delete Product</span></button>
-      </mat-menu>
+          </mat-menu>
         </mat-card-actions>
       </mat-card>
     </div>
   </div>
-  
-
-      
+</body>
