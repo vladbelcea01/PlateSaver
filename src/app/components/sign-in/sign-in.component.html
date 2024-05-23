@@ -8,11 +8,11 @@
                         <h4>Log in to your account using email and password</h4>
                     </div>
 
-                    <div class="form">
+                    <form class="form" (ngSubmit)="signInWithCognito()">
                         <input type="email" name="email" placeholder="Email Address" [(ngModel)]="user.email"
-                            autocomplete="off">
+                            autocomplete="off" required>
                         <input [type]="user.showPassword ? 'text' : 'password'" name="password" placeholder="Password"
-                            [(ngModel)]="user.password">
+                            [(ngModel)]="user.password" required>
 
                         <div style="font-size: 12px; margin-top: 6px;">
                             <input type="checkbox" [checked]="user.showPassword"
@@ -21,20 +21,20 @@
                         </div>
                         <p class="forgot-password" (click)="openForgotPassword()"><u>Forgot Password?</u></p>
                         <p>Not a member? <a href="/sign-up">Sign up</a></p>
-                        <button mat-raised-button color="primary" (click)="signInWithCognito()">LOGIN</button>
-                    </div>
+                        <button type="submit" mat-raised-button color="primary">LOGIN</button>
+                    </form>
                 </div>
 
                 <div *ngIf="forgotPassword">
                     <div class="header">
                         <h2>Enter email for recovery </h2>
                     </div>
-                    <div class="form">
+                    <form class="form" (ngSubmit)="forgotPasswordClicked()">
                         <input type="email" name="email" placeholder="Email Address" [(ngModel)]="user.email"
-                            autocomplete="off">
-                        <button mat-raised-button color="primary" (click)="forgotPasswordClicked()">SUBMIT</button>
-                        <button mat-raised-button color="accent" (click)="cancelForgotPassword()">CANCEL</button>
-                    </div>
+                            autocomplete="off" required>
+                        <button type="submit" mat-raised-button color="primary">SUBMIT</button>
+                        <button type="button" mat-raised-button color="accent" (click)="cancelForgotPassword()">CANCEL</button>
+                    </form>
                 </div>
 
                 <div *ngIf="isForgotPassword">
@@ -43,11 +43,11 @@
                         <h4>Verification code sent to <strong>{{user.email}}</strong></h4>
                     </div>
 
-                    <div class="form">
+                    <form class="form" (ngSubmit)="newPasswordSubmit()">
                         <input type="text" placeholder="Enter Verification code" name="verificationCode"
-                            [(ngModel)]="user.code">
+                            [(ngModel)]="user.code" required>
                         <input [type]="user.showPassword ? 'text' : 'password'" name="password"
-                            placeholder="Enter NewPassword" [(ngModel)]="newPassword">
+                            placeholder="Enter New Password" [(ngModel)]="newPassword" required>
 
                         <div style="font-size: 12px; margin: 8px 0;">
                             <input type="checkbox" [checked]="user.showPassword"
@@ -55,13 +55,11 @@
                             Show Password
                         </div>
 
-                        <button mat-raised-button color="primary" (click)="newPasswordSubmit()">SUBMIT NEW
-                            PASSWORD</button>
-                    </div>
+                        <button type="submit" mat-raised-button color="primary">SUBMIT NEW PASSWORD</button>
+                    </form>
                 </div>
 
             </div>
-
         </div>
     </div>
 </body>

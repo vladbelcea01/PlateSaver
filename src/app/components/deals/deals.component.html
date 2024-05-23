@@ -1,6 +1,6 @@
 <body>
 <div class="page-header flex-container">
-    <div class="button-container" *ngIf="currentUserRole=='superadmin'">
+    <div class="button-container" *ngIf="currentUserRole!='user'">
         <button mat-raised-button color="primary" class="add-restaurant-button" (click)="addRestaurant()">Add Restaurant</button>
     </div>
     <h1 class="page-title">Restaurant Deals</h1>

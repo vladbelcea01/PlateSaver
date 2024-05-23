@@ -101,6 +101,11 @@ mat-card:hover {
   gap: 8px;
 }
 
+.hidden {
+  visibility: hidden;
+  height: 25px;
+}
+
 .restaurant-name {
   position: absolute;
   left: 50%;

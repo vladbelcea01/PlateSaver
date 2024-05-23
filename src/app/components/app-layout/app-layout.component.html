@@ -4,9 +4,8 @@
     <div class="spacer"></div>
     <button mat-raised-button color="primary" routerLink="/home">Home</button>
     <button mat-raised-button color="primary" routerLink="/deals" [hidden]="this.currentUserRole == null">Deals</button>
-    <button mat-raised-button color="primary" routerLink="/reservations" [hidden]="this.currentUserRole == null || this.currentUserRole == 'admin' || this.currentUserRole == 'superadmin'" >My Reservations</button>
     <button mat-raised-button color="primary" routerLink="/users" [hidden]="this.currentUserRole != 'superadmin' || this.currentUserRole == null">Users</button>
-    <button mat-raised-button color="primary" routerLink="/orders" [hidden]="this.currentUserRole == 'user' || this.currentUserRole == null">Orders</button>
+    <button mat-raised-button color="primary" routerLink="/orders" [hidden]="this.currentUserRole == null">Orders</button>
     <span class="spacer"></span>
     <button mat-raised-button color="primary" routerLink="/sign-in" [hidden]="this.currentUserRole != null">Login</button>
     <button mat-raised-button color="accent" routerLink="/sign-up" [hidden]="this.currentUserRole != null">Register</button>

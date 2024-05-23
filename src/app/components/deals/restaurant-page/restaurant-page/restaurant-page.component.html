@@ -1,10 +1,9 @@
 <body>
   <div class="restaurant-info-box">
     <div class="top-row flex-container">
-      <div class="left-buttons" *ngIf="isSuperAdminOrOwner">
+      <div class="left-buttons" [ngClass]="{ 'hidden': !isSuperAdminOrOwner }">
         <button mat-raised-button color="primary" class="add-product-button" (click)="addProduct()">Add Product</button>
-        <button mat-raised-button color="primary" class="restaurant-actions" [matMenuTriggerFor]="menu">Restaurant
-          Actions</button>
+        <button mat-raised-button color="primary" class="restaurant-actions" [matMenuTriggerFor]="menu">Restaurant Actions</button>
         <mat-menu #menu="matMenu">
           <button mat-menu-item (click)="editRestaurant(restaurant)">
             <mat-icon>edit</mat-icon><span>Edit Restaurant</span></button>
@@ -17,9 +16,9 @@
         <button mat-raised-button class="go-back-button" color="accent" (click)="goBack()">Go Back</button>
       </div>
     </div>
-    <button mat-button color="primary" class="info-button" (click)="openRestaurantInfo()">Restaurant
-      Information</button>
+    <button mat-button color="primary" class="info-button" (click)="openRestaurantInfo()">Restaurant Information</button>
   </div>
+  
 
 
 
