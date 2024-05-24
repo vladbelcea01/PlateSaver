@@ -154,6 +154,11 @@ export class OrdersPageComponent implements OnInit {
         return false;
       }
 
+      if(!this.isToday(order.orderDate)){
+        this.orderInvalidReasons[order._id] = 'You can only pay today orders.';
+        return false;
+      }
+
       return true;
     } catch (error) {
       console.error('Error checking order validity:', error);
@@ -191,5 +196,11 @@ export class OrdersPageComponent implements OnInit {
 
   getGroupKeys(groupedOrders: { [key: string]: any[] }): string[] {
     return Object.keys(groupedOrders).sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
+  }
+
+  isToday(orderDate: string): boolean {
+    const today = new Date().setHours(0, 0, 0, 0);
+    const orderDay = new Date(orderDate).setHours(0, 0, 0, 0);
+    return today === orderDay;
   }
 }

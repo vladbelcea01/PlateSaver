@@ -410,7 +410,13 @@ app.delete('/api/deleteOrder', async (req, res) => {
       return res.status(404).json({ message: 'Order not found' });
     }
     const products = orderData.products;
-    if (orderData.reserved == 'Reserved') {
+
+    if (orderData.orderDate) {
+      const today = new Date().setHours(0, 0, 0, 0);
+      const orderDate = new Date(orderData.orderDate).setHours(0, 0, 0, 0);
+    
+
+    if (orderData.reserved == 'Reserved' && orderDate === today) {
       for (const product of products) {
         const dish = await Dish.findById(product.food._id);
         if (!dish) {
@@ -427,6 +433,7 @@ app.delete('/api/deleteOrder', async (req, res) => {
         }
       }
     }
+  }
 
     const deletedOrder = await Order.findByIdAndDelete(orderData._id);
 
