@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { CognitoService } from '../../src/app/services/cognito.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,16 +10,31 @@ import { Router } from '@angular/router';
 export class MyBackendService {
   private baseUrl = 'http://localhost:5000/api';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router,
+    private cognitoService: CognitoService,
+    
+  ) {}
+
+  private addAccessTokenToHeaders(): HttpHeaders {
+    const accessToken = this.cognitoService.getAccessTokenForAPI();
+    console.log('Access token:', accessToken);  // Log the token
+    if (accessToken) {
+      return new HttpHeaders({ 'Authorization': accessToken });
+    }
+    return new HttpHeaders();
+  }
 
   saveRestaurant(restaurantData: any): Observable<any> {
     const url = `${this.baseUrl}/restaurants`;
-    return this.http.post<any>(url, restaurantData);
+    const headers = this.addAccessTokenToHeaders();
+    return this.http.post<any>(url, restaurantData, { headers });
   }
 
   getRestaurants(): Observable<any> {
     const url = `${this.baseUrl}/restaurantsList`;
-    return this.http.get<any>(url);
+    const headers = this.addAccessTokenToHeaders();
+    console.log(headers)
+    return this.http.get<any>(url, { headers });
   }
 
   getRestaurantbyRestaurantName(name: any): Observable<any> {

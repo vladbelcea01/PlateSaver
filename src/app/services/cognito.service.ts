@@ -49,8 +49,16 @@ export class CognitoService {
     return Auth.currentUserInfo();
   }
 
-  public signIn(user: User): Promise<any> {
-    return Auth.signIn(user.email, user.password);
+  public async signIn(user: User): Promise<any> {
+    try {
+      await Auth.signIn(user.email, user.password);
+      const accessToken = await this.getAccessToken();
+      console.log('Access token:', accessToken);
+      return accessToken;
+    } catch (error) {
+      console.error('Error signing in:', error);
+      throw error;
+    }
   }
 
   public signOut(): Promise<any> {
@@ -200,4 +208,27 @@ export class CognitoService {
       throw error;
     }
   }
+
+  public async getAccessToken(): Promise<string | null> {
+    try {
+      const currentSession = await Auth.currentSession();
+      const accessToken = currentSession.getAccessToken().getJwtToken();
+      localStorage.setItem('accessToken', accessToken);
+      return accessToken;
+    } catch (error) {
+      console.error('Error retrieving access token:', error);
+      return null;
+    }
+  }
+
+  public getAccessTokenForAPI(): string | null {
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      return accessToken;
+    } else {
+      console.error('Access token not available');
+      return null;
+    }
+  }
+  
 }
