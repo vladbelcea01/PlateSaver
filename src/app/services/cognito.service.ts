@@ -52,7 +52,15 @@ export class CognitoService {
   public async signIn(user: User): Promise<any> {
     try {
       await Auth.signIn(user.email, user.password);
-      const accessToken = await this.getAccessToken();
+      const accessToken = await this.getBearerToken();
+      const role = await this.getRole();
+      const email = await this.getEmail();
+      if(role != undefined){
+        localStorage.setItem('role', role);
+      }
+      if(email != undefined){
+        localStorage.setItem('email', email);
+      }
       console.log('Access token:', accessToken);
       return accessToken;
     } catch (error) {
@@ -209,17 +217,18 @@ export class CognitoService {
     }
   }
 
-  public async getAccessToken(): Promise<string | null> {
+  public async getBearerToken(): Promise<string | null> {
     try {
-      const currentSession = await Auth.currentSession();
-      const accessToken = currentSession.getAccessToken().getJwtToken();
-      localStorage.setItem('accessToken', accessToken);
-      return accessToken;
+        const currentSession = await Auth.currentSession();
+        const accessToken = currentSession.getAccessToken().getJwtToken();
+        const bearerToken = `Bearer ${accessToken}`;
+        localStorage.setItem('accessToken', bearerToken);
+        return bearerToken;
     } catch (error) {
-      console.error('Error retrieving access token:', error);
-      return null;
+        console.error('Error retrieving access token:', error);
+        return null;
     }
-  }
+}
 
   public getAccessTokenForAPI(): string | null {
     const accessToken = localStorage.getItem('accessToken');

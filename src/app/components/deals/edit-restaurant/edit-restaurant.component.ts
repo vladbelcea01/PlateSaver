@@ -24,7 +24,7 @@ export class EditRestaurantComponent {
 
   restaurantForm!: FormGroup;
   restaurantId!: string;
-  currentUserRole: string | null = null;
+  role: any;
 
   constructor(
     private dialogRef: MatDialogRef<EditRestaurantComponent>,
@@ -33,10 +33,11 @@ export class EditRestaurantComponent {
     private cognitoService: CognitoService,
     public snackBar: MatSnackBar,
     public dialog: MatDialog
-  ) { }
+  ) { 
+    this.role = localStorage.getItem('role');
+  }
 
   ngOnInit(): void {
-    this.getCurrentUserRole();
     this.restaurantForm = new FormGroup({
       name: new FormControl(this.data.name, Validators.required),
       description: new FormControl(this.data.description, Validators.required),
@@ -72,10 +73,9 @@ export class EditRestaurantComponent {
       
     });
     this.restaurantId = this.data._id;
-  }
-
-  async getCurrentUserRole(): Promise<void> {
-    this.currentUserRole = await this.cognitoService.getRole();
+    if(this.role == 'admin'){
+      this.restaurantForm.get('owner')?.disable();
+    }
   }
 
   onFileSelected(event: any): void {

@@ -49,13 +49,18 @@ export interface Restaurant {
 export class AddRestaurantComponent implements OnInit{
 
   restaurantForm!: FormGroup;
+  role: any;
+  email: any;
 
   constructor(private dialogRef: MatDialogRef<AddRestaurantComponent>,
     public myBackendService: MyBackendService,
     private http: HttpClient,
     public snackBar: MatSnackBar,
     public dialog: MatDialog
-  ){}
+  ){
+    this.role = localStorage.getItem('role');
+    this.email = localStorage.getItem('email');
+  }
 
   ngOnInit(): void {
     this.restaurantForm = new FormGroup({
@@ -87,10 +92,17 @@ export class AddRestaurantComponent implements OnInit{
         twitter: new FormControl(''),
         instagram: new FormControl('')
       }),
-      owner: new FormControl('', Validators.required),
+      owner: new FormControl({value: '', disabled: true}, Validators.required),
       photo: new FormControl(null),
       paymentMethod: new FormControl('', Validators.required)
     });
+    if(this.role == 'superadmin'){
+      this.restaurantForm.get('owner')?.enable();
+    }
+
+    if(this.role == 'admin'){
+      this.restaurantForm.get('owner')?.setValue(this.email);
+    }
   }
 
   onFileSelected(event: any): void {
@@ -109,7 +121,13 @@ export class AddRestaurantComponent implements OnInit{
       if (restaurantData.photo) {
         formData.append('photo', restaurantData.photo);
       }
-      formData.append('owner', restaurantData.owner);
+      if(this.role == 'admin')
+        {
+        formData.append('owner', this.email)
+        }
+      else{
+        formData.append('owner', restaurantData.owner);
+      }
       formData.append('paymentMethod', restaurantData.paymentMethod);
   
       formData.append('address.street', restaurantData.address.street);

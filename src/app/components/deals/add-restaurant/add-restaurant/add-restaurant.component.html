@@ -126,7 +126,7 @@
         <h2>Restaurant Owner</h2>
         <mat-form-field>
             <mat-label>Owner Email</mat-label>
-            <input matInput placeholder="Owner" formControlName="owner">
+            <input [disabled]="role=='admin'" matInput placeholder="Owner" formControlName="owner">
         </mat-form-field>
 
         <h2>Upload Restaurant Image</h2>

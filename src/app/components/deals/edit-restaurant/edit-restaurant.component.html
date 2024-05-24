@@ -118,6 +118,7 @@
             <mat-label>Payment Method</mat-label>
             <mat-select formControlName="paymentMethod">
                 <mat-option value="Card Only">Card Only</mat-option>
+                <mat-option value="Cash Only">Cash Only</mat-option>
                 <mat-option value="Cash and Card">Cash and Card</mat-option>
             </mat-select>
         </mat-form-field>
@@ -125,7 +126,7 @@
         <h2>Restaurant Owner</h2>
         <mat-form-field>
             <mat-label>Owner Email</mat-label>
-            <input [disabled]="currentUserRole!='superadmin'" matInput placeholder="Owner" formControlName="owner">
+            <input matInput placeholder="Owner" formControlName="owner">
         </mat-form-field>
 
         <h2>Upload Restaurant Image</h2>

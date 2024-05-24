@@ -17,7 +17,7 @@ export class MyBackendService {
 
   private addAccessTokenToHeaders(): HttpHeaders {
     const accessToken = this.cognitoService.getAccessTokenForAPI();
-    console.log('Access token:', accessToken);  // Log the token
+    console.log('Access token:', accessToken);
     if (accessToken) {
       return new HttpHeaders({ 'Authorization': accessToken });
     }
@@ -26,15 +26,12 @@ export class MyBackendService {
 
   saveRestaurant(restaurantData: any): Observable<any> {
     const url = `${this.baseUrl}/restaurants`;
-    const headers = this.addAccessTokenToHeaders();
-    return this.http.post<any>(url, restaurantData, { headers });
+    return this.http.post<any>(url, restaurantData);
   }
 
   getRestaurants(): Observable<any> {
     const url = `${this.baseUrl}/restaurantsList`;
-    const headers = this.addAccessTokenToHeaders();
-    console.log(headers)
-    return this.http.get<any>(url, { headers });
+    return this.http.get<any>(url);
   }
 
   getRestaurantbyRestaurantName(name: any): Observable<any> {

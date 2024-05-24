@@ -129,14 +129,12 @@
   body {
     background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), url("../../../../../assets/image/wallpaper.svg");
     background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
     display: flex;
     flex-direction: column;
   }
 
   html, body {
-    height: 100vh;
+    min-height: 90vh;
     margin: 0;
     padding: 0;
   }
