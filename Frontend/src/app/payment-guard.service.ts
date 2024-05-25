@@ -39,7 +39,9 @@ export class PaymentGuard implements CanActivate {
     }
 
     if (this.order.payed === 'Paid') {
+      if (typeof window !== "undefined"){
       window.alert('Order already paid!');
+      }
       console.error('Order already paid');
       this.router.navigate(['/orders']);
       return false;
@@ -57,21 +59,27 @@ export class PaymentGuard implements CanActivate {
 
     const results = await Promise.all(productChecks);
     if (!results.every((isValid) => isValid)) {
+      if (typeof window !== "undefined"){
       window.alert('One or more items in the order are out of stock!');
+      }
       console.error('One or more items in the order are out of stock.');
       this.router.navigate(['/orders']);
       return false;
     }
 
     if (this.order.reserved === 'Reserved' && this.restaurant.paymentMethod === 'Cash Only') {
+      if (typeof window !== "undefined"){
       window.alert('Order already reserved at restaurant with cash only payment method!');
+      }
       console.error('Order already reserved at restaurant with cash only payment method');
       this.router.navigate(['/orders']);
       return false;
     }
     
     if(!this.isToday(this.order.orderDate)){
+      if (typeof window !== "undefined"){
       window.alert('You can only pay today orders!');
+      }
       console.log('You can only pay today orders.');
       this.router.navigate(['/orders']);
       return false;
@@ -81,7 +89,9 @@ export class PaymentGuard implements CanActivate {
       await Auth.currentAuthenticatedUser();
       return true;
     } catch (error) {
+      if (typeof window !== "undefined"){
       window.alert("User not authenticated!");
+      }
       console.error('User not authenticated', error);
       this.router.navigate(['/orders']);
       return false;

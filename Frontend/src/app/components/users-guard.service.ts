@@ -25,13 +25,17 @@ export class UsersGuard implements CanActivate {
       if (this.currentUserRole === 'superadmin') {
         return true;
       } else {
+        if (typeof window !== "undefined"){
         window.alert("Access denied. You do not have the required role.");
+        }
         console.error('Access denied. User role is not superadmin');
         this.router.navigate(['/home']);
         return false;
       }
     } catch (error) {
+      if (typeof window !== "undefined"){
       window.alert("User not authenticated!");
+      }
       console.error('User not authenticated', error);
       this.router.navigate(['/home']);
       return false;

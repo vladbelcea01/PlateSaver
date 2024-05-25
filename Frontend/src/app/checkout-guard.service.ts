@@ -15,7 +15,9 @@ export class CheckoutGuard implements CanActivate {
 
   async canActivate(): Promise<boolean> {
     if (this.cart.items.length === 0) {
-      window.alert("Basket is empty!");
+      if (typeof window !== "undefined"){
+        window.alert("Basket is empty!");
+      }
       console.error('Basket is empty');
       this.router.navigate(['/home']);
       return false;
@@ -26,7 +28,9 @@ export class CheckoutGuard implements CanActivate {
       await Auth.currentAuthenticatedUser();
       return true;
     } catch (error) {
+      if (typeof window !== "undefined") {
       window.alert("User not authenticated!");
+      }
       console.error('User not authenticated', error);
       this.router.navigate(['/home']);
       return false;

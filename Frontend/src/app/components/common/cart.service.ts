@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Cart } from '../../models/Cart';
 import { CartItem } from '../../models/CartItem';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertDialogComponent } from '../alert-component/alert-component.component';
+import { isPlatformBrowser } from '@angular/common';
 
 
 @Injectable({
@@ -12,7 +13,9 @@ import { AlertDialogComponent } from '../alert-component/alert-component.compone
 export class CartService {
   private cart: Cart = this.getCartFromLocalStorage();
   private cartSubject: BehaviorSubject<Cart> = new BehaviorSubject(this.cart);
-  constructor(public dialog: MatDialog,) { }
+  constructor(public dialog: MatDialog,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) { }
 
   addToCart(food: any, selectedQuantity: number): void {
     let cartItem = this.cart.items
@@ -88,8 +91,11 @@ export class CartService {
   }
 
   private getCartFromLocalStorage(): Cart {
-    const cartJson = localStorage.getItem('Cart');
-    return cartJson ? JSON.parse(cartJson) : new Cart();
+    if (isPlatformBrowser(this.platformId)) {
+      const cartJson = localStorage.getItem('Cart');
+      return cartJson ? JSON.parse(cartJson) : new Cart();
+    }
+    return new Cart();
   }
 
   getCart(): Cart{
