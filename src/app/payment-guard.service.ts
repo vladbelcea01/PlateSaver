@@ -68,7 +68,14 @@ export class PaymentGuard implements CanActivate {
       console.error('Order already reserved at restaurant with cash only payment method');
       this.router.navigate(['/orders']);
       return false;
-    }  
+    }
+    
+    if(!this.isToday(this.order.orderDate)){
+      window.alert('You can only pay today orders!');
+      console.log('You can only pay today orders.');
+      this.router.navigate(['/orders']);
+      return false;
+    }
 
     try {
       await Auth.currentAuthenticatedUser();
@@ -98,5 +105,11 @@ export class PaymentGuard implements CanActivate {
       console.error('Error fetching order:', error);
       throw error;
     }
+  }
+
+  isToday(orderDate: string): boolean {
+    const today = new Date().setHours(0, 0, 0, 0);
+    const orderDay = new Date(orderDate).setHours(0, 0, 0, 0);
+    return today === orderDay;
   }
 }
