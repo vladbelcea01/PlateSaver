@@ -2,11 +2,11 @@ import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Restaurant } from '../add-restaurant/add-restaurant/add-restaurant.component';
-import { MyBackendService } from '../../../../../backend/src/my-backend.service';
 import { CognitoService } from '../../../services/cognito.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UtilsService } from '../../common/utils.service';
 import { AlertDialogComponent } from '../../alert-component/alert-component.component';
+import { MyBackendService } from '../../common/my-backend.service';
 
 interface FormInput<T = string> {
   value: T;

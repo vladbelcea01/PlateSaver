@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MyBackendService } from '../../../../backend/src/my-backend.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CognitoService } from '../../services/cognito.service';
 import { AlertDialogComponent } from '../alert-component/alert-component.component';
@@ -7,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UtilsService } from '../common/utils.service';
 import { formatDate } from '@angular/common';
+import { MyBackendService } from '../common/my-backend.service';
 
 @Component({
   selector: 'app-orders-page',

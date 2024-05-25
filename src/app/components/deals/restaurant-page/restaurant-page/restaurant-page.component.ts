@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MyBackendService } from '../../../../../../backend/src/my-backend.service';
 import { AddProductComponent } from './add-product/add-product.component';
 import { CognitoService } from '../../../../services/cognito.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,6 +9,7 @@ import { EditProductComponent } from '../../edit-product/edit-product.component'
 import { RestaurantInfoComponent } from './restaurant-info/restaurant-info.component';
 import { UtilsService } from '../../../common/utils.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MyBackendService } from '../../../common/my-backend.service';
 
 @Component({
   selector: 'app-restaurant-page',

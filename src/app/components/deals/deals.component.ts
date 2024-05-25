@@ -3,12 +3,12 @@ import { Router } from '@angular/router';
 import { CognitoService } from '../../services/cognito.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AddRestaurantComponent } from './add-restaurant/add-restaurant/add-restaurant.component';
-import { MyBackendService } from '../../../../backend/src/my-backend.service';
 import { resourceLimits } from 'worker_threads';
 import { AlertDialogComponent } from '../alert-component/alert-component.component';
 import { EditRestaurantComponent } from './edit-restaurant/edit-restaurant.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UtilsService } from '../common/utils.service';
+import { MyBackendService } from '../common/my-backend.service';
 
 export interface DialogData {
 

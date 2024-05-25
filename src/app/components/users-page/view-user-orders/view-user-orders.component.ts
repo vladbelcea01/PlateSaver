@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { UserElement } from '../users-page.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MyBackendService } from '../../../../../backend/src/my-backend.service';
 import { formatDate } from '@angular/common';
+import { MyBackendService } from '../../common/my-backend.service';
 
 export interface DialogData {
   user: UserElement;

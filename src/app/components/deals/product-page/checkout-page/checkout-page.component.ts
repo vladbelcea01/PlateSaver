@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { CartService } from '../../../common/cart.service';
 import { CognitoService } from '../../../../services/cognito.service';
-import { MyBackendService } from '../../../../../../backend/src/my-backend.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UtilsService } from '../../../common/utils.service';
+import { MyBackendService } from '../../../common/my-backend.service';
 
 @Component({
   selector: 'app-checkout-page',

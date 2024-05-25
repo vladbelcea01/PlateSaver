@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Auth } from 'aws-amplify';
 import { CartService } from './components/common/cart.service';
-import { MyBackendService } from '../../backend/src/my-backend.service';
+import { MyBackendService } from './components/common/my-backend.service';
 
 @Injectable({
   providedIn: 'root',

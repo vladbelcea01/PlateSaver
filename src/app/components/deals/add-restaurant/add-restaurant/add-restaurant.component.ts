@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MyBackendService } from '../../../../../../backend/src/my-backend.service';
 import { HttpClient } from '@angular/common/http';
 import { UtilsService } from '../../../common/utils.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertDialogComponent } from '../../../alert-component/alert-component.component';
+import { MyBackendService } from '../../../common/my-backend.service';
 
 export interface Restaurant {
   name: string;

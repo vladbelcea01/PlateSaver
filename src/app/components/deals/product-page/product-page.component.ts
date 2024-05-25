@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MyBackendService } from '../../../../../backend/src/my-backend.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CognitoService } from '../../../services/cognito.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -7,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EditProductComponent } from '../edit-product/edit-product.component';
 import { UtilsService } from '../../common/utils.service';
 import { CartService } from '../../common/cart.service';
+import { MyBackendService } from '../../common/my-backend.service';
 
 @Component({
   selector: 'app-product-page',

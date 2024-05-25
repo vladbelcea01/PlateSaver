@@ -3,7 +3,8 @@ import { CartService } from '../../../../common/cart.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UtilsService } from '../../../../common/utils.service';
-import { MyBackendService } from '../../../../../../../backend/src/my-backend.service';
+import { MyBackendService } from '../../../../common/my-backend.service';
+
 
 declare var paypal: any;
 

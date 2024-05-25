@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MyBackendService } from '../../../../../../../backend/src/my-backend.service';
 import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UtilsService } from '../../../../common/utils.service';
+import { MyBackendService } from '../../../../common/my-backend.service';
 
 export interface Dish {
   dishName: string;

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../../common/cart.service';
-import { MyBackendService } from '../../../../../../backend/src/my-backend.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UtilsService } from '../../../common/utils.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MyBackendService } from '../../../common/my-backend.service';
 
 @Component({
   selector: 'app-payment-page',

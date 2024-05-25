@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { CognitoService } from '../../src/app/services/cognito.service';
+import { CognitoService } from '../../services/cognito.service';
+
 
 @Injectable({
   providedIn: 'root'
