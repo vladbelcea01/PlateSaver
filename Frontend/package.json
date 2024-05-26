@@ -6,8 +6,7 @@
     "start": "ng serve",
     "build": "npm install --force && ng build --configuration production",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "serve:ssr:PlateSaver": "node dist/plate-saver/server/server.mjs"
+    "test": "ng test"
   },
   "private": true,
   "dependencies": {

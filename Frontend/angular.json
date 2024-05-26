@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "PlateSaver": {
+    "frontend": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -21,11 +21,11 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "../backend/built/public",
             "index": "src/index.html",
-            "browser": "src/main.ts",
+            "main": "src/main.ts",
             "polyfills": [
               "zone.js",
               "src/aws-pollyfill-like-file.ts"
@@ -39,7 +39,26 @@
               "@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "uuid",
+              "lodash/get",
+              "lodash/isEmpty",
+              "lodash/isEqual",
+              "url",
+              "buffer",
+              "ulid",
+              "camelcase-keys",
+              "lodash/flatten",
+              "lodash/noop",
+              "@aws-crypto/sha256-browser",
+              "@aws-crypto/crc32",
+              "js-cookie",
+              "cookie",
+              "isomorphic-unfetch",
+              "aws-sdk",
+              "events"
+            ]
           },
           "configurations": {
             "production": {
@@ -61,8 +80,6 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
-              "ssr": false,
-              "prerender": false,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.development.ts",
@@ -77,10 +94,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "PlateSaver:build:production"
+              "buildTarget": "frontend:build:production"
             },
             "development": {
-              "buildTarget": "PlateSaver:build:development"
+              "buildTarget": "frontend:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -88,7 +105,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "PlateSaver:build"
+            "buildTarget": "frontend:build"
           }
         },
         "test": {
