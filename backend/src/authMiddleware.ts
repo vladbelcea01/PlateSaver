@@ -1,45 +1,52 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
+import axios from 'axios';
 import jwt from 'jsonwebtoken';
-import jwksRsa from 'jwks-rsa';
+import jwkToPem from 'jwk-to-pem';
 
-const jwksClient = jwksRsa({
-  jwksUri: `https://cognito-idp.eu-north-1.amazonaws.com/eu-north-1_6urPl4M7G/.well-known/jwks.json`
-});
+const COGNITO_REGION = 'eu-north-1';
+const USER_POOL_ID = 'eu-north-1_6urPl4M7G';
 
-function getKey(header: jwt.JwtHeader, callback: jwt.SigningKeyCallback) {
-  jwksClient.getSigningKey(header.kid, (err, key) => {
-    if (err) {
-      return callback(err, undefined);
+const getPublicKeys = async () => {
+  const url = `https://cognito-idp.${COGNITO_REGION}.amazonaws.com/${USER_POOL_ID}/.well-known/jwks.json`;
+  const response = await axios.get(url);
+  return response.data.keys;
+};
+
+const verifyIdToken = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const authorization = req.headers?.['authorization'] as string;
+
+    if (!authorization) {
+      return res.status(400).json({ error: 'Missing token.' });
     }
-    const signingKey = key ? key.getPublicKey() : undefined;
-    callback(null, signingKey);
-  });
-}
 
-declare global {
-  namespace Express {
-    interface Request {
-      user?: any;
+    const token = authorization.split(' ')[1];
+    const decodedToken: any = jwt.decode(token, { complete: true });
+
+    if (!decodedToken) {
+      return res.status(400).json({ error: 'Invalid token.' });
     }
+
+    const kid = decodedToken.header.kid;
+    const publicKeys = await getPublicKeys();
+    const jwk = publicKeys.find((key: any) => key.kid === kid);
+
+    if (!jwk) {
+      return res.status(400).json({ error: 'Invalid token.' });
+    }
+
+    const pem = jwkToPem(jwk);
+    jwt.verify(token, pem, { algorithms: ['RS256'] }, (err, decoded) => {
+      if (err) {
+        return res.status(401).json({ error: 'Token verification failed.' });
+      }
+
+      res.locals.auth = decoded;
+      next();
+    });
+  } catch (error: any) {
+    next(new Error('Internal server error'));
   }
-}
+};
 
-export function authenticateToken(req: Request, res: Response, next: NextFunction) {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
-  console.log(token)
-  if (!token) {
-    return res.sendStatus(401);
-  }
-
-  jwt.verify(token, getKey, {
-    audience: `3bhgv3o4vpsincvcc6hfnap9cv`,
-    issuer: `https://cognito-idp.eu-north-1.amazonaws.com/eu-north-1_6urPl4M7G`
-  }, (err, user) => {
-    if (err) {
-      return res.sendStatus(403);
-    }
-    req.user = user;
-    next();
-  });
-}
+export default verifyIdToken;

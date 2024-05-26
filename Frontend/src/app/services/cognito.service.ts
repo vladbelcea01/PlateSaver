@@ -52,7 +52,7 @@ export class CognitoService {
   public async signIn(user: User): Promise<any> {
     try {
       await Auth.signIn(user.email, user.password);
-      const accessToken = await this.getBearerToken();
+      const accessToken = await this.getAccessToken();
       const role = await this.getRole();
       const email = await this.getEmail();
       if(role != undefined){
@@ -217,13 +217,12 @@ export class CognitoService {
     }
   }
 
-  public async getBearerToken(): Promise<string | null> {
+  public async getAccessToken(): Promise<string | null> {
     try {
         const currentSession = await Auth.currentSession();
         const accessToken = currentSession.getAccessToken().getJwtToken();
-        const bearerToken = `Bearer ${accessToken}`;
-        localStorage.setItem('accessToken', bearerToken);
-        return bearerToken;
+        localStorage.setItem('accessToken', accessToken);
+        return accessToken;
     } catch (error) {
         console.error('Error retrieving access token:', error);
         return null;

@@ -9,6 +9,7 @@ import multer from 'multer';
 import path from 'path';
 import { time } from 'console';
 import { sendOrderEmail } from './emailService';
+import verifyIdToken from './authMiddleware';
 dbConnect();
 
 const app = express();
@@ -19,10 +20,10 @@ app.use(cors({
   origin:["http://localhost:4200"]
 }));
 app.use(express.json());
-app.use(express.static('public'));
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'))
-})
+//app.use(express.static('public'));
+//app.get('*', (req, res) => {
+  //res.sendFile(path.join(__dirname, 'public', 'index.html'))
+//})
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -104,7 +105,7 @@ const orderSchema = new mongoose.Schema({
 
 const Order = mongoose.model('Order', orderSchema);
 
-app.post('/api/restaurants', upload.single('photo'), async (req, res) => {
+app.post('/api/restaurants', verifyIdToken, upload.single('photo'), async (req, res) => {
   try {
     const restaurantData = req.body;
     restaurantData.photo = req.file ? `/assets/uploads/${req.file.originalname}` : null;
@@ -118,7 +119,7 @@ app.post('/api/restaurants', upload.single('photo'), async (req, res) => {
   }
 });
 
-app.get('/api/restaurantsList', async (req, res) => {
+app.get('/api/restaurantsList', verifyIdToken, async (req, res) => {
   try {
     const restaurants = await Restaurant.find();
     res.status(200).json(restaurants);
@@ -128,7 +129,7 @@ app.get('/api/restaurantsList', async (req, res) => {
   }
 });
 
-app.get('/api/getRestaurantbyName', async (req, res) => {
+app.get('/api/getRestaurantbyName', verifyIdToken, async (req, res) => {
   try {
     const name = req.query.name;
     const restaurant = await Restaurant.findOne({ name: name });
@@ -142,7 +143,7 @@ app.get('/api/getRestaurantbyName', async (req, res) => {
   }
 });
 
-app.post('/api/dishes',  upload.single('photo'), async (req, res) => {
+app.post('/api/dishes', verifyIdToken, upload.single('photo'), async (req, res) => {
   try {
     const dishData = req.body;
     dishData.photo = req.file ? `/assets/uploads/${req.file.originalname}` : null;
@@ -156,7 +157,7 @@ app.post('/api/dishes',  upload.single('photo'), async (req, res) => {
   }
 });
 
-app.get('/api/getDishes', async (req, res) => {
+app.get('/api/getDishes', verifyIdToken, async (req, res) => {
   try {
     const restaurantName = req.query.name;
     const dishes = await Dish.find({ restaurant: restaurantName });
@@ -168,7 +169,7 @@ app.get('/api/getDishes', async (req, res) => {
   }
 });
 
-app.delete('/api/deleterestaurant/:id',  async (req, res) => {
+app.delete('/api/deleterestaurant/:id', verifyIdToken, async (req, res) => {
   try {
     const restaurantId = req.params.id;
     const deleteProducts = req.query.deleteProducts === 'true';
@@ -191,7 +192,7 @@ app.delete('/api/deleterestaurant/:id',  async (req, res) => {
   }
 });
 
-app.delete('/api/deleteproduct/:id', async (req, res) => {
+app.delete('/api/deleteproduct/:id', verifyIdToken, async (req, res) => {
   try {
     const productId = req.params.id;
     const deletedProduct = await Dish.findByIdAndDelete(productId);
@@ -207,7 +208,7 @@ app.delete('/api/deleteproduct/:id', async (req, res) => {
   }
 });
 
-app.put('/api/updaterestaurant/:id', upload.single('photo'), async (req, res) => {
+app.put('/api/updaterestaurant/:id', verifyIdToken, upload.single('photo'), async (req, res) => {
   try {
     const restaurantId = req.params.id;
     const restaurantData = req.body;
@@ -235,7 +236,7 @@ app.put('/api/updaterestaurant/:id', upload.single('photo'), async (req, res) =>
   }
 });
 
-app.put('/api/updateproduct/:id', upload.single('photo'), async (req, res) => {
+app.put('/api/updateproduct/:id', verifyIdToken, upload.single('photo'), async (req, res) => {
   try {
     const productId = req.params.id;
     const productData = req.body;
@@ -257,7 +258,7 @@ app.put('/api/updateproduct/:id', upload.single('photo'), async (req, res) => {
   }
 });
 
-app.get('/api/DishesList', async (req, res) => {
+app.get('/api/DishesList', verifyIdToken, async (req, res) => {
   try {
     const products = await Dish.find();
     res.status(200).json(products);
@@ -267,7 +268,7 @@ app.get('/api/DishesList', async (req, res) => {
   }
 });
 
-app.get('/api/getDishbyName', async (req, res) => {
+app.get('/api/getDishbyName', verifyIdToken, async (req, res) => {
   try {
     const name = req.query.name;
     const dish = await Dish.findOne({ dishName: name });
@@ -281,7 +282,7 @@ app.get('/api/getDishbyName', async (req, res) => {
   }
 });
 
-app.post('/api/orders', async (req, res) => {
+app.post('/api/orders', verifyIdToken, async (req, res) => {
   try {
     const order = new Order(req.body);
     await order.save();
@@ -292,7 +293,7 @@ app.post('/api/orders', async (req, res) => {
   }
 });
 
-app.get('/api/getOrderbyProducts', async (req, res) => {
+app.get('/api/getOrderbyProducts', verifyIdToken, async (req, res) => {
   try {
     const productsQueryParam = req.query.products;
     if (!productsQueryParam || typeof productsQueryParam !== 'string') {
@@ -311,7 +312,7 @@ app.get('/api/getOrderbyProducts', async (req, res) => {
   }
 });
 
-app.put('/api/pay/:id', async (req, res) => {
+app.put('/api/pay/:id', verifyIdToken, async (req, res) => {
   try {
     const orderId = req.params.id;
     const { paymentId, reservation } = req.body;
@@ -358,7 +359,7 @@ app.put('/api/pay/:id', async (req, res) => {
   }
 });
 
-app.get('/api/getOrderbyId', async (req, res) => {
+app.get('/api/getOrderbyId', verifyIdToken, async (req, res) => {
   try {
     const id = req.query.id;
     const order = await Order.findOne({ _id: id });
@@ -372,7 +373,7 @@ app.get('/api/getOrderbyId', async (req, res) => {
   }
 });
 
-app.post('/api/sendOrderEmail', async (req, res) => {
+app.post('/api/sendOrderEmail', verifyIdToken, async (req, res) => {
   const order = req.body;
 
   try {
@@ -383,7 +384,7 @@ app.post('/api/sendOrderEmail', async (req, res) => {
   }
 });
 
-app.get('/api/getOrdersbyEmail', async (req, res) => {
+app.get('/api/getOrdersbyEmail', verifyIdToken, async (req, res) => {
   try {
     const email = req.query.email;
     const orders = await Order.find({ email: email });
@@ -395,7 +396,7 @@ app.get('/api/getOrdersbyEmail', async (req, res) => {
   }
 });
 
-app.get('/api/getDishbyId', async (req, res) => {
+app.get('/api/getDishbyId', verifyIdToken, async (req, res) => {
   try {
     const id = req.query.id;
     const dish = await Dish.findOne({ _id: id });
@@ -409,7 +410,7 @@ app.get('/api/getDishbyId', async (req, res) => {
   }
 });
 
-app.delete('/api/deleteOrder', async (req, res) => {
+app.delete('/api/deleteOrder', verifyIdToken, async (req, res) => {
   try {
     const orderId = req.query.id;
     const orderData = await Order.findById(orderId);
@@ -455,7 +456,7 @@ app.delete('/api/deleteOrder', async (req, res) => {
   }
 });
 
-app.get('/api/ordersList', async (req, res) => {
+app.get('/api/ordersList', verifyIdToken, async (req, res) => {
   try {
     const orders = await Order.find();
     res.status(200).json(orders);
@@ -465,7 +466,7 @@ app.get('/api/ordersList', async (req, res) => {
   }
 });
 
-app.get('/api/getRestaurantbyOwner', async (req, res) => {
+app.get('/api/getRestaurantbyOwner', verifyIdToken, async (req, res) => {
   try {
     const username = req.query.username;
     const restaurant = await Restaurant.findOne({ owner: username });
@@ -479,7 +480,7 @@ app.get('/api/getRestaurantbyOwner', async (req, res) => {
   }
 });
 
-app.get('/api/getOrdersbyRestaurantName', async (req, res) => {
+app.get('/api/getOrdersbyRestaurantName', verifyIdToken, async (req, res) => {
   try {
     const restaurant = req.query.restaurant;
     const orders = await Order.find({ 'products.food.restaurant': restaurant });

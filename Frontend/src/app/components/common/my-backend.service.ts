@@ -11,7 +11,9 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class MyBackendService {
-  private baseUrl = ''
+  private baseUrl = 'http://localhost:5000'
+  role = localStorage.getItem('role')
+  email = localStorage.getItem('email')
 
   constructor(private http: HttpClient, private router: Router,
     private cognitoService: CognitoService,
@@ -22,121 +24,143 @@ export class MyBackendService {
     const accessToken = this.cognitoService.getAccessTokenForAPI();
     console.log('Access token:', accessToken);
     if (accessToken) {
-      return new HttpHeaders({ 'Authorization': accessToken });
+      return new HttpHeaders({ 'Authorization': `Bearer ${accessToken}` });
     }
     return new HttpHeaders();
   }
 
   saveRestaurant(restaurantData: any): Observable<any> {
     const url = `${this.baseUrl}/api/restaurants`;
-    return this.http.post<any>(url, restaurantData);
+    const headers = this.addAccessTokenToHeaders();
+    return this.http.post<any>(url, restaurantData, { headers });
   }
 
   getRestaurants(): Observable<any> {
     const url = `${this.baseUrl}/api/restaurantsList`;
-    return this.http.get<any>(url);
+    const headers = this.addAccessTokenToHeaders();
+    return this.http.get<any>(url, { headers });
   }
 
   getRestaurantbyRestaurantName(name: any): Observable<any> {
     const url = `${this.baseUrl}/api/getRestaurantbyName?name=${name}`;
-    return this.http.get<any>(url);
+    const headers = this.addAccessTokenToHeaders();
+    return this.http.get<any>(url, { headers });
   }
 
   saveDish(dishData: any): Observable<any> {
     const url = `${this.baseUrl}/api/dishes`;
-    return this.http.post<any>(url, dishData);
+    const headers = this.addAccessTokenToHeaders();
+    return this.http.post<any>(url, dishData, { headers });
   }
 
   getDish(restaurantName: any): Observable<any> {
     const url = `${this.baseUrl}/api/getDishes?name=${restaurantName}`;
-    return this.http.get<any>(url);
+    const headers = this.addAccessTokenToHeaders();
+    return this.http.get<any>(url, { headers });
   }
 
   deleteRestaurant(restaurantId: string, restaurantName: string, deleteProducts: boolean): Observable<any> {
     const url = `${this.baseUrl}/api/deleterestaurant/${restaurantId}?name=${restaurantName}`;
     const params = { deleteProducts: deleteProducts.toString() };
-    return this.http.delete<any>(url, { params });
+    const headers = this.addAccessTokenToHeaders();
+    return this.http.delete<any>(url, { params, headers });
   }
 
   deleteProduct(productId: string): Observable<any> {
     const url = `${this.baseUrl}/api/deleteproduct/${productId}`;
-    return this.http.delete<any>(url);
+    const headers = this.addAccessTokenToHeaders();
+    return this.http.delete<any>(url, { headers });
   }
 
   updateRestaurant(restaurantId: string, restaurantData: any): Observable<any> {
     const url = `${this.baseUrl}/api/updaterestaurant/${restaurantId}`;
-    return this.http.put<any>(url, restaurantData);
+    const headers = this.addAccessTokenToHeaders();
+    return this.http.put<any>(url, restaurantData, { headers });
   }
 
   updateProduct(productId: string, productData: any): Observable<any> {
     const url = `${this.baseUrl}/api/updateproduct/${productId}`;
-    return this.http.put<any>(url, productData);
+    const headers = this.addAccessTokenToHeaders();
+    return this.http.put<any>(url, productData, { headers });
   }
 
   getAllDishes(): Observable<any> {
     const url = `${this.baseUrl}/api/DishesList`;
-    return this.http.get<any>(url);
+    const headers = this.addAccessTokenToHeaders();
+    return this.http.get<any>(url, { headers });
   }
 
   getProductbyProductName(name: any): Observable<any> {
     const url = `${this.baseUrl}/api/getDishbyName?name=${name}`;
-    return this.http.get<any>(url);
+    const headers = this.addAccessTokenToHeaders();
+    return this.http.get<any>(url, { headers });
   }
 
   saveOrder(orderData: any): Observable<any> {
     const url = `${this.baseUrl}/api/orders`;
-    return this.http.post<any>(url, orderData);
+    const headers = this.addAccessTokenToHeaders();
+    return this.http.post<any>(url, orderData, { headers });
   }
 
   getOrderbyProducts(products: any[]): Observable<any> {
     const url = `${this.baseUrl}/api/getOrderbyProducts`;
-    return this.http.get<any>(url, { params: { products: JSON.stringify(products) } });
+    const headers = this.addAccessTokenToHeaders();
+    return this.http.get<any>(url, { params: { products: JSON.stringify(products) }, headers });
   }
 
   pay(order_id:string, order:any, reservation:boolean):Observable<string>{
     const url = `${this.baseUrl}/api/pay/${order_id}`;
     const requestBody = { ...order, reservation };
-    return this.http.put<string>(url, requestBody);
+    const headers = this.addAccessTokenToHeaders();
+    return this.http.put<string>(url, requestBody, { headers });
   }
 
   getOrderbyId(id: string): Observable<any> {
     const url = `${this.baseUrl}/api/getOrderbyId?id=${id}`;
-    return this.http.get<any>(url);
+    const headers = this.addAccessTokenToHeaders();
+    return this.http.get<any>(url, { headers });
   }
 
   sendOrderEmail(orderData: any): Observable<any> {
     const url = `${this.baseUrl}/api/sendOrderEmail`;
-    return this.http.post<any>(url, orderData);
+    const headers = this.addAccessTokenToHeaders();
+    return this.http.post<any>(url, orderData, { headers });
   }
 
   getOrdersbyEmail(email: any): Observable<any> {
     const url = `${this.baseUrl}/api/getOrdersbyEmail?email=${email}`;
-    return this.http.get<any>(url);
+    const headers = this.addAccessTokenToHeaders();
+    return this.http.get<any>(url, { headers });
   }
 
   getDishbyId(id: any): Observable<any> {
     const url = `${this.baseUrl}/api/getDishbyId?id=${id}`;
-    return this.http.get<any>(url);
+    const headers = this.addAccessTokenToHeaders();
+    return this.http.get<any>(url, { headers });
   }
 
   deleteOrder(id: any): Observable<any> {
     const url = `${this.baseUrl}/api/deleteOrder?id=${id}`;
-    return this.http.delete<any>(url);
+    const headers = this.addAccessTokenToHeaders();
+    return this.http.delete<any>(url, { headers});
   }
 
   getOrdersForSuperAdmin(): Observable<any> {
     const url = `${this.baseUrl}/api/ordersList`;
-    return this.http.get<any>(url);
+    const headers = this.addAccessTokenToHeaders();
+    return this.http.get<any>(url, { headers });
   }
 
   getRestaurantbyOwner(username: any): Observable<any> {
     const url = `${this.baseUrl}/api/getRestaurantbyOwner?username=${username}`;
-    return this.http.get<any>(url);
+    const headers = this.addAccessTokenToHeaders();
+    return this.http.get<any>(url, { headers });
   }
 
   getOrdersForAdmin(restaurant: any): Observable<any> {
     const url = `${this.baseUrl}/api/getOrdersbyRestaurantName?restaurant=${restaurant}`;
-    return this.http.get<any>(url);
+    const headers = this.addAccessTokenToHeaders();
+    return this.http.get<any>(url, { headers });
   }
 
 }
