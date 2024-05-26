@@ -3,14 +3,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { CognitoService } from '../../services/cognito.service';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
+
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class MyBackendService {
-  private baseUrl =environment.production? '' : 'http://localhost:5000';
+  private baseUrl = ''
 
   constructor(private http: HttpClient, private router: Router,
     private cognitoService: CognitoService,
