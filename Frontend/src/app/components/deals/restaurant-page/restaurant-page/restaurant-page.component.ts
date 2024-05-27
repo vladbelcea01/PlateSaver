@@ -32,13 +32,14 @@ export class RestaurantPageComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     public snackBar: MatSnackBar
-  ) {}
-
-  async ngOnInit(): Promise<void> {
+  ) {
     this.route.params.subscribe(async (params) => {
       this.restaurantName = params['name'];
       await this.getRestaurantbyName(this.restaurantName);
     });
+  }
+
+  async ngOnInit(): Promise<void> {
     await this.getCurrentUserRole();
     await this.getCurrentUserEmail();
     if (
@@ -47,7 +48,7 @@ export class RestaurantPageComponent implements OnInit {
     ) {
       this.isSuperAdminOrOwner = true;
     }
-    this.getProducts();
+    await this.getProducts();
   }
 
   async getCurrentUserRole(): Promise<void> {
@@ -85,6 +86,7 @@ export class RestaurantPageComponent implements OnInit {
   }
 
   getProducts(): void {
+    console.log(this.restaurantName)
     this.myBackendService.getDish(this.restaurantName).subscribe(
       (result) => {
         this.products = result;
@@ -106,7 +108,7 @@ export class RestaurantPageComponent implements OnInit {
   }
 
   deleteProduct(product: any) {
-    this.myBackendService.deleteProduct(product._id).subscribe(
+    this.myBackendService.deleteProduct(product._id, this.restaurant.owner).subscribe(
       () => {
         UtilsService.openSnackBar("Product deleted successfully", this.snackBar, UtilsService.SnackbarStates.Success);
         this.getProducts();
@@ -154,7 +156,7 @@ export class RestaurantPageComponent implements OnInit {
 
   deleteRestaurant(restaurant: any): void {
     this.myBackendService
-      .deleteRestaurant(restaurant._id, restaurant.name, this.deleteProducts)
+      .deleteRestaurant(restaurant._id, restaurant.name, this.deleteProducts, restaurant.owner)
       .subscribe(
         () => {
           this.router.navigate(['/deals']);

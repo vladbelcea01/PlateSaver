@@ -94,7 +94,7 @@ export class ProductPageComponent implements OnInit {
   }
 
   deleteProduct() {
-    this.myBackendService.deleteProduct(this.product._id).subscribe(
+    this.myBackendService.deleteProduct(this.product._id, this.restaurant.owner).subscribe(
       () => {
         UtilsService.openSnackBar("Product deleted successfully", this.snackBar, UtilsService.SnackbarStates.Success);
         this.goBack();

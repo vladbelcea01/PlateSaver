@@ -24,7 +24,8 @@ export interface Dish {
 })
 export class AddProductComponent implements OnInit {
   dishForm!: FormGroup;
-  restaurant!: string;
+  restaurantName!: string;
+  restaurant: any;
 
   constructor(
     private dialogRef: MatDialogRef<AddProductComponent>,
@@ -32,10 +33,11 @@ export class AddProductComponent implements OnInit {
     public snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: string
   ) {
-    this.restaurant = data;
+    this.restaurantName = data;
   }
 
   ngOnInit(): void {
+    this.getRestaurantbyName(this.restaurantName);
     this.dishForm = new FormGroup({
       dishName: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
@@ -50,6 +52,19 @@ export class AddProductComponent implements OnInit {
       pickupStartTime: new FormControl('', Validators.required),
       pickupEndTime: new FormControl('', Validators.required)
     });
+  }
+  
+  getRestaurantbyName(restaurantName: string): void {
+     this.myBackendService
+      .getRestaurantbyRestaurantName(restaurantName)
+      .subscribe(
+        (result) => {
+          this.restaurant = result;
+        },
+        (error) => {
+          console.error('Error fetching restaurants:', error);
+        }
+      );
   }
 
   onFileSelected(event: any): void {
@@ -71,12 +86,12 @@ export class AddProductComponent implements OnInit {
       formData.append('ingredients', dishData.ingredients);
       formData.append('quantity', dishData.quantity);
       formData.append('photo', dishData.photo);
-      formData.append('restaurant', this.restaurant);
+      formData.append('restaurant', this.restaurantName);
       formData.append('dietaryInfo', dishData.dietaryInfo);
       formData.append('allergens', dishData.allergens);
       formData.append('pickupStartTime', dishData.pickupStartTime);
       formData.append('pickupEndTime', dishData.pickupEndTime);
-      this.myBackendService.saveDish(formData).subscribe(
+      this.myBackendService.saveDish(formData, this.restaurant.owner).subscribe(
         (response) => {
           UtilsService.openSnackBar("Dish saved successfully", this.snackBar, UtilsService.SnackbarStates.Success)
           console.log('Dish saved successfully:', response);

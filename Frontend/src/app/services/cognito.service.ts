@@ -53,6 +53,7 @@ export class CognitoService {
     try {
       await Auth.signIn(user.email, user.password);
       const accessToken = await this.getAccessToken();
+      const idToken = await this.getIdToken();
       const role = await this.getRole();
       const email = await this.getEmail();
       if(role != undefined){
@@ -61,7 +62,10 @@ export class CognitoService {
       if(email != undefined){
         localStorage.setItem('email', email);
       }
-      console.log('Access token:', accessToken);
+      if(idToken != null)
+        {
+      localStorage.setItem('idToken', idToken)
+        }
       return accessToken;
     } catch (error) {
       console.error('Error signing in:', error);
@@ -236,6 +240,17 @@ export class CognitoService {
     } else {
       console.error('Access token not available');
       return null;
+    }
+  }
+
+  public async getIdToken(): Promise<string | null> {
+    try {
+      const currentSession = await Auth.currentSession();
+      const idToken = currentSession.getIdToken().getJwtToken();
+      return idToken;
+    } catch (error) {
+      console.error('Error decoding ID token:', error);
+      return null
     }
   }
   

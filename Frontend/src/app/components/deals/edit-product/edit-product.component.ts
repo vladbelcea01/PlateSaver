@@ -13,6 +13,7 @@ import { MyBackendService } from '../../common/my-backend.service';
 export class EditProductComponent implements OnInit {
   dishForm!: FormGroup;
   productId!: string;
+  restaurant: any;
 
   constructor(
     private dialogRef: MatDialogRef<EditProductComponent>,
@@ -23,6 +24,7 @@ export class EditProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getRestaurantbyName(this.data.restaurant);
     this.dishForm = new FormGroup({
       dishName: new FormControl(this.data.dishName, Validators.required),
       description: new FormControl(this.data.description, Validators.required),
@@ -47,6 +49,19 @@ export class EditProductComponent implements OnInit {
     }
   }
 
+  getRestaurantbyName(restaurantName: string): void {
+    this.myBackendService
+      .getRestaurantbyRestaurantName(restaurantName)
+      .subscribe(
+        (result) => {
+          this.restaurant = result;
+        },
+        (error) => {
+          console.error('Error fetching restaurants:', error);
+        }
+      );
+  }
+
   submitForm() {
     if (this.dishForm.valid) {
       const dishData = this.dishForm.value;
@@ -66,7 +81,7 @@ export class EditProductComponent implements OnInit {
         formData.append('photo', dishData.photo);
       }
       const productId = this.productId;
-       this.myBackendService.updateProduct(productId, formData).subscribe(
+       this.myBackendService.updateProduct(productId, formData, this.restaurant.owner).subscribe(
          (response) => {
           UtilsService.openSnackBar("Dish updated successfully", this.snackBar, UtilsService.SnackbarStates.Success);
            console.log('Dish updated successfully:', response);
