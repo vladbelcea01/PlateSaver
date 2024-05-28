@@ -170,7 +170,6 @@ app.post('/api/dishes', verifyAccessToken, verifyIdToken, upload.single('photo')
 app.get('/api/getDishes', verifyAccessToken, verifyIdToken, async (req, res) => {
   try {
     const restaurantName = req.query.name;
-    console.log(restaurantName)
     const dishes = await Dish.find({ restaurant: restaurantName });
 
     res.status(200).json(dishes);

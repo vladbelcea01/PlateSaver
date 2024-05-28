@@ -40,7 +40,7 @@ export const sendOrderEmail = async (order: any): Promise<void> => {
         
         <footer style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #ccc;">
           <p style="font-size: 0.9em;">PlateSaver Co.<br>
-          <a href="https://www.platesaver.com" style="color: #4CAF50;">www.platesaver.com</a></p>
+          <a href="https://plate-saver-edd62c062a4d.herokuapp.com/" style="color: #4CAF50;">www.platesaver.com</a></p>
         </footer>
       </div>
     `

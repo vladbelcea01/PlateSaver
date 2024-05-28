@@ -253,5 +253,27 @@ export class CognitoService {
       return null
     }
   }
-  
+
+  public async confirmSignupFromGUI(userEmail): Promise<any> {
+    const params = {
+      UserPoolId: environment.cognito.userPoolId,
+      Username: userEmail
+    };
+
+    await this.cognitoIdentityServiceProvider.adminConfirmSignUp(params).promise();
+
+    const updateParams = {
+      UserPoolId: environment.cognito.userPoolId,
+      Username: userEmail,
+      UserAttributes: [
+        {
+          Name: 'email_verified',
+          Value: 'true'
+        }
+      ]
+    };
+
+    await this.cognitoIdentityServiceProvider.adminUpdateUserAttributes(updateParams).promise();
+
+  } 
 }

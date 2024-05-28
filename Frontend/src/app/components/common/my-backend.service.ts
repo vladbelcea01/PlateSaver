@@ -59,7 +59,6 @@ export class MyBackendService {
   }
 
   getDish(restaurantName: any): Observable<any> {
-    console.log(restaurantName)
     const url = `${this.baseUrl}/api/getDishes?name=${restaurantName}`;
     const headers = this.addAccessTokenToHeaders();
     return this.http.get<any>(url, { headers });

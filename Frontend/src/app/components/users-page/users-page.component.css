@@ -1,7 +1,7 @@
 .secondRow {
     z-index: 999;
     background-color: white;
-    height: 52px;
+    height: 60px;
     padding-left: 15px;
   }
 
@@ -67,6 +67,4 @@
     margin: 0;
     padding: 0;
   }
-
-
   
