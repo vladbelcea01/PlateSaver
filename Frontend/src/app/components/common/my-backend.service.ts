@@ -11,7 +11,8 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class MyBackendService {
-  private baseUrl = 'http://localhost:5000'
+ // private baseUrl = 'http://localhost:5000'
+ private baseUrl = ''
 
   constructor(private http: HttpClient, private router: Router,
     private cognitoService: CognitoService,
