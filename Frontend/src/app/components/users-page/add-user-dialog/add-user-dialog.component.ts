@@ -54,7 +54,7 @@ export class AddUserDialogComponent {
       const value = control.value;
       if (!value) return null;
 
-      const valid = /^\+\d+/.test(value);  // Ensures the phone number starts with a '+'
+      const valid = /^\+\d+/.test(value);
       if (!valid) {
         return { invalidPhoneNumber: true };
       }

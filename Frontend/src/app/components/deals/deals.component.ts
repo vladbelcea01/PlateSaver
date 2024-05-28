@@ -123,7 +123,7 @@ export class DealsComponent implements OnInit {
 
   deleteRestaurant(restaurant: any): void {
     this.myBackendService
-      .deleteRestaurant(restaurant._id, restaurant.name, this.deleteProducts)
+      .deleteRestaurant(restaurant._id, restaurant.name, this.deleteProducts, restaurant.owner)
       .subscribe(
         () => {
           this.getRestaurants();

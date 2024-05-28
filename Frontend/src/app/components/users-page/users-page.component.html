@@ -3,7 +3,7 @@
     <button mat-raised-button color="primary" class="add-user-button" (click)="openAddDialog()">Add User</button>
     <button mat-raised-button color="primary" class="delete-user-button" (click)="multipleDelete()">Delete Users</button>
     <div class="search-container"  class="small-search-field" style="float: right; padding-right: 20px;">
-        <mat-form-field>
+        <mat-form-field class="search-field">
           <mat-label>Search</mat-label>
           <input matInput (keyup)="applyFilter($event)" placeholder="Search users">
           <button mat-icon-button matSuffix>

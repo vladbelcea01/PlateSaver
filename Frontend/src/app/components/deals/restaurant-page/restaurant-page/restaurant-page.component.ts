@@ -17,12 +17,12 @@ import { MyBackendService } from '../../../common/my-backend.service';
   styleUrl: './restaurant-page.component.css',
 })
 export class RestaurantPageComponent implements OnInit {
-  currentUserRole: string | null = null;
+  currentUserRole: any = localStorage.getItem('role'); 
   restaurantName!: string;
   restaurant: any;
   products: any;
   isSuperAdminOrOwner: boolean = false;
-  currentUserEmail: string | null = null;
+  currentUserEmail: any = localStorage.getItem('email');
   deleteProducts: boolean = false;
 
   constructor(
@@ -32,31 +32,17 @@ export class RestaurantPageComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     public snackBar: MatSnackBar
-  ) {}
+  ) {
+  }
 
-  async ngOnInit(): Promise<void> {
+  async ngOnInit(): Promise<void> {;
     this.route.params.subscribe(async (params) => {
       this.restaurantName = params['name'];
       await this.getRestaurantbyName(this.restaurantName);
+      await this.getProducts();
     });
-    await this.getCurrentUserRole();
-    await this.getCurrentUserEmail();
-    if (
-      this.currentUserRole == 'superadmin' ||
-      this.restaurant['owner'] == this.currentUserEmail
-    ) {
-      this.isSuperAdminOrOwner = true;
-    }
-    this.getProducts();
   }
-
-  async getCurrentUserRole(): Promise<void> {
-    this.currentUserRole = await this.cognitoService.getRole();
-  }
-
-  async getCurrentUserEmail(): Promise<void> {
-    this.currentUserEmail = await this.cognitoService.getEmail();
-  }
+  
 
   async getRestaurantbyName(restaurantName: string): Promise<void> {
     await this.myBackendService
@@ -64,6 +50,9 @@ export class RestaurantPageComponent implements OnInit {
       .subscribe(
         (result) => {
           this.restaurant = result;
+          if (this.currentUserRole === 'superadmin' || this.restaurant['owner'] === this.currentUserEmail) {
+            this.isSuperAdminOrOwner = true;
+          }
         },
         (error) => {
           console.error('Error fetching restaurants:', error);
@@ -106,7 +95,7 @@ export class RestaurantPageComponent implements OnInit {
   }
 
   deleteProduct(product: any) {
-    this.myBackendService.deleteProduct(product._id).subscribe(
+    this.myBackendService.deleteProduct(product._id, this.restaurant.owner).subscribe(
       () => {
         UtilsService.openSnackBar("Product deleted successfully", this.snackBar, UtilsService.SnackbarStates.Success);
         this.getProducts();
@@ -130,7 +119,6 @@ export class RestaurantPageComponent implements OnInit {
   }
 
   async deleteRestaurantDishesAlert(restaurant: any): Promise<void> {
-    console.log(this.products.length)
     if (this.products.length > 0) {
       const dialogRef = this.dialog.open(AlertDialogComponent, {
         data: {
@@ -154,7 +142,7 @@ export class RestaurantPageComponent implements OnInit {
 
   deleteRestaurant(restaurant: any): void {
     this.myBackendService
-      .deleteRestaurant(restaurant._id, restaurant.name, this.deleteProducts)
+      .deleteRestaurant(restaurant._id, restaurant.name, this.deleteProducts, restaurant.owner)
       .subscribe(
         () => {
           this.router.navigate(['/deals']);

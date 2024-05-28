@@ -34,7 +34,7 @@ const routes: Routes = [
   {path:'profile', component: ProfilePageComponent, canActivate:[AuthGuard]},
   {path:'users', component: UsersPageComponent, canActivate:[UsersGuard]},
   {
-    path: '',
+    path: 'applayout',
     component: AppLayoutComponent,
     children: [
       { path: 'home', component: HomeComponent },
@@ -52,7 +52,7 @@ const routes: Routes = [
       {path: 'users', component: UsersPageComponent}
     ],
   },
-  { path: '**', component: SignInComponent },
+  { path: '**', component: HomeComponent },
 ];
 
 @NgModule({

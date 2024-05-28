@@ -12,8 +12,6 @@ import { environment } from '../../../environments/environment';
 })
 export class MyBackendService {
   private baseUrl = 'http://localhost:5000'
-  role = localStorage.getItem('role')
-  email = localStorage.getItem('email')
 
   constructor(private http: HttpClient, private router: Router,
     private cognitoService: CognitoService,
@@ -22,11 +20,15 @@ export class MyBackendService {
 
   private addAccessTokenToHeaders(): HttpHeaders {
     const accessToken = this.cognitoService.getAccessTokenForAPI();
-    console.log('Access token:', accessToken);
+    const idToken =  localStorage.getItem('idToken')
+    let headers = new HttpHeaders();
     if (accessToken) {
-      return new HttpHeaders({ 'Authorization': `Bearer ${accessToken}` });
+      headers = headers.set('Authorization', `Bearer ${accessToken}`);
     }
-    return new HttpHeaders();
+    if (idToken) {
+      headers = headers.set('idToken', idToken);
+    }
+    return headers
   }
 
   saveRestaurant(restaurantData: any): Observable<any> {
@@ -47,9 +49,12 @@ export class MyBackendService {
     return this.http.get<any>(url, { headers });
   }
 
-  saveDish(dishData: any): Observable<any> {
+  saveDish(dishData: any, owner: any): Observable<any> {
     const url = `${this.baseUrl}/api/dishes`;
-    const headers = this.addAccessTokenToHeaders();
+    let headers = this.addAccessTokenToHeaders();
+    if (owner) {
+      headers = headers.set('Owner', owner);
+    }
     return this.http.post<any>(url, dishData, { headers });
   }
 
@@ -59,16 +64,22 @@ export class MyBackendService {
     return this.http.get<any>(url, { headers });
   }
 
-  deleteRestaurant(restaurantId: string, restaurantName: string, deleteProducts: boolean): Observable<any> {
+  deleteRestaurant(restaurantId: string, restaurantName: string, deleteProducts: boolean, owner: any): Observable<any> {
     const url = `${this.baseUrl}/api/deleterestaurant/${restaurantId}?name=${restaurantName}`;
     const params = { deleteProducts: deleteProducts.toString() };
-    const headers = this.addAccessTokenToHeaders();
+    let headers = this.addAccessTokenToHeaders();
+    if (owner) {
+      headers = headers.set('Owner', owner);
+    }
     return this.http.delete<any>(url, { params, headers });
   }
 
-  deleteProduct(productId: string): Observable<any> {
+  deleteProduct(productId: string, owner: any): Observable<any> {
     const url = `${this.baseUrl}/api/deleteproduct/${productId}`;
-    const headers = this.addAccessTokenToHeaders();
+    let headers = this.addAccessTokenToHeaders();
+    if (owner) {
+      headers = headers.set('Owner', owner);
+    }
     return this.http.delete<any>(url, { headers });
   }
 
@@ -78,9 +89,12 @@ export class MyBackendService {
     return this.http.put<any>(url, restaurantData, { headers });
   }
 
-  updateProduct(productId: string, productData: any): Observable<any> {
+  updateProduct(productId: string, productData: any, owner: any): Observable<any> {
     const url = `${this.baseUrl}/api/updateproduct/${productId}`;
-    const headers = this.addAccessTokenToHeaders();
+    let headers = this.addAccessTokenToHeaders();
+    if (owner) {
+      headers = headers.set('Owner', owner);
+    }
     return this.http.put<any>(url, productData, { headers });
   }
 

@@ -211,6 +211,7 @@ export class UsersPageComponent implements OnInit {
         code: '',
         showPassword: false
       });
+      await this.cognitoService.confirmSignupFromGUI(newUser.email);
       UtilsService.openSnackBar('User added successfully', this.snackBar, UtilsService.SnackbarStates.Success);
       this.fetchUsers();
     } catch (error) {

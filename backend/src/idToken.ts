@@ -12,19 +12,18 @@ const getPublicKeys = async () => {
   return response.data.keys;
 };
 
-const verifyAccessToken = async (req: Request, res: Response, next: NextFunction) => {
+const verifyIdToken = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const authorization = req.headers?.['authorization'] as string;
+    const idToken = req.headers?.['idtoken'] as string;
 
-    if (!authorization) {
-      return res.status(400).json({ error: 'Missing token.' });
+    if (!idToken) {
+      return res.status(400).json({ error: 'Missing ID token.' });
     }
 
-    const token = authorization.split(' ')[1];
-    const decodedToken: any = jwt.decode(token, { complete: true });
+    const decodedToken: any = jwt.decode(idToken, { complete: true });
 
     if (!decodedToken) {
-      return res.status(400).json({ error: 'Invalid token.' });
+      return res.status(400).json({ error: 'Invalid ID token.' });
     }
 
     const kid = decodedToken.header.kid;
@@ -32,13 +31,13 @@ const verifyAccessToken = async (req: Request, res: Response, next: NextFunction
     const jwk = publicKeys.find((key: any) => key.kid === kid);
 
     if (!jwk) {
-      return res.status(400).json({ error: 'Invalid token.' });
+      return res.status(400).json({ error: 'Invalid ID token.' });
     }
 
     const pem = jwkToPem(jwk);
-    jwt.verify(token, pem, { algorithms: ['RS256'] }, (err, decoded) => {
+    jwt.verify(idToken, pem, { algorithms: ['RS256'] }, (err, decoded) => {
       if (err) {
-        return res.status(401).json({ error: 'Token verification failed.' });
+        return res.status(401).json({ error: 'ID token verification failed.' });
       }
 
       res.locals.auth = decoded;
@@ -49,4 +48,4 @@ const verifyAccessToken = async (req: Request, res: Response, next: NextFunction
   }
 };
 
-export default verifyAccessToken;
+export default verifyIdToken;

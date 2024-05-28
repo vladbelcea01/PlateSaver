@@ -29,7 +29,6 @@ export class AppLayoutComponent {
 
   async updateCurrentUserRole(): Promise<void> {
     this.currentUserRole = await this.cognitoService.getRole();
-    console.log(this.currentUserRole);
     this.cdr.detectChanges();
   }
 
