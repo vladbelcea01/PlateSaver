@@ -22,9 +22,6 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.static('public'));
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'))
-})
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -523,6 +520,9 @@ app.get('/api/getOrdersbyRestaurantName', verifyAccessToken, verifyIdToken, asyn
   }
 });
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'))
+})
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
