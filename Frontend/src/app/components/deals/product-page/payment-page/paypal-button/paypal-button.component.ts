@@ -29,9 +29,7 @@ constructor(private cartService: CartService,
 ) { }
 
   ngOnInit(): void {
-    console.log(this.order)
     const self = this;
-    console.log(self.order.totalPayment)
     paypal
     .Buttons({
       createOrder: (data: any, actions: any) => {
