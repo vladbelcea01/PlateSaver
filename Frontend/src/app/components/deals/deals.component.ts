@@ -85,7 +85,7 @@ export class DealsComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       console.log('Restaurant edited successfully:', restaurant);
-      this.getRestaurants();
+      window.location.reload();
     });
   }
 
