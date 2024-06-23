@@ -7,8 +7,7 @@
 </div>
 
 <div class="restaurant-list">
-    <mat-spinner *ngIf="!isDataLoaded"></mat-spinner>
-    <div *ngIf="restaurants.length === 0" class="no-restaurants">No restaurants found</div>
+    <div *ngIf="!restaurants" class="no-restaurants">No restaurants found</div>
     <div class="restaurant-card" *ngFor="let restaurant of restaurants">
         <mat-card (click)="openRestaurantPage(restaurant.name)" [ngClass]="{'disabled-card': getDishesCount(restaurant) === 0 && currentUserRole === 'user'}">
             <img mat-card-image [src]="restaurant.photo" alt="Restaurant Image">

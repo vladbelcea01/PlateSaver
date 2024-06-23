@@ -230,6 +230,10 @@ app.put('/api/updaterestaurant/:id', verifyAccessToken, verifyIdToken, upload.si
     const restaurantId = req.params.id;
     const restaurantData = req.body;
     const oldRestaurant = await Restaurant.findById(restaurantId);
+
+    if(oldRestaurant)
+    restaurantData.owner = oldRestaurant.owner
+
     if((userInfo['custom:role'] == 'admin' && userInfo['email'] == restaurantData.owner) || userInfo['custom:role'] == 'superadmin')
       {
     if (!oldRestaurant) {
