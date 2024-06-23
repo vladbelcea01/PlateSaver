@@ -52,7 +52,7 @@ export class PaymentGuard implements CanActivate {
         .getDishbyId(product.food._id)
         .toPromise();
       if (dish.quantity < product.quantity) {
-        return false;
+        return true;
       }
       return true;
     });
