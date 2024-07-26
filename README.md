@@ -25,6 +25,7 @@ Navigate to the Backend folder of the application in the terminal and run the fo
 
 To access the web page, navigate to: localhost:4200
 
+![homepage](https://github.com/user-attachments/assets/d42a869d-5563-4e8f-a62a-1c5684f8e2e4)
 ![homepage](https:![produse](https![restaurante](https://github.com/user-attachments/assets/1523c335-fb77-4d8a-869a-4a1eb26e5eca)
 ://github.com/user-attachments/assets/c2![users-page](https://github.com/user-attachments/assets/de2e175b-79b6-455a-9948-13f49467f4f9)
 ed2a06-0f03-443d-9967-b650cee02500)
